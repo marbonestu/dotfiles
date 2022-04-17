@@ -1,0 +1,40 @@
+[core]
+    pager = delta
+    editor = lvim 
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+
+[user]
+    name = Marc Arbones Tutusaus
+    email = marbonestu@gmail.com
+
+[init]
+    defaultBranch = main
+
+[push]
+    default = current
+; [rebase]
+;     autoStash = true
+[pull]
+    rebase = true
+
+[includeIf "gitdir:~/projects/disney/"]
+    path = ~/.gitconfig-disney
+
+; [commit]
+
+[help]
+    autocorrect = 10
+
+[color]
+    pager = no
+

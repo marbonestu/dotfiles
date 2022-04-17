@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+DOTFILES_FOLDERS="
+  kitty,
+  lvim, 
+  tmux,
+  git
+"
+
+for folder in `echo $DOTFILES_FOLDERS | sed "s/,/ /g"` 
+do
+ stow -vSt ~ $folder
+done
+
