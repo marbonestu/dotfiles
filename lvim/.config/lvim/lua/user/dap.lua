@@ -9,7 +9,7 @@ M.config = function()
   dap.adapters.chrome = {
     type = "executable",
     command = "node",
-    args = { vim.fn.stdpath("data") .. "/dapinstall/chrome/vscode-chrome-debug/out/src/chromeDebug.js"}
+    args = { vim.fn.stdpath("data") .. "/dapinstall/chrome/vscode-chrome-debug/out/src/chromeDebug.js" }
   }
 
   dap.configurations.typescript = {
@@ -67,6 +67,26 @@ M.config = function()
   dap.adapters.nlua = function(callback, config)
     callback { type = "server", host = config.host, port = config.port }
   end
+
+  dap.adapters.node2 = {
+    type = "executable",
+    command = "node",
+    args = {
+      vim.fn.stdpath "data" .. "/dapinstall/jsnode_dbg/" .. "/vscode-node-debug2/out/src/nodeDebug.js",
+    },
+  }
+
+  dap.configurations.javascript = {
+    {
+      type = "node2",
+      request = "launch",
+      program = "${workspaceFolder}/${file}",
+      cwd = vim.fn.getcwd(),
+      sourceMaps = true,
+      protocol = "inspector",
+      console = "integratedTerminal",
+    },
+  }
 
 end
 

@@ -54,6 +54,7 @@
   shell: |
     cd {{ lookup('env', 'HOME') }}/.config/nvim/
     python2 -m virtualenv .venv2  --prompt nvim2
+
 - name: check is pyflyby installed
   shell: command -v tidy-imports
   register: pyflyby_exists

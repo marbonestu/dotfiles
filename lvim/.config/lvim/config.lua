@@ -201,13 +201,6 @@ lvim.plugins = {
     end,
   },
   {
-    "vuki656/package-info.nvim",
-    config = function()
-      require "user.package-info"
-    end,
-    ft = "json",
-  },
-  {
     "rcarriga/nvim-dap-ui",
     config = function()
       require("dapui").setup()

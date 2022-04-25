@@ -5,6 +5,7 @@
     diffFilter = delta --color-only
 
 [delta]
+    side-by-side = true
     navigate = true  # use n and N to move between diff sections
 
 [merge]
