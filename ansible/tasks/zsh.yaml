@@ -12,37 +12,18 @@
   become_user: root
   shell: sudo usermod --shell /usr/bin/zsh {{ user }}
 
-- name: Remove Oh-My-Zsh
-  shell: rm ~/.oh-my-zsh -rf
-  tags:
-    - uninstall-zsh
-    - never
-
-- name: Check if oh-my-zsh is installed
-  stat:
-    path: "{{ lookup('env', 'HOME') }}/.oh-my-zsh"
-  register: ohmyzsh_path
-  tags:
-    - ohmyzsh
-    - never
-
-- name: Oh-My-Zsh
-  shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-  when: ohmyzsh_path.stat.islnk is not defined
-  tags:
-    - ohmyzsh
-    - never
 
 - name: Check if zsh-autosuggestions is installed
   stat:
     path: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-autosuggestions"
-  register: zshautosuggestions_path
+    register: zshautosuggestions_path
 
 - name: Install zsh-autosuggestions
   when: zshautosuggestions_path.stat.islnk is not defined
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
     dest: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-autosuggestions"
+
 
 - name: Check if zsh-history-substring-search is installed
   stat:
@@ -55,6 +36,7 @@
     repo: 'https://github.com/zsh-users/zsh-history-substring-search.git'
     dest: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-history-substring-search"
 
+
 - name: Check if zsh-syntax-highlighting is installed
   stat:
     path: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-syntax-highlighting"
@@ -65,6 +47,19 @@
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
     dest: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-syntax-highlighting"
+
+
+- name: Check if zsh-nvm is installed
+  stat:
+    path: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-nvm"
+  register: zsh_nvm_exists
+
+- name: Install zsh-nvm
+  when: zsh_nvm_exists is failed
+  ansible.builtin.git:
+    repo: 'https://github.com/lukechilds/zsh-nvm.git'
+    dest: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-nvm"
+
 
 - name: check is starship installed
   shell: command -v starship
@@ -78,6 +73,7 @@
     cat ~/.bashrc | grep -q 'eval "$(starship init bash)"' || echo 'eval "$(starship init bash)"' >> ~/.bashrc
     cat ~/.zshrc | grep -q 'eval "$(starship init zsh)"' || echo 'eval "$(starship init zsh)"' >> ~/.zshrc
 
+
 - name: Check if forgit is installed
   stat:
     path: "{{ lookup('env', 'HOME') }}/.forgit"
@@ -90,10 +86,10 @@
   ansible.builtin.file:
     Path: ~/.forgit
     state: absent
-  ignore_errors: yes
-  tags:
-    - uninstall-forgit
-    - never
+    ignore_errors: yes
+    tags:
+      - uninstall-forgit
+      - never
 
 - name: Install Forgit
   when: forgit_exists is failed
@@ -109,44 +105,44 @@
   tags: 
     - glow
 
-- name: Install Glow
-  when: glow_exists is failed
-  shell: |
-    GLOW_VERSION=$(curl --silent https://github.com/charmbracelet/glow/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
-    wget https://github.com/charmbracelet/glow/releases/download/v${GLOW_VERSION}/glow_${GLOW_VERSION}_linux_x86_64.tar.gz -O- -q | tar -zxf - -C ~/.local/bin
-  tags:
-    - glow
+# - name: Install Glow
+#   when: glow_exists is failed
+#   shell: |
+#     GLOW_VERSION=$(curl --silent https://github.com/charmbracelet/glow/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
+#     wget https://github.com/charmbracelet/glow/releases/download/v${GLOW_VERSION}/glow_${GLOW_VERSION}_linux_x86_64.tar.gz -O- -q | tar -zxf - -C ~/.local/bin
+#   tags:
+#     - glow
 
-- name: check is gitui installed
-  shell: command -v gitui
-  register: gitui_exists
-  ignore_errors: yes
-  tags: 
-    - gitui
+# - name: check is gitui installed
+#   shell: command -v gitui
+#   register: gitui_exists
+#   ignore_errors: yes
+#   tags: 
+#     - gitui
 
-- name: Install GitUI
-  when: gitui_exists is failed
-  shell: |
-    GITUI_VERSION=$(curl --silent https://github.com/extrawurst/gitui/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
-    wget https://github.com/extrawurst/gitui/releases/download/v${GITUI_VERSION}/gitui-linux-musl.tar.gz -O- -q | tar -zxf - -C ~/.local/bin
-  tags:
-    - gitui
+# - name: Install GitUI
+#   when: gitui_exists is failed
+#   shell: |
+#     GITUI_VERSION=$(curl --silent https://github.com/extrawurst/gitui/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
+#     wget https://github.com/extrawurst/gitui/releases/download/v${GITUI_VERSION}/gitui-linux-musl.tar.gz -O- -q | tar -zxf - -C ~/.local/bin
+#   tags:
+#     - gitui
 
-- name: check is gh installed
-  shell: command -v gh
-  register: gh_exists
-  ignore_errors: yes
-  tags: 
-    - gh
+# - name: check is gh installed
+#   shell: command -v gh
+#   register: gh_exists
+#   ignore_errors: yes
+#   tags: 
+#     - gh
 
-- name: Install GH
-  when: gh_exists is failed
-  shell: |
-    GH_VERSION=$(curl --silent https://github.com/cli/cli/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
-    wget https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.tar.gz -O- -q | tar -zxf - -C /tmp
-    mv /tmp/gh_${GH_VERSION}_linux_amd64/bin/gh {{ lookup('env', 'HOME') }}/.local/bin/gh
-  tags:
-    - gh
+# - name: Install GH
+#   when: gh_exists is failed
+#   shell: |
+#     GH_VERSION=$(curl --silent https://github.com/cli/cli/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
+#     wget https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.tar.gz -O- -q | tar -zxf - -C /tmp
+#     mv /tmp/gh_${GH_VERSION}_linux_amd64/bin/gh {{ lookup('env', 'HOME') }}/.local/bin/gh
+#   tags:
+#     - gh
 
 - name: check is rg installed
   shell: command -v rg
@@ -164,30 +160,33 @@
   tags:
     - rg
 
-- name: check is dust installed
-  shell: command -v dust
-  register: dust_exists
-  ignore_errors: yes
-  tags: 
-    - dust
 
-- name: uninstall dust
-  when: dust_exists is successful
-  shell: rm `which dust`
-  tags: 
-    - never
-    - uninstall-dust
+# - name: check is dust installed
+#   shell: command -v dust
+#   register: dust_exists
+#   ignore_errors: yes
+#   tags: 
+#     - dust
+
+# - name: uninstall dust
+#   when: dust_exists is successful
+#   shell: rm `which dust`
+#   tags: 
+#     - never
+#     - uninstall-dust
 
 
-- name: Install dust
-  when: dust_exists is failed
-  shell: | 
-    DUST_VERSION=$(curl --silent https://github.com/bootandy/dust/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
-    wget https://github.com/bootandy/dust/releases/download/v${DUST_VERSION}/dust-v${DUST_VERSION}-x86_64-unknown-linux-musl.tar.gz -O- -q | tar -zxf - -C /tmp
-    cp /tmp/dust-v${DUST_VERSION}-x86_64-unknown-linux-musl/dust {{ lookup('env', 'HOME') }}/.local/bin/
-  tags:
-    - dust
+# - name: Install dust
+#   when: dust_exists is failed
+#   shell: | 
+#     DUST_VERSION=$(curl --silent https://github.com/bootandy/dust/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
+#     wget https://github.com/bootandy/dust/releases/download/v${DUST_VERSION}/dust-v${DUST_VERSION}-x86_64-unknown-linux-musl.tar.gz -O- -q | tar -zxf - -C /tmp
+#     cp /tmp/dust-v${DUST_VERSION}-x86_64-unknown-linux-musl/dust {{ lookup('env', 'HOME') }}/.local/bin/
+#   tags:
+#     - dust
 
+
+# TMUX INSTALL
 - name: check is tmux installed
   shell: command -v tmux
   register: tmux_exists
@@ -208,41 +207,43 @@
   tags:
     - tmux
 
-- name: check is bat installed
-  shell: command -v bat
-  register: bat_exists
-  ignore_errors: yes
-  tags: 
-    - bat
+# - name: check is bat installed
+#   shell: command -v bat
+#   register: bat_exists
+#   ignore_errors: yes
+#   tags: 
+#     - bat
 
-- name: Install bat
-  when: bat_exists is failed
-  shell: |
-    cd /tmp
-    BAT_VERSION=$(curl --silent https://github.com/sharkdp/bat/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
-    wget https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat-v${BAT_VERSION}-x86_64-unknown-linux-gnu.tar.gz -O- -q | tar -zxf - -C /tmp
-    cp bat-v${BAT_VERSION}-x86_64-unknown-linux-gnu/bat {{ lookup('env', 'HOME') }}/.local/bin/
-  tags:
-    - bat
+# - name: Install bat
+#   when: bat_exists is failed
+#   shell: |
+#     cd /tmp
+#     BAT_VERSION=$(curl --silent https://github.com/sharkdp/bat/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
+#     wget https://github.com/sharkdp/bat/releases/download/v${BAT_VERSION}/bat-v${BAT_VERSION}-x86_64-unknown-linux-gnu.tar.gz -O- -q | tar -zxf - -C /tmp
+#     cp bat-v${BAT_VERSION}-x86_64-unknown-linux-gnu/bat {{ lookup('env', 'HOME') }}/.local/bin/
+#   tags:
+#     - bat
 
-- name: check is mdp installed
-  shell: command -v mdp
-  register: mdp_exists
-  ignore_errors: yes
-  tags: 
-    - mdp
+# - name: check is mdp installed
+#   shell: command -v mdp
+#   register: mdp_exists
+#   ignore_errors: yes
+#   tags: 
+#     - mdp
 
-- name: Install mdp
-  when: mdp_exists is failed
-  shell: |
-    cd {{ lookup('env', 'HOME') }}/third-party/
-    git clone https://github.com/visit1985/mdp.git
-    cd mdp
-    make
-    make install PREFIX="{{ lookup('env', 'HOME') }}/.local/bin"
-  tags:
-    - mdp
+# - name: Install mdp
+#   when: mdp_exists is failed
+#   shell: |
+#     cd {{ lookup('env', 'HOME') }}/third-party/
+#     git clone https://github.com/visit1985/mdp.git
+#     cd mdp
+#     make
+#     make install PREFIX="{{ lookup('env', 'HOME') }}/.local/bin"
+#   tags:
+#     - mdp
 
+
+# FZF INSTALL
 - name: check is fzf installed
   shell: command -v fzf
   register: fzf_exists
@@ -259,6 +260,8 @@
   tags:
     - fzf
 
+
+# VIFM INSTALL
 - name: check is vifm installed
   shell: command -v vifm
   register: vifm_exists
@@ -275,41 +278,41 @@
   tags:
     - vifm
 
-- name: check is lf installed
-  shell: command -v lf
-  register: lf_exists
-  ignore_errors: yes
-  tags: 
-    - lf
+# - name: check is lf installed
+#   shell: command -v lf
+#   register: lf_exists
+#   ignore_errors: yes
+#   tags: 
+#     - lf
 
-- name: Install lf
-  when: lf_exists is failed
-  shell: | 
-    LF_VERSION=$(curl --silent https://github.com/gokcehan/lf/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
-    wget https://github.com/gokcehan/lf/releases/download/${LF_VERSION}/lf-linux-amd64.tar.gz -O- -q | tar -zxf - -C {{ lookup('env', 'HOME') }}/.local/bin/
-  tags:
-    - lf
+# - name: Install lf
+#   when: lf_exists is failed
+#   shell: | 
+#     LF_VERSION=$(curl --silent https://github.com/gokcehan/lf/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
+#     wget https://github.com/gokcehan/lf/releases/download/${LF_VERSION}/lf-linux-amd64.tar.gz -O- -q | tar -zxf - -C {{ lookup('env', 'HOME') }}/.local/bin/
+#   tags:
+#     - lf
 
-- name: check is yq installed
-  shell: command -v yq
-  register: yq_exists
-  ignore_errors: yes
-  tags: 
-    - yq
+# - name: check is yq installed
+#   shell: command -v yq
+#   register: yq_exists
+#   ignore_errors: yes
+#   tags: 
+#     - yq
 
-- name: Install yq
-  when: yq_exists is failed
-  shell: |
-    cd /tmp
-    YQ_VERSION=$(curl --silent https://github.com/mikefarah/yq/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
-    wget https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_amd64.tar.gz -O- -q | tar -zxf - -C /tmp
-    cp yq_linux_amd64 {{ lookup('env', 'HOME') }}/.local/bin/yq
-  tags:
-    - yq
+# - name: Install yq
+#   when: yq_exists is failed
+#   shell: |
+#     cd /tmp
+#     YQ_VERSION=$(curl --silent https://github.com/mikefarah/yq/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
+#     wget https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_amd64.tar.gz -O- -q | tar -zxf - -C /tmp
+#     cp yq_linux_amd64 {{ lookup('env', 'HOME') }}/.local/bin/yq
+#   tags:
+#     - yq
 
-- name: include ANSIBLE_LOCALHOST_WARNING in profile
-  lineinfile:
-    dest: "{{ lookup('env', 'HOME') }}/.profile"
-    line: export ANSIBLE_LOCALHOST_WARNING=False
-    regexp: "^export ANSIBLE_LOCALHOST_WARNING"
-    state: present
+# - name: include ANSIBLE_LOCALHOST_WARNING in profile
+#   lineinfile:
+#     dest: "{{ lookup('env', 'HOME') }}/.profile"
+#     line: export ANSIBLE_LOCALHOST_WARNING=False
+#     regexp: "^export ANSIBLE_LOCALHOST_WARNING"
+#     state: present
