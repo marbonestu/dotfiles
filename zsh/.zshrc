@@ -1,5 +1,7 @@
 eval "$(starship init zsh)"
 
+source ~/.alias
+
 # set history
 HISTFILESIZE=1000000000
 HISTSIZE=1000000000
@@ -14,8 +16,9 @@ set vi-ins-mode-string "\1\e[6 q\2"
 
 export EDITOR='lvim'
 
-export NVM_LAZY_LOAD=true
+[ -f ~/.forgit/forgit.plugin.zsh ] && source ~/.forgit/forgit.plugin.zsh
 
+export NVM_LAZY_LOAD=true
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
@@ -34,6 +37,5 @@ export DPRINT_INSTALL="/Users/marc.arbones/.dprint"
 export PATH="$DPRINT_INSTALL/bin:$PATH"
 
 eval "$(zoxide init zsh)"
-# eval "$(fnm env --use-on-cd)"
 
 source /Users/marc.arbones/.config/broot/launcher/bash/br

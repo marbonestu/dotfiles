@@ -1,0 +1,34 @@
+brew_taps:
+  - homebrew/cask-versions
+  - homebrew/cask-fonts
+
+brew_packages:
+  - ansible
+  - bat
+  - coreutils
+  - exa
+  - ffmpeg
+  - go
+  - htop
+  - nmap
+  - tmux
+  - fd
+  - fzf
+  - broot
+  - stow
+  - zsh
+  - git-delta
+  - ripgrep
+  - pipx
+  - starship
+
+  - pyenv
+
+cask_packages:
+  - docker
+  - google-chrome
+  # - spotify
+  - kitty
+  # - vagrant
+  - visual-studio-code
+

@@ -1,0 +1,8 @@
+alias v='lvim'
+alias la='exa -la'
+
+# git
+alias gch='git branch -a --sort=-committerdate | fzf --header Checkout | sed "s/remotes/origin\///g" | xargs git switch'
+
+# tmux
+alias t='tmux attach || tmux new-session'

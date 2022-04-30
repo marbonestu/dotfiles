@@ -1,13 +1,17 @@
-- hosts: localhost
+- name: Setup workstation 
+  hosts: localhost
   gather_facts: true
   become: true
   become_user: "{{ lookup('env', 'USER') }}"
+  
 
-  pre_tasks:
-    - name: update repositories
-      apt: update_cache=yes
-      become_user: root
-      changed_when: False
+  roles: 
+    - core-setup
+    - dotfiles
+    - neovim
+    - zsh
+    - osx-defaults
+
   vars:
     user: "{{ ansible_user_id }}"
   tasks:

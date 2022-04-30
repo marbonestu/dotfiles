@@ -109,35 +109,59 @@ lvim.builtin.treesitter.textobjects.move = {
 }
 
 -- Whichkey
+lvim.builtin.which_key.mappings["?"] = { "<cmd>NvimTreeFindFile<cr>", "NvimTree Goto File" }
+
 lvim.builtin.which_key.mappings.l.d = { "<cmd>TroubleToggle<cr>", "Diagnostics" }
 lvim.builtin.which_key.mappings.l.R = { "<cmd>TroubleToggle lsp_references<cr>", "References" }
 lvim.builtin.which_key.mappings.l.o = { "<cmd>SymbolsOutline<cr>", "Outline" }
 lvim.builtin.which_key.mappings.T.h = { "<cmd>TSHighlightCapturesUnderCursor<cr>", "Highlight" }
 lvim.builtin.which_key.mappings.T.p = { "<cmd>TSPlaygroundToggle<cr>", "Playground" }
 
--- set a formatter, this will override the language server formatting capabilities (if it exists)
--- local formatters = require "lvim.lsp.null-ls.formatters"
--- formatters.setup {
---   {
---     command = "prettierd",
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "typescript", "typescriptreact" },
+-- lvim.builtin.telescope = {
+--   defaults = {
+--     pickers = {}
 --   },
+--   extensions = {
+--     frecency = {
+--       show_scores = false,
+--       show_unindexed = true,
+--       ignore_patterns = { "*.git/*", "*/tmp/*", "node_modules" },
+--       workspaces = {
+--         ["conf"]    = "~/projects/dotfiles",
+--         ["dot"]     = "/Users/marc.arbones/projects/dotfiles",
+--         ["data"]    = "/home/my_username/.local/share",
+--         ["project"] = "/Users/marc.arbones/projects",
+--         ["wiki"]    = "/home/my_username/wiki"
+--       }
+--     }
+--   }
 -- }
+lvim.builtin.which_key.mappings.s.r = { "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>", "Frecency" }
 
--- -- set additional linters
--- local linters = require "lvim.lsp.null-ls.linters"
--- linters.setup {
---   {
---     command = "eslint_d",
---     ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
---     filetypes = { "javascript", "javascriptreact" },
---   },
--- }
+-- set a formatter, this will override the language server formatting capabilities (if it exists)
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup {
+  {
+    command = "prettierd",
+    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+    filetypes = { "typescript", "typescriptreact" },
+  },
+}
+
+-- set additional linters
+local linters = require "lvim.lsp.null-ls.linters"
+linters.setup {
+  {
+    command = "eslint_d",
+    ---@usage specify which filetypes to enable. By default a providers will attach to all the filetypes it supports.
+    filetypes = { "javascript", "javascriptreact" },
+  },
+}
 
 -- Additional Plugins
 lvim.plugins = {
   { "folke/tokyonight.nvim" },
+  'Mofiqul/dracula.nvim',
   {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
@@ -150,8 +174,8 @@ lvim.plugins = {
     end,
     event = "BufRead",
   },
-  { "tpope/vim-surround"},
-  { "tpope/vim-abolish"},
+  { "tpope/vim-surround" },
+  { "tpope/vim-abolish" },
   {
     "unblevable/quick-scope",
     config = function()
@@ -177,18 +201,19 @@ lvim.plugins = {
       require("user.colorizer").config()
     end,
   },
+  "mg979/vim-visual-multi",
   {
     "folke/zen-mode.nvim",
     config = function()
       require("user.zen").config()
     end,
   },
-  {
-    "nvim-treesitter/nvim-treesitter-textobjects",
-  },
-  {
-    "nvim-treesitter/nvim-treesitter-refactor",
-  },
+  -- {
+  --   "nvim-telescope/telescope-frecency.nvim",
+  --   requires = { "tami5/sqlite.lua" }
+  -- },
+  { "nvim-treesitter/nvim-treesitter-textobjects", },
+  { "nvim-treesitter/nvim-treesitter-refactor", },
   {
     "iamcco/markdown-preview.nvim",
     run = "cd app && npm install",

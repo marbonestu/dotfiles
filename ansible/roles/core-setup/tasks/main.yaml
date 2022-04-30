@@ -1,0 +1,8 @@
+- name: (OSX) Install brew core packages
+  import_tasks: brew.yaml
+
+- name: Run rust tasks
+  import_tasks: rust.yaml 
+
+- name: (OSX) Install fonts
+  import_tasks: fonts.yaml
