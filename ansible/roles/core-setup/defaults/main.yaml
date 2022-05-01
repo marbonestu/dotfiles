@@ -7,7 +7,6 @@ brew_packages:
   - bat
   - coreutils
   - exa
-  - ffmpeg
   - go
   - htop
   - nmap
@@ -21,14 +20,13 @@ brew_packages:
   - ripgrep
   - pipx
   - starship
-
   - pyenv
 
-cask_packages:
-  - docker
-  - google-chrome
-  # - spotify
-  - kitty
+# cask_packages:
+  # - docker
+  # - google-chrome
+  # - kitty
+  # - visual-studio-code
   # - vagrant
-  - visual-studio-code
+  # - spotify
 

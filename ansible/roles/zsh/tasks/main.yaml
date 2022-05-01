@@ -1,90 +1,85 @@
-- name: Change shell to zsh
-  become_user: root
-  shell: sudo usermod --shell /usr/bin/zsh {{ user }}
+# - name: Change shell to zsh
+#   become_user: root
+#   shell: chsh -s /usr/bin/zsh {{ user }}
 
 
 - name: Check if zsh-autosuggestions is installed
   stat:
-    path: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-autosuggestions"
-    register: zshautosuggestions_path
+    path: "~/.zsh/plugins/zsh-autosuggestions"
+  register: zshautosuggestions_path
 
 - name: Install zsh-autosuggestions
   when: zshautosuggestions_path.stat.islnk is not defined
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
-    dest: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-autosuggestions"
+    dest: "~/.zsh/plugins/zsh-autosuggestions"
 
 
 - name: Check if zsh-history-substring-search is installed
   stat:
-    path: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-history-substring-search"
+    path: "~/.zsh/plugins/zsh-history-substring-search"
   register: zsh_history_substring_search_path
 
 - name: Install zsh-history-substring-search
   when: zsh_history_substring_search_path.stat.islnk is not defined
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-history-substring-search.git'
-    dest: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-history-substring-search"
+    dest: "~/.zsh/plugins/zsh-history-substring-search"
 
 
 - name: Check if zsh-syntax-highlighting is installed
   stat:
-    path: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-syntax-highlighting"
+    path: "~/.zsh/plugins/zsh-syntax-highlighting"
   register: zsh_syntax_highlighting_exists
 
 - name: Install zsh-syntax-highlighting
   when: zsh_syntax_highlighting_exists is failed
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
-    dest: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-syntax-highlighting"
+    dest: "~/.zsh/plugins/zsh-syntax-highlighting"
 
 - name: Check if zsh-vi-mode is installed
   stat:
-    path: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-vi-mode"
+    path: "~/.zsh/plugins/zsh-vi-mode"
   register: zsh_vi_mode_exists
 
 - name: Install zsh-syntax-highlighting
   when: zsh_vi_mode_exists is failed
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-vi-mode.git'
-    dest: "{{ lookup('env', 'HOME') }}/.zsh/plugins/mode"
+    dest: "~/.zsh/plugins/mode"
 
 
 - name: Check if zsh-nvm is installed
   stat:
-    path: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-nvm"
+    path: "~/.zsh/plugins/zsh-nvm"
   register: zsh_nvm_exists
 
 - name: Install zsh-nvm
   when: zsh_nvm_exists is failed
   ansible.builtin.git:
     repo: 'https://github.com/lukechilds/zsh-nvm.git'
-    dest: "{{ lookup('env', 'HOME') }}/.zsh/plugins/zsh-nvm"
+    dest: "~/.zsh/plugins/zsh-nvm"
 
 
 - name: Check if forgit is installed
   stat:
-    path: "{{ lookup('env', 'HOME') }}/.forgit"
+    path: "~/.forgit"
   register: forgit_exists
   tags: 
     - forgit
 
-- name: Remove Existing Forgit
-  when: forgit_exists is successful
-  ansible.builtin.file:
-    Path: ~/.forgit
-    state: absent
-    ignore_errors: yes
-    tags:
-      - uninstall-forgit
-      - never
+# - name: Install Forgit
+#   when: forgit_exists is failed
+#   shell: git clone https://github.com/wfxr/forgit ~/.forgit
+#   tags:
+#     - forgit
 
 - name: Install Forgit
-  when: forgit_exists is failed
-  shell: |
-    git clone https://github.com/wfxr/forgit ~/.forgit
-  tags:
-    - forgit
+  when: forgit_exists.stat.islnk is not defined
+  ansible.builtin.git:
+    repo: "https://github.com/wfxr/forgit"
+    dest: "~/.forgit"
 
 
 # VIFM INSTALL
@@ -99,8 +94,8 @@
 #   when: vifm_exists is failed
 #   shell: | 
 #     VIFM_VERSION=$(curl --silent https://github.com/vifm/vifm/releases/latest | tr -d '"' | sed 's/^.*tag\///g' | sed 's/>.*$//g' | sed 's/^v//')
-#     wget https://github.com/vifm/vifm/releases/download/v${VIFM_VERSION}/vifm-v${VIFM_VERSION}-x86_64.AppImage -O {{ lookup('env', 'HOME') }}/.local/bin/vifm
-#     chmod +x {{ lookup('env', 'HOME') }}/.local/bin/vifm
+#     wget https://github.com/vifm/vifm/releases/download/v${VIFM_VERSION}/vifm-v${VIFM_VERSION}-x86_64.AppImage -O ~/.local/bin/vifm
+#     chmod +x ~/.local/bin/vifm
 #   tags:
 #     - vifm
 

@@ -1,7 +1,7 @@
 - name: (OSX) Install System Packages for building nvim
   homebrew:
     name: "{{ item }}"
-  loop: 
+  loop:
     - ninja
     - libtool
     - automake
@@ -17,8 +17,7 @@
     update: yes
 
 - name: Build neovim
-  become_user: root
-  shell: "cd ~/neovim && make"
+  shell: "cd ~/neovim && sudo make"
 
 - name: Install neovim
   shell: "cd ~/neovim && sudo make install"

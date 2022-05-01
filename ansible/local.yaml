@@ -3,34 +3,12 @@
   gather_facts: true
   become: true
   become_user: "{{ lookup('env', 'USER') }}"
-  
-
-  roles: 
-    - core-setup
-    - dotfiles
-    - neovim
-    - zsh
-    - osx-defaults
 
   vars:
     user: "{{ ansible_user_id }}"
-  tasks:
-    - import_tasks: tasks/core-setup.yml
-      tags:
-        - always
-        - core
-    - import_tasks: tasks/stow.yml
-      tags:
-        - stow
-    - import_tasks: tasks/repos.yml
-      tags:
-        - repos
-    - import_tasks: tasks/node-setup.yml
-      tags:
-        - node
-    - import_tasks: tasks/nvim-setup.yml
-      tags:
-        - nvim
-    - import_tasks: tasks/zsh-setup.yml
-      tags:
-        - zsh
+  roles: 
+    - core-setup
+    - neovim
+    - zsh
+    # - osx-defaults
+

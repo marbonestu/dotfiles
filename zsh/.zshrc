@@ -1,5 +1,7 @@
 eval "$(starship init zsh)"
 
+unsetopt BEEP
+
 source ~/.alias
 
 # set history
@@ -24,6 +26,8 @@ source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 source ~/.zsh/plugins/zsh-nvm/zsh-nvm.plugin.zsh
 source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh
+
+autoload -U +X compinit && compinit
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
