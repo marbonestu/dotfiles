@@ -27,7 +27,7 @@ source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.
 source ~/.zsh/plugins/zsh-nvm/zsh-nvm.plugin.zsh
 source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh
 
-autoload -U +X compinit && compinit
+# autoload -U +X compinit && compinit
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -37,9 +37,11 @@ bindkey -M vicmd 'j' history-substring-search-down
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 
 export PATH=$HOME/.local/bin:$PATH
+export PATH=/opt/homebrew/bin/:$PATH
 export DPRINT_INSTALL="/Users/marc.arbones/.dprint"
 export PATH="$DPRINT_INSTALL/bin:$PATH"
 
 eval "$(zoxide init zsh)"
 
-source /Users/marc.arbones/.config/broot/launcher/bash/br
+
+source /Users/marbones-remote/.config/broot/launcher/bash/br
