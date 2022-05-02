@@ -44,4 +44,4 @@ export PATH="$DPRINT_INSTALL/bin:$PATH"
 eval "$(zoxide init zsh)"
 
 
-source /Users/marbones-remote/.config/broot/launcher/bash/br
+source $HOME/.config/broot/launcher/bash/br
