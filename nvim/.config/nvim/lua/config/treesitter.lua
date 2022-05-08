@@ -14,7 +14,7 @@ require("nvim-treesitter.configs").setup({
         "tsx",
         "yaml",
     },
-    -- highlight = { enable = true },
+    highlight = { enable = true },
     -- plugins
     context_commentstring = {
         enable = true,

@@ -94,14 +94,13 @@ telescope.load_extension "ui-select"
 -- telescope.load_extension "smart_history"
 -- telescope.load_extension "frecency"
 
-vim.keymap.set("n", "<leader>w", require("telescope.builtin").git_files, { noremap = true })
-vim.keymap.set("n", "<leader>q", R("telescope.builtin").find_files, { noremap = true })
-vim.keymap.set("n", "<leader>gp", R("telescope.builtin").live_grep, { noremap = true })
-vim.keymap.set("n", "<leader>gw", function()
-  R("telescope.builtin").grep_string { word_match = "-w" }
-end, { noremap = true })
-vim.keymap.set("n", "<leader>gs", function()
-  R("telescope.builtin").grep_string { search = vim.fn.input "Grep For >" }
-end, { noremap = true })
-vim.keymap.set("n", "<leader>bg", R("telescope.builtin").buffers, { noremap = true })
-vim.keymap.set("n", "<leader>bs", R("telescope.builtin").current_buffer_fuzzy_find, { noremap = true })
+-- vim.keymap.set("n", "<leader>w", require("telescope.builtin").git_files, { noremap = true })
+-- vim.keymap.set("n", "<leader>q", R("telescope.builtin").find_files, { noremap = true })
+-- vim.keymap.set("n", "<leader>gp", R("telescope.builtin").live_grep, { noremap = true })
+-- vim.keymap.set("n", "<leader>gw", function() R("telescope.builtin").grep_string { word_match = "-w" }
+-- end, { noremap = true })
+-- vim.keymap.set("n", "<leader>gs", function()
+--   R("telescope.builtin").grep_string { search = vim.fn.input "Grep For >" }
+-- end, { noremap = true })
+-- vim.keymap.set("n", "<leader>bg", R("telescope.builtin").buffers, { noremap = true })
+-- vim.keymap.set("n", "<leader>bs", R("telescope.builtin").current_buffer_fuzzy_find, { noremap = true })

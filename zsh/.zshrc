@@ -22,12 +22,13 @@ export EDITOR='lvim'
 
 export NVM_LAZY_LOAD=true
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+# source ~/.zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-source ~/.zsh/plugins/zsh-nvm/zsh-nvm.plugin.zsh
+# source ~/.zsh/plugins/zsh-nvm/zsh-nvm.plugin.zsh
 source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh
 
-# autoload -U +X compinit && compinit
+autoload -U +X compinit && compinit
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -39,9 +40,14 @@ ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 export PATH=$HOME/.local/bin:$PATH
 export PATH=/opt/homebrew/bin/:$PATH
 export DPRINT_INSTALL="/Users/marc.arbones/.dprint"
+export LUA_LANGUAGE_SERVER="$HOME/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin"
 export PATH="$DPRINT_INSTALL/bin:$PATH"
+export PATH="$LUA_LANGUAGE_SERVER:$PATH"
 
 eval "$(zoxide init zsh)"
 
-
 source $HOME/.config/broot/launcher/bash/br
+
+# fnm
+export PATH=/Users/marc.arbones/.fnm:$PATH
+eval "`fnm env --use-on-cd`"

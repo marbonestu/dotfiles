@@ -1,9 +1,8 @@
 local opt = vim.opt
-
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = false
-lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "duskfox"
 
 -----------------------------------------------------------------------------//
 -- Timings {{{1
@@ -26,16 +25,19 @@ opt.confirm = true -- prompt to save before destructive actions
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+-- movement
+vim.keymap.set('n', '<C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-j>', '<C-w>j')
+vim.keymap.set('n', '<C-k>', '<C-w>k')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
+vim.keymap.set('n', '<C-d>', '3j')
+vim.keymap.set('n', '<C-u>', '3k')
+vim.keymap.set('v', '<C-d>', '3j')
+vim.keymap.set('v', '<C-u>', '3k')
+vim.keymap.set('n', '<C-e>', '4<C-e>')
+vim.keymap.set('n', '<C-y>', '4<C-y>')
 
-lvim.keys.normal_mode["<c-e>"] = "3<c-e>"
-lvim.keys.normal_mode["<c-y>"] = "3<c-y>"
-lvim.keys.normal_mode["<c-u>"] = "3k"
-lvim.keys.normal_mode["<c-d>"] = "3j"
-lvim.keys.visual_mode["<c-u>"] = "3k"
-lvim.keys.visual_mode["<c-d>"] = "3j"
-
+vim.keymap.set('i', '<S-Tab>', "<BS>")
 -- -- util.nnoremap('[o', '<TAB>')
 -- -- util.nnoremap(']o', '<c-o>')
 
@@ -49,13 +51,15 @@ lvim.builtin.terminal.active = true
 lvim.builtin.lualine.active = true
 lvim.builtin.dap.active = true
 lvim.builtin.test_runner = { active = true }
+
 lvim.builtin.nvimtree.active = true
 lvim.builtin.nvimtree.side = "left"
+lvim.builtin.nvimtree.setup.view.width = 50
 lvim.builtin.nvimtree.show_icons.git = 0
 
--- if you don't want all the parsers change this to a table of the ones you want
-lvim.builtin.treesitter.ensure_installed = "maintained"
+
 lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.autotag.enabled = true
 lvim.builtin.treesitter.textobjects.select = {
   enable = true,
   disable = {},
@@ -111,32 +115,12 @@ lvim.builtin.treesitter.textobjects.move = {
 -- Whichkey
 lvim.builtin.which_key.mappings["?"] = { "<cmd>NvimTreeFindFile<cr>", "NvimTree Goto File" }
 
-lvim.builtin.which_key.mappings.l.d = { "<cmd>TroubleToggle<cr>", "Diagnostics" }
-lvim.builtin.which_key.mappings.l.R = { "<cmd>TroubleToggle lsp_references<cr>", "References" }
-lvim.builtin.which_key.mappings.l.o = { "<cmd>SymbolsOutline<cr>", "Outline" }
-lvim.builtin.which_key.mappings.T.h = { "<cmd>TSHighlightCapturesUnderCursor<cr>", "Highlight" }
-lvim.builtin.which_key.mappings.T.p = { "<cmd>TSPlaygroundToggle<cr>", "Playground" }
+-- Telescope
+local ok, actions = pcall(require, "telescope.actions")
+if ok then
+  lvim.builtin.telescope.defaults.mappings.i = { ["<ESC>"] = actions.close }
+end
 
--- lvim.builtin.telescope = {
---   defaults = {
---     pickers = {}
---   },
---   extensions = {
---     frecency = {
---       show_scores = false,
---       show_unindexed = true,
---       ignore_patterns = { "*.git/*", "*/tmp/*", "node_modules" },
---       workspaces = {
---         ["conf"]    = "~/projects/dotfiles",
---         ["dot"]     = "/Users/marc.arbones/projects/dotfiles",
---         ["data"]    = "/home/my_username/.local/share",
---         ["project"] = "/Users/marc.arbones/projects",
---         ["wiki"]    = "/home/my_username/wiki"
---       }
---     }
---   }
--- }
-lvim.builtin.which_key.mappings.s.r = { "<Cmd>lua require('telescope').extensions.frecency.frecency()<CR>", "Frecency" }
 
 -- set a formatter, this will override the language server formatting capabilities (if it exists)
 local formatters = require "lvim.lsp.null-ls.formatters"
@@ -160,11 +144,36 @@ linters.setup {
 
 -- Additional Plugins
 lvim.plugins = {
-  { "folke/tokyonight.nvim" },
-  'Mofiqul/dracula.nvim',
+  { "jose-elias-alvarez/typescript.nvim", config = function()
+    require("typescript").setup({
+      disable_commands = false, -- prevent the plugin from creating Vim commands
+      disable_formatting = false, -- disable tsserver's formatting capabilities
+      debug = false, -- enable debug logging for commands
+      -- server = { -- pass options to lspconfig's setup method
+      --   -- on_attach = ...,
+      -- },
+    })
+  end },
+  {
+    "sainnhe/sonokai",
+    'Mofiqul/dracula.nvim',
+    "rose-pine/neovim",
+    "rmehri01/onenord.nvim",
+    "EdenEast/nightfox.nvim",
+    "folke/tokyonight.nvim",
+  },
   {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
+  },
+  {
+    "danymat/neogen",
+    config = function()
+      require('neogen').setup {}
+    end,
+    requires = "nvim-treesitter/nvim-treesitter",
+    -- Uncomment next line if you want to follow only stable versions
+    -- tag = "*"
   },
   {
     "folke/todo-comments.nvim",
@@ -174,8 +183,6 @@ lvim.plugins = {
     end,
     event = "BufRead",
   },
-  { "tpope/vim-surround" },
-  { "tpope/vim-abolish" },
   {
     "unblevable/quick-scope",
     config = function()
@@ -253,6 +260,8 @@ lvim.plugins = {
     end,
     disable = not lvim.builtin.test_runner.active,
   },
+  { "tpope/vim-surround" },
+  { "tpope/vim-abolish" },
 }
 
 
