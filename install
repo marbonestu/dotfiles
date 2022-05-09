@@ -4,11 +4,10 @@ DOTFILES_FOLDERS="
   lvim, 
   tmux,
   git,
-  yabai,
-  skhd,
   hammerspoon,
   nvim,
-  zsh
+  zsh,
+  lazygit
 "
 
 for folder in `echo $DOTFILES_FOLDERS | sed "s/,/ /g"` 

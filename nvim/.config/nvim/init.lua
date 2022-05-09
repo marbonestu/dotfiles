@@ -103,11 +103,21 @@ require('packer').startup(function(use)
   }
   use { 'j-hui/fidget.nvim', config = function() require("fidget").setup() end }
 
-  -- dap
-  -- use 'theHamsta/nvim-dap-virtual-text'
+  -- DAP
+  use { 'mfussenegger/nvim-dap' }
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
+  -- use { 'Pocco81/dap-buddy.nvim' }
+  -- use { "Pocco81/DAPInstall.nvim", config = function()
+  --   require("dap-install").setup({
+  --     installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
+  --   })
+  -- end
+  -- }
+  use 'theHamsta/nvim-dap-virtual-text'
 
   -- Snippets
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
+  use 'rafamadriz/friendly-snippets' -- Snippets plugin
 
   -- Completion
   use 'hrsh7th/nvim-cmp'
@@ -309,6 +319,8 @@ require('telescope').setup {
         ['<ESC>'] = telescope_actions.close,
         ['<C-u>'] = false,
         ['<C-d>'] = false,
+        ['<c-d>'] = require('telescope.actions').delete_buffer
+
       },
     },
   },
@@ -318,7 +330,7 @@ require('telescope').setup {
 -- require('telescope').load_extension 'fzf'
 
 --Add leader shortcuts
-vim.keymap.set('n', '<leader>f', function() require('telescope.builtin').find_files { previewer = false } end)
+vim.keymap.set('n', '<leader>f', function() require('telescope.builtin').git_files { previewer = false } end)
 vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers)
 vim.keymap.set('n', '<leader>sr', require('telescope.builtin').oldfiles)
 vim.keymap.set('n', '<leader>st', require('telescope.builtin').grep_string)
@@ -398,6 +410,8 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
+
+require("dap-config")
 require("nvim-lsp-installer").setup {}
 require("lsp.configs.sumneko_lua").setup()
 require("lsp.configs.tsserver").setup()
@@ -405,6 +419,8 @@ require("lsp.configs.null-ls").setup()
 
 -- luasnip setup
 local luasnip = require 'luasnip'
+require("luasnip.loaders.from_vscode").lazy_load()
+require("luasnip.loaders.from_vscode").lazy_load({ paths = { vim.call("stdpath", "config") .. "/snippets" } })
 
 -- nvim-cmp setup
 local cmp = require 'cmp'

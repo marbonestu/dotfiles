@@ -1,5 +1,8 @@
-alias v='lvim'
+alias v='nvim'
 alias la='exa -la'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 
 # git
 alias gch='git branch -a --sort=-committerdate | fzf --header Checkout | sed "s/remotes/origin\///g" | xargs git switch'
@@ -7,3 +10,8 @@ alias lg='lazygit'
 
 # tmux
 alias t='tmux attach || tmux new-session'
+
+
+function cd {
+  builtin cd "$@" && la
+}

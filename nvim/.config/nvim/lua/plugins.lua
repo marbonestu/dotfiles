@@ -99,6 +99,11 @@ return require('packer').startup(function(use)
     },
   }
 
+  -- DAP
+  use { 'mfussenegger/nvim-dap' }
+  use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
+  use { 'Pocco81/dap-buddy.nvim' }
+
   -- Treesitter
   use({
     "nvim-treesitter/nvim-treesitter",
