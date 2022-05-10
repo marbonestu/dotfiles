@@ -180,6 +180,11 @@ vim.keymap.set('n', '<C-d>', '3j')
 vim.keymap.set('n', '<C-u>', '3k')
 vim.keymap.set('n', '<C-e>', '7<C-e>')
 vim.keymap.set('n', '<C-y>', '7<C-y>')
+
+
+vim.keymap.set('n', 'vv', 'V')
+vim.keymap.set('n', 'V', 'v$h')
+
 -- move selected line in visual mode
 vim.keymap.set('x', 'K', ':move \'<-2<CR>gv-gv')
 vim.keymap.set('x', 'J', ':move \'>+1<CR>gv-gv')

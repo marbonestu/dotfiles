@@ -132,7 +132,7 @@ local setup = {
   },
   filters = {
     dotfiles = false,
-    custom = { "node_modules", "\\.cache" },
+    -- custom = { "node_modules", "\\.cache" },
     exclude = {},
   },
   trash = {
