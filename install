@@ -7,7 +7,8 @@ DOTFILES_FOLDERS="
   hammerspoon,
   nvim,
   zsh,
-  lazygit
+  lazygit,
+  karabiner
 "
 
 for folder in `echo $DOTFILES_FOLDERS | sed "s/,/ /g"` 

@@ -1,0 +1,60 @@
+{
+   :layers { 
+           :caps_mode {:key :caps_lock :alone {:key :escape}}
+           :shift_mode {:key :a }
+          }
+   :applications { :code ["com.microsoft.VSCode"] }
+   :simlayers {
+             :f-mode {:key :f}    ; delimeters    ( ) [ ] { } and other symbols ~ $ &
+             :d-mode {:key :d}    ; arithmetic    + - * / = % < > #
+             :s-mode {:key :s}    ; punctuation   ? ! : ; ' " ` ~
+             ; :a-mode {:key :a}    ; navigation hjkl + tab + enter + page down/up
+             ;
+             :q-mode {:key :q}    ; General shortcuts (browser etc.) - not settled
+             :w-mode {:key :w}    ; Selection left and right (letter, word, line)
+             :e-mode {:key :e}    ; Movement left and right (letter, word, line)
+             :r-mode {:key :r}    ; Deletion left and right (letter, word, line)
+             ;
+             :g-mode {:key :g}    ; Mouse scroll, desktop left-right, zoom in-out, screenshot (not implemented)
+             ;
+             :v-mode {:key :v}    ; Number pad with + - BS ENTER as well
+             :c-mode {:key :c}    ; Slashes and lines  ^ | \ _ @
+             :x-mode {:key :x}    ; Some multi-character shortcuts like <= (not implemented)
+             }
+
+   :main [
+        ; {:des "a-mode for hjkl movement and nm enter and ui tab and ,. PageDn/Up"
+        ;  :rules [:a-mode
+        ;           [:##h :left_arrow]
+        ;           [:##j :down_arrow]
+        ;           [:##k :up_arrow]
+        ;           [:##l :right_arrow]
+        ;           [:##n :return_or_enter]
+        ;           [:##m :return_or_enter]
+        ;           [:##u :tab]
+        ;           [:##i :tab]
+        ;           [:comma :page_down]
+        ;           [:period :page_up]
+        ;         ]
+        ;  }      
+
+        {:des "extra caps-lock"
+         :rules [:a-mode
+                  [:##j :!Te]
+                  [:##k :!Ty]
+                ]
+         }      
+        {:des "capslock layer"
+        :rules [
+            :caps_mode
+                ; VIM MODE - hold caps and AJKL
+                ; home row computing
+                [:##h :!S6]
+                [:##k :!Tu]
+                [:##j :!Td]
+                [:##l :!S4]
+                [:##f :left_option]
+                [:##d :left_shift]
+                ]}
+ ]
+}
