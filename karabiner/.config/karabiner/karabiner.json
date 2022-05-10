@@ -144,6 +144,23 @@
           } ]
         } ]
       }, {
+        "description" : "t",
+        "manipulators" : [ {
+          "from" : {
+            "key_code" : "k"
+          },
+          "to" : [ {
+            "key_code" : "y",
+            "modifiers" : [ "left_control" ]
+          } ],
+          "conditions" : [ {
+            "name" : "left_command",
+            "value" : 1,
+            "type" : "variable_if"
+          } ],
+          "type" : "basic"
+        } ]
+      }, {
         "description" : "extra caps-lock",
         "manipulators" : [ {
           "from" : {

@@ -1,14 +1,14 @@
 {
    :layers { 
            :caps_mode {:key :caps_lock :alone {:key :escape}}
-           :shift_mode {:key :a }
+           :shift_mode {:key :a :alone {:key :escape}}
           }
    :applications { :code ["com.microsoft.VSCode"] }
    :simlayers {
              :f-mode {:key :f}    ; delimeters    ( ) [ ] { } and other symbols ~ $ &
              :d-mode {:key :d}    ; arithmetic    + - * / = % < > #
              :s-mode {:key :s}    ; punctuation   ? ! : ; ' " ` ~
-             ; :a-mode {:key :a}    ; navigation hjkl + tab + enter + page down/up
+             :a-mode {:key :a}    ; navigation hjkl + tab + enter + page down/up
              ;
              :q-mode {:key :q}    ; General shortcuts (browser etc.) - not settled
              :w-mode {:key :w}    ; Selection left and right (letter, word, line)
@@ -37,7 +37,10 @@
         ;           [:period :page_up]
         ;         ]
         ;  }      
-
+      {:des "t"
+         :rules [[:condi :left_command]
+                 [:k :!Ty];
+                 ]}
         {:des "extra caps-lock"
          :rules [:a-mode
                   [:##j :!Te]
