@@ -136,10 +136,10 @@ end
 
 function M.setup_server(server, config)
   local options = {
-    on_attach = M.lsp_attach,
-    on_exit = M.lsp_exit,
-    on_init = M.lsp_init,
-    capabilities = M.get_capabilities(),
+    on_attach = M.common_on_attach,
+    on_exit = M.common_on_exit,
+    on_init = M.common_on_init,
+    capabilities = M.common_capabilities(),
     flags = { debounce_text_changes = 150 },
   }
   for k, v in pairs(config) do

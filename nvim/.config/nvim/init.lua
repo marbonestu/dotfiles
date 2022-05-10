@@ -14,29 +14,7 @@ require('packer').startup(function(use)
   use 'tpope/vim-surround'
   use 'tpope/vim-abolish'
   use "mg979/vim-visual-multi"
-  -- use({
-  --   "aserowy/tmux.nvim",
-  --   config = function()
-  --     require("tmux").setup({
-  --       -- overwrite default configuration
-  --       -- here, e.g. to enable default bindings
-  --       copy_sync = {
-  --         -- enables copy sync and overwrites all register actions to
-  --         -- sync registers *, +, unnamed, and 0 till 9 from tmux in advance
-  --         enable = true,
-  --       },
-  --       navigation = {
-  --         -- enables default keybindings (C-hjkl) for normal mode
-  --         enable_default_keybindings = true,
-  --       },
-  --       resize = {
-  --         -- enables default keybindings (A-hjkl) for normal mode
-  --         enable_default_keybindings = true,
-  --       }
-  --     })
-  --   end
-  -- })
-  -- use 'ludovicchabant/vim-gutentags' -- Automatic tags management
+  use 'ludovicchabant/vim-gutentags' -- Automatic tags management
   use 'ggandor/lightspeed.nvim' -- motion
 
   -- file tree
@@ -127,6 +105,14 @@ require('packer').startup(function(use)
   use "hrsh7th/cmp-path"
   use "David-Kunz/cmp-npm"
   use "saadparwaiz1/cmp_luasnip"
+
+  use({
+    "davidgranstrom/nvim-markdown-preview", -- preview markdown output in browser
+    opt = true,
+    ft = { "markdown" },
+    cmd = "MarkdownPreview",
+  })
+  use { "Shatur/neovim-session-manager", config = require("config.sessions").setup }
 end)
 
 vim.g.mapleader = " "
@@ -171,6 +157,8 @@ vim.wo.signcolumn = 'yes'
 vim.keymap.set("i", "jj", "<ESC>")
 vim.keymap.set("n", '<leader>w', ':w<CR>')
 vim.keymap.set("n", '<leader>q', ':q<CR>')
+vim.keymap.set("n", '<leader>Q', ':qa<CR>')
+vim.keymap.set("n", '<leader>c', ':bdelete<CR>')
 -- movement
 vim.keymap.set('n', '<C-h>', '<C-w>h')
 vim.keymap.set('n', '<C-j>', '<C-w>j')
@@ -206,8 +194,8 @@ if vim.fn.has "mac" == 1 then
   vim.keymap.set('n', '<A-Left>', '<C-Left>')
 end
 
-
 vim.cmd [[colorscheme duskfox]]
+
 --Set statusbar
 require('lualine').setup {
   options = {
@@ -345,6 +333,25 @@ vim.keymap.set('n', '<leader>sp', require('telescope.builtin').live_grep)
 -- Treesitter configuration
 -- Parsers must be installed manually via :TSInstall
 require('nvim-treesitter.configs').setup {
+  ensure_installed = {
+    "bash",
+    "css",
+    "javascript",
+    "typescript",
+    "python",
+    "rust",
+    "hcl",
+    "json",
+    "jsonc",
+    "lua",
+    "make",
+    "markdown",
+    "scss",
+    "toml",
+    "tsx",
+    "yaml",
+  },
+
   highlight = {
     enable = true, -- false will disable the whole extension
   },
@@ -421,6 +428,7 @@ require("nvim-lsp-installer").setup {}
 require("lsp.configs.sumneko_lua").setup()
 require("lsp.configs.tsserver").setup()
 require("lsp.configs.null-ls").setup()
+require("lsp.utils").setup_server("terraformls", {})
 
 -- luasnip setup
 local luasnip = require 'luasnip'
