@@ -8,6 +8,7 @@
 
 [delta]
     navigate = true  # use n and N to move between diff sections
+    line-numbers = true
 
 [merge]
     conflictstyle = diff3
@@ -28,6 +29,9 @@
 ;     autoStash = true
 [pull]
     rebase = true
+
+[include]
+  path = ~/delta/themes.gitconfig
 
 [includeIf "gitdir:~/projects/disney/"]
     path = ~/.gitconfig-disney

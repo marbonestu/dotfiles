@@ -1,34 +1,50 @@
 local M = {}
 
-function M.setup()
-  require('gitsigns').setup({
-    current_line_blame = true,
-    on_attach = function(bufnr)
-      -- Navigation
-      vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
-      vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
-
-      -- Actions
-      vim.keymap.set('n', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-      vim.keymap.set('v', '<leader>hs', ':Gitsigns stage_hunk<CR>')
-      vim.keymap.set('n', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-      vim.keymap.set('v', '<leader>hr', ':Gitsigns reset_hunk<CR>')
-      vim.keymap.set('n', '<leader>hS', '<cmd>Gitsigns stage_buffer<CR>')
-      vim.keymap.set('n', '<leader>hu', '<cmd>Gitsigns undo_stage_hunk<CR>')
-      vim.keymap.set('n', '<leader>hR', '<cmd>Gitsigns reset_buffer<CR>')
-      vim.keymap.set('n', '<leader>hp', '<cmd>Gitsigns preview_hunk<CR>')
-      vim.keymap.set('n', '<leader>hb', function() require "gitsigns".blame_line { full = true } end)
-      vim.keymap.set('n', '<leader>tb', '<cmd>Gitsigns toggle_current_line_blame<CR>')
-      vim.keymap.set('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>')
-      vim.keymap.set('n', '<leader>hD', function() require "gitsigns".diffthis("~") end)
-      vim.keymap.set('n', '<leader>hm', function() require "gitsigns".diffthis("main") end)
-      vim.keymap.set('n', '<leader>hM', diffThisBranch)
-      vim.keymap.set('n', '<leader>td', '<cmd>Gitsigns toggle_deleted<CR>')
-
-      -- Text object
-      vim.keymap.set('o', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-      vim.keymap.set('x', 'ih', ':<C-U>Gitsigns select_hunk<CR>')
-    end
+function M.config()
+  require("gitsigns").setup({
+    signs = {
+      add = { hl = "GitSignsAdd", text = "▍", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+      change = {
+        hl = "GitSignsChange",
+        text = "▍",
+        numhl = "GitSignsChangeNr",
+        linehl = "GitSignsChangeLn",
+      },
+      delete = {
+        hl = "GitSignsDelete",
+        text = "▸",
+        numhl = "GitSignsDeleteNr",
+        linehl = "GitSignsDeleteLn",
+      },
+      topdelete = {
+        hl = "GitSignsDelete",
+        text = "▾",
+        numhl = "GitSignsDeleteNr",
+        linehl = "GitSignsDeleteLn",
+      },
+      changedelete = {
+        hl = "GitSignsChange",
+        text = "▍",
+        numhl = "GitSignsChangeNr",
+        linehl = "GitSignsChangeLn",
+      },
+    },
+    keymaps = {
+      -- Default keymap options
+      noremap = true,
+      buffer = true,
+      ["n <leader>gj"] = { expr = true, "&diff ? ']c' : '<cmd>lua require\"gitsigns\".next_hunk()<CR>'" },
+      ["n <leader>gk"] = { expr = true, "&diff ? '[c' : '<cmd>lua require\"gitsigns\".prev_hunk()<CR>'" },
+      ["n <leader>gs"] = '<cmd>lua require"gitsigns".stage_hunk()<CR>',
+      ["n <leader>gu"] = '<cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+      ["n <leader>gr"] = '<cmd>lua require"gitsigns".reset_hunk()<CR>',
+      ["n <leader>gR"] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
+      ["n <leader>gp"] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
+      ["n <leader>gl"] = '<cmd>lua require"gitsigns".blame_line()<CR>',
+      -- Text objects
+      ["o ih"] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
+      ["x ih"] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
+    }
   })
 end
 

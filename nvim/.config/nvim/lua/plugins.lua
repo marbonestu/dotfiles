@@ -1,46 +1,40 @@
-local fn = vim.fn
-local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+-- Install packer
+local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 
-if fn.empty(fn.glob(install_path)) > 0 then
-  packer_bootstrap = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  vim.fn.execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
 end
 
-vim.cmd("packadd packer.nvim")
-return require('packer').startup(function(use)
-  use 'wbthomason/packer.nvim'
-  use 'nvim-lua/plenary.nvim'
-  use 'nvim-lua/popup.nvim'
+local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
+vim.api.nvim_create_autocmd('BufWritePost', { command = 'source <afile> | PackerCompile', group = packer_group, pattern = 'init.lua' })
 
-  -- fuzzy finder
-
-  use({
-    "nvim-telescope/telescope.nvim",
-    config = function()
-      require("config.telescope")
-    end,
-    requires = {
-      -- "nvim-telescope/telescope-z.nvim",
-      -- "nvim-telescope/telescope-project.nvim",
-      "nvim-lua/popup.nvim",
-      "nvim-lua/plenary.nvim",
-      -- "nvim-telescope/telescope-symbols.nvim",
-      "nvim-telescope/telescope-fzf-native.nvim",
-      "nvim-telescope/telescope-ui-select.nvim",
-      "nvim-telescope/telescope-dap.nvim",
-      -- { "nvim-telescope/telescope-frecency.nvim", requires = "tami5/sql.nvim" }
-    },
-  })
+require('packer').startup(function(use)
+  use 'wbthomason/packer.nvim' -- Package manager
+  use 'tpope/vim-commentary'
+  use 'tpope/vim-surround'
+  use 'tpope/vim-abolish'
+  use "mg979/vim-visual-multi"
+  use 'ggandor/lightspeed.nvim' -- motion
 
   -- file tree
-  use {
-    "kyazdani42/nvim-tree.lua",
-    config = function()
-      require("config.tree")
-    end,
-  }
+  use { "kyazdani42/nvim-tree.lua", config = function() require("config.tree").setup() end }
+  use 'kyazdani42/nvim-web-devicons'
+  use 'ryanoasis/vim-devicons'
 
-  -- motion
-  use("ggandor/lightspeed.nvim")
+  -- Fuzzy finder
+  use({
+    "nvim-telescope/telescope.nvim",
+    config = function() require("config.telescope").setup() end,
+    requires = {
+      -- "nvim-telescope/telescope-z.nvim",
+      "nvim-lua/popup.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope-fzf-native.nvim",
+      "nvim-telescope/telescope-ui-select.nvim",
+      -- { "nvim-telescope/telescope-frecency.nvim", requires = "tami5/sql.nvim" }
+      -- "nvim-telescope/telescope-dap.nvim",
+    },
+  })
 
   -- themes
   use({
@@ -49,43 +43,47 @@ return require('packer').startup(function(use)
     "rmehri01/onenord.nvim",
     "EdenEast/nightfox.nvim",
     "folke/tokyonight.nvim",
+    "rebelot/kanagawa.nvim"
   })
 
-  -- Completion
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-buffer'
-  use 'onsails/lspkind-nvim'
-  use "hrsh7th/cmp-path"
-  use "David-Kunz/cmp-npm"
-  use "saadparwaiz1/cmp_luasnip"
-
-  -- snippets
-  use { "L3MON4D3/LuaSnip",
-    config = function() require("config.snippets") end,
+  use {
+    'nvim-lualine/lualine.nvim',
+    config = function()
+      --Set statusbar
+      require('lualine').setup {
+        options = {
+          icons_enabled = false,
+          theme = 'duskfox',
+          component_separators = '|',
+          section_separators = '',
+        },
+      }
+    end
   }
-  use "rafamadriz/friendly-snippets"
 
-  -- use { "hrsh7th/nvim-cmp", event = "InsertEnter",
-  --   opt = true,
-  --   config = function()
-  --     require("config.cmp")
-  --   end,
-  --   requires = {
-  --     "hrsh7th/cmp-nvim-lsp",
-  --     "hrsh7th/cmp-buffer",
-  --     "hrsh7th/cmp-path",
-  --     "David-Kunz/cmp-npm",
-  --     "saadparwaiz1/cmp_luasnip",
-  --     { "L3MON4D3/LuaSnip", config = function() require("config.snippets") end, },
-  --     "rafamadriz/friendly-snippets",
-  --     {
-  --       module = "nvim-autopairs",
-  --       "windwp/nvim-autopairs",
-  --       config = function() require("config.autopairs") end,
-  --     },
-  --   },
-  -- }
+  -- Add indentation guides even on blank lines
+  use { 'lukas-reineke/indent-blankline.nvim', config = function() require("config.indent").setup() end }
+
+  -- git
+  use 'tpope/vim-fugitive' -- Git commands in nvim
+  use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
+  use {
+    'lewis6991/gitsigns.nvim',
+    config = function() require("config.gitsigns").config() end,
+    requires = { 'nvim-lua/plenary.nvim' }
+  }
+
+  -- Treesitter
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    config = function() require("config.treesitter").setup() end,
+    requires = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      "windwp/nvim-ts-autotag",
+      'David-Kunz/treesitter-unit',
+      "nvim-treesitter/nvim-treesitter-refactor",
+    }
+  }
 
   -- LSP
   use {
@@ -98,48 +96,38 @@ return require('packer').startup(function(use)
       "ray-x/lsp_signature.nvim"
     },
   }
+  use { 'j-hui/fidget.nvim', config = function() require("fidget").setup() end }
 
   -- DAP
   use { 'mfussenegger/nvim-dap' }
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
-  use { 'Pocco81/dap-buddy.nvim' }
-
-  -- Treesitter
-  use({
-    "nvim-treesitter/nvim-treesitter",
-    run = ":TSUpdate",
-    config = require("config.treesitter"),
-  })
-  use('nvim-treesitter/nvim-treesitter-textobjects')
-  use("RRethy/nvim-treesitter-textsubjects")
-  use("windwp/nvim-ts-autotag")
-  use 'David-Kunz/treesitter-unit'
-
-  -- Git
-  use {
-    "lewis6991/gitsigns.nvim",
-    config = function()
-      require("config.gitsigns").setup()
-    end,
-  }
-  --
-  --use {
-  --    "numToStr/Comment.nvim",
-  --    event = "BufRead",
-  --    config = function()
-  --      require("Comment").setup()
-  --    end,
-  --  }
-  use 'tpope/vim-commentary'
-  use 'tpope/vim-surround'
-  use 'tpope/vim-abolish'
-
   use 'theHamsta/nvim-dap-virtual-text'
-  use 'kyazdani42/nvim-web-devicons'
-  use 'ryanoasis/vim-devicons'
 
+  -- Snippets
+  use 'L3MON4D3/LuaSnip' -- Snippets plugin
+  use 'rafamadriz/friendly-snippets' -- Snippets plugin
 
-  if packer_bootstrap then
-    require('packer').sync()
-  end
+  -- Completion
+  use {
+    'hrsh7th/nvim-cmp',
+    config = function ()
+      require("config.cmp").setup()
+    end,
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'onsails/lspkind-nvim',
+      "hrsh7th/cmp-path",
+      "David-Kunz/cmp-npm",
+      "saadparwaiz1/cmp_luasnip",
+    }
+  }
+
+  use({
+    "davidgranstrom/nvim-markdown-preview", -- preview markdown output in browser
+    opt = true,
+    ft = { "markdown" },
+    cmd = "MarkdownPreview",
+  })
+  use { "Shatur/neovim-session-manager", config = require("config.sessions").setup }
 end)
