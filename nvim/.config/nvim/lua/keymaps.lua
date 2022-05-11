@@ -17,8 +17,7 @@ vim.keymap.set('n', '<C-y>', '7<C-y>')
 vim.keymap.set('v', '<C-d>', '3j')
 vim.keymap.set('v', '<C-u>', '3k')
 
-vim.keymap.set('n', 'vv', 'V')
-vim.keymap.set('n', 'V', 'v$h')
+vim.keymap.set('n', 'v$', 'v$h')
 
 -- move selected line in visual mode
 vim.keymap.set('x', 'K', ':move \'<-2<CR>gv-gv')
