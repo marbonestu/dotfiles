@@ -33,7 +33,7 @@
   register: zsh_syntax_highlighting_exists
 
 - name: Install zsh-syntax-highlighting
-  when: zsh_syntax_highlighting_exists is failed
+  when: zsh_syntax_highlighting_exists.stat.islnk is not defined
   ansible.builtin.git:
     repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
     dest: "~/.zsh/plugins/zsh-syntax-highlighting"
@@ -43,23 +43,11 @@
     path: "~/.zsh/plugins/zsh-vi-mode"
   register: zsh_vi_mode_exists
 
-- name: Install zsh-syntax-highlighting
-  when: zsh_vi_mode_exists is failed
+- name: Install zsh-vi-mode
+  when: zsh_vi_mode_exists.stat.islnk is not defined
   ansible.builtin.git:
-    repo: 'https://github.com/zsh-users/zsh-vi-mode.git'
-    dest: "~/.zsh/plugins/mode"
-
-
-- name: Check if zsh-nvm is installed
-  stat:
-    path: "~/.zsh/plugins/zsh-nvm"
-  register: zsh_nvm_exists
-
-- name: Install zsh-nvm
-  when: zsh_nvm_exists is failed
-  ansible.builtin.git:
-    repo: 'https://github.com/lukechilds/zsh-nvm.git'
-    dest: "~/.zsh/plugins/zsh-nvm"
+    repo: 'https://github.com/jeffreytse/zsh-vi-mode.git'
+    dest: "~/.zsh/plugins/zsh-vi-mode"
 
 
 - name: Check if forgit is installed
