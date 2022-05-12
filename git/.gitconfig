@@ -25,8 +25,7 @@
 
 [push]
     default = current
-; [rebase]
-;     autoStash = true
+
 [pull]
     rebase = true
 
@@ -41,7 +40,3 @@
 
 [help]
     autocorrect = 10
-
-[color]
-    pager = no
-

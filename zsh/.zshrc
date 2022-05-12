@@ -16,16 +16,14 @@ set show-mode-in-prompt on
 set vi-cmd-mode-string "\1\e[2 q\2"
 set vi-ins-mode-string "\1\e[6 q\2"
 
-export EDITOR='lvim'
+export EDITOR='nvim'
 
-[ -f ~/.forgit/forgit.plugin.zsh ] && source ~/.forgit/forgit.plugin.zsh
+[ -f $HOME/.forgit/forgit.plugin.zsh ] && source $HOME/.forgit/forgit.plugin.zsh
 
 export NVM_LAZY_LOAD=true
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-# source ~/.zsh/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-# source ~/.zsh/plugins/zsh-nvm/zsh-nvm.plugin.zsh
 source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh
 
 autoload -U +X compinit && compinit
@@ -46,7 +44,7 @@ export PATH="$LUA_LANGUAGE_SERVER:$PATH"
 
 eval "$(zoxide init zsh)"
 
-source $HOME/.config/broot/launcher/bash/br
+[ -f $HOME/.config/broot/launcher/bash/br ] && source $HOME/.config/broot/launcher/bash/br
 
 # fnm
 export PATH=/Users/marc.arbones/.fnm:$PATH
