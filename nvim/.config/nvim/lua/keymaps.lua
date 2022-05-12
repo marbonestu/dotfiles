@@ -28,15 +28,15 @@ vim.keymap.set('v', '>', '>gv')
 
 vim.keymap.set('n', '<leader>h', ':noh<CR>', { silent = true })
 
-vim.keymap.set('n', '<M-Up>', ':resize +5<CR>')
-vim.keymap.set('n', '<M-Down>', ':resize -5<CR>')
-vim.keymap.set('n', '<M-Right>', ':vertical resize +5<CR>')
-vim.keymap.set('n', '<M-Left>', ':vertical resize -5<CR>')
+vim.keymap.set('n', '<C-Up>', ':resize +5<CR>')
+vim.keymap.set('n', '<C-Down>', ':resize -5<CR>')
+vim.keymap.set('n', '<C-Right>', ':vertical reize +5<CR>')
+vim.keymap.set('n', '<C-Left>', ':vertical resize -5<CR>')
 
 if vim.fn.has "mac" == 1 then
-  vim.keymap.set('n', '<A-Up>', '<C-Up>')
-  vim.keymap.set('n', '<A-Down>', '<C-Down>')
-  vim.keymap.set('n', '<A-Right>', '<C-Right>')
-  vim.keymap.set('n', '<A-Left>', '<C-Left>')
+  vim.keymap.set('n', '<A-Up>', ':resize +5<CR>')
+  vim.keymap.set('n', '<A-Down>', ':resize -5<CR>')
+  vim.keymap.set('n', '<A-Right>', ':vertical resize +5<CR>')
+  vim.keymap.set('n', '<A-Left>', ':vertical resize -5<CR>')
 end
 
