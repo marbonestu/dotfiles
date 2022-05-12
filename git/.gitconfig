@@ -33,10 +33,11 @@
 [include]
   path = ~/delta/themes.gitconfig
 
+[includeIf "gitdir:~/projects/diligent/"]
+    path = ~/.gitconfig-diligent
+
 [includeIf "gitdir:~/projects/disney/"]
     path = ~/.gitconfig-disney
-
-; [commit]
 
 [help]
     autocorrect = 10
