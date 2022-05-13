@@ -28,7 +28,7 @@ local sources = {
         condition = with_root_file("selene.toml"),
     }),
     b.diagnostics.write_good,
-    b.diagnostics.markdownlint,
+    -- b.diagnostics.markdownlint,
     b.diagnostics.shellcheck.with({
         diagnostics_format = diagnostics_code_template,
     }),

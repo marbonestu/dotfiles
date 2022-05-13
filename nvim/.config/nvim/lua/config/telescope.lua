@@ -19,7 +19,7 @@ function M.setup()
   --Add leader shortcuts
   vim.keymap.set('n', '<leader>f', function() require('telescope.builtin').git_files { previewer = false } end)
   vim.keymap.set('n', '<leader>sb', require('telescope.builtin').buffers)
-  vim.keymap.set('n', '<leader>sr', require('telescope.builtin').oldfiles)
+  vim.keymap.set('n', '<leader>sr', function() require('telescope.builtin').oldfiles { previewer = false } end)
   vim.keymap.set('n', '<leader>st', require('telescope.builtin').grep_string)
   vim.keymap.set('n', '<leader>sp', require('telescope.builtin').live_grep)
   -- vim.keymap.set('n', '<leader>sb', require('telescope.builtin').current_buffer_fuzzy_find)
