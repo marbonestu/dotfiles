@@ -100,8 +100,13 @@ require('packer').startup(function(use)
 
   -- DAP
   use { 'mfussenegger/nvim-dap' }
+  use { 'mfussenegger/nvim-dap-python', config = function()
+    require("dap-python").setup('~/.virtualenvs/debugpy/bin/python')
+  end }
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
   use 'theHamsta/nvim-dap-virtual-text'
+  use { "Pocco81/DAPInstall.nvim", requires = { "mfussenegger/nvim-dap" } }
+  use { "jbyuki/one-small-step-for-vimkind", requires = { "mfussenegger/nvim-dap" } }
 
   -- Snippets
   use 'L3MON4D3/LuaSnip' -- Snippets plugin
@@ -110,7 +115,7 @@ require('packer').startup(function(use)
   -- Completion
   use {
     'hrsh7th/nvim-cmp',
-    config = function ()
+    config = function()
       require("config.cmp").setup()
     end,
     requires = {

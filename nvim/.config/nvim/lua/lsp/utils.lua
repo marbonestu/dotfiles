@@ -134,6 +134,21 @@ function M.common_capabilities()
   return capabilities
 end
 
+local function merge_in_place(t1, t2)
+  for k, v in pairs(t2) do
+    if type(v) == "table" then
+      if type(t1[k]) == "table" and not vim.tbl_islist(t1[k]) then
+        merge_in_place(t1[k], v)
+      else
+        t1[k] = v
+      end
+    else
+      t1[k] = v
+    end
+  end
+  return t1
+end
+
 function M.setup_server(server, config)
   local options = {
     on_attach = M.common_on_attach,
@@ -148,11 +163,6 @@ function M.setup_server(server, config)
 
   local lspconfig = require "lspconfig"
   lspconfig[server].setup(vim.tbl_deep_extend("force", options, {}))
-
-  local cfg = lspconfig[server]
-  if not (cfg and cfg.cmd and vim.fn.executable(cfg.cmd[1]) == 1) then
-    print(server .. ": cmd not found: " .. vim.inspect(cfg.cmd))
-  end
 end
 
 return M
