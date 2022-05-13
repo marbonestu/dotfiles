@@ -20,6 +20,7 @@ function M.setup()
       "toml",
       "tsx",
       "yaml",
+      "go",
     },
 
     highlight = {

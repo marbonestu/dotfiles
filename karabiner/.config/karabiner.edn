@@ -1,4 +1,5 @@
 {
+    
    :layers { 
            :caps_mode {:key :caps_lock :alone {:key :escape}}
            :shift_mode {:key :a :alone {:key :escape}}
@@ -23,21 +24,7 @@
              }
 
    :main [
-        ; {:des "a-mode for hjkl movement and nm enter and ui tab and ,. PageDn/Up"
-        ;  :rules [:a-mode
-        ;           [:##h :left_arrow]
-        ;           [:##j :down_arrow]
-        ;           [:##k :up_arrow]
-        ;           [:##l :right_arrow]
-        ;           [:##n :return_or_enter]
-        ;           [:##m :return_or_enter]
-        ;           [:##u :tab]
-        ;           [:##i :tab]
-        ;           [:comma :page_down]
-        ;           [:period :page_up]
-        ;         ]
-        ;  }      
-      {:des "t"
+         {:des "t"
          :rules [[:condi :left_command]
                  [:k :!Ty];
                  ]}

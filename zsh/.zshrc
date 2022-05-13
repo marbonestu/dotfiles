@@ -28,6 +28,7 @@ source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.
 source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh
 
 autoload -U +X compinit && compinit
+zstyle ':completion:*' menu select
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -42,6 +43,9 @@ export DPRINT_INSTALL="/Users/marc.arbones/.dprint"
 export LUA_LANGUAGE_SERVER="$HOME/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin"
 export PATH="$DPRINT_INSTALL/bin:$PATH"
 export PATH="$LUA_LANGUAGE_SERVER:$PATH"
+
+export GO_BIN_FOLDER="$HOME/go/bin"
+export PATH="$GO_BIN_FOLDER:$PATH"
 
 eval "$(zoxide init zsh)"
 
