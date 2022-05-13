@@ -11,6 +11,7 @@ HISTFILE=~/.zsh_history
 SAVEHIST=1000000000
 setopt appendhistory
 setopt share_history
+setopt autocd
 
 set show-mode-in-prompt on
 set vi-cmd-mode-string "\1\e[2 q\2"

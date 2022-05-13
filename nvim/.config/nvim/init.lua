@@ -10,4 +10,5 @@ require("lsp.configs.sumneko_lua").setup()
 require("lsp.configs.tsserver").setup()
 require("lsp.configs.null-ls").setup()
 require("lsp.utils").setup_server("terraformls", {})
+require("lsp.utils").setup_server("pyright", {})
 
