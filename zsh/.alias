@@ -9,6 +9,10 @@ alias gch='git branch -a --sort=-committerdate | fzf --header Checkout | sed "s/
 alias lg='lazygit'
 alias gs='git status'
 alias gc='git commit -m'
+alias gpr='git pull -r'
+alias gp='git pull'
+alias gP='git push'
+alias gf='git fetch origin'
 alias gca='git commit --amend'
 
 # tmux
