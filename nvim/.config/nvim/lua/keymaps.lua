@@ -30,7 +30,7 @@ vim.keymap.set('n', '<leader>h', ':noh<CR>', { silent = true })
 
 vim.keymap.set('n', '<C-Up>', ':resize +5<CR>')
 vim.keymap.set('n', '<C-Down>', ':resize -5<CR>')
-vim.keymap.set('n', '<C-Right>', ':vertical reize +5<CR>')
+vim.keymap.set('n', '<C-Right>', ':vertical resize +5<CR>')
 vim.keymap.set('n', '<C-Left>', ':vertical resize -5<CR>')
 
 if vim.fn.has "mac" == 1 then

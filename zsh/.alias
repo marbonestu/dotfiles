@@ -7,6 +7,9 @@ alias ....='cd ../../..'
 # git
 alias gch='git branch -a --sort=-committerdate | fzf --header Checkout | sed "s/remotes/origin\///g" | xargs git switch'
 alias lg='lazygit'
+alias gs='git status'
+alias gc='git commit -m'
+alias gca='git commit --amend'
 
 # tmux
 alias t='tmux attach || tmux new-session'
@@ -14,4 +17,12 @@ alias t='tmux attach || tmux new-session'
 
 function cd {
   builtin cd "$@" && la
+}
+
+function mkcd {
+  mkdir "$@" && cd $_
+}
+
+function gclone {
+  git clone "$@" && cd "$(basename "$_" .git)"
 }

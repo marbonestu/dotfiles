@@ -21,21 +21,7 @@ function M.lsp_diagnostics()
 end
 
 function M.lsp_highlight(client, _)
-  if client.server_capabilities.document_highlight then
-    vim.api.nvim_exec(
-      [[
-        hi LspReferenceRead cterm=bold ctermbg=red guibg=#282f45
-        hi LspReferenceText cterm=bold ctermbg=red guibg=#282f45
-        hi LspReferenceWrite cterm=bold ctermbg=red guibg=#282f45
-        augroup lsp_document_highlight
-        autocmd! * <buffer>
-        autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-        autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-        augroup END
-        ]],
-      false
-    )
-  end
+  require 'illuminate'.on_attach(client)
 end
 
 function M.lsp_config(client, bufnr)
@@ -134,29 +120,18 @@ function M.common_capabilities()
   return capabilities
 end
 
-local function merge_in_place(t1, t2)
-  for k, v in pairs(t2) do
-    if type(v) == "table" then
-      if type(t1[k]) == "table" and not vim.tbl_islist(t1[k]) then
-        merge_in_place(t1[k], v)
-      else
-        t1[k] = v
-      end
-    else
-      t1[k] = v
-    end
-  end
-  return t1
-end
-
-function M.setup_server(server, config)
-  local options = {
+function M.make_default_config()
+  return {
     on_attach = M.common_on_attach,
     on_exit = M.common_on_exit,
     on_init = M.common_on_init,
     capabilities = M.common_capabilities(),
     flags = { debounce_text_changes = 150 },
   }
+end
+
+function M.setup_server(server, config)
+  local options = M.make_default_config()
   for k, v in pairs(config) do
     options[k] = v
   end

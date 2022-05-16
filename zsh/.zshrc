@@ -44,7 +44,7 @@ export LUA_LANGUAGE_SERVER="$HOME/.local/share/nvim/lsp_servers/sumneko_lua/exte
 export PATH="$DPRINT_INSTALL/bin:$PATH"
 export PATH="$LUA_LANGUAGE_SERVER:$PATH"
 
-export GO_BIN_FOLDER="$HOME/go/bin"
+export PATH=$PATH:/usr/local/go/bin
 export PATH="$GO_BIN_FOLDER:$PATH"
 
 eval "$(zoxide init zsh)"
@@ -53,4 +53,20 @@ eval "$(zoxide init zsh)"
 
 # fnm
 export PATH=/Users/marc.arbones/.fnm:$PATH
+
+# WSL
+export WINHOME=/mnt/c/Users/marbo/
+export APPDATA=/mnt/c/Users/marbo/AppData/Roaming
+if [ -d WINHOME ]; then
+  alias winhome='$WINHOME'
+fi
+
+# java
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+
+# Gradle
+export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
+
+
 eval "`fnm env --use-on-cd`"

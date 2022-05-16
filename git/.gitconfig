@@ -40,3 +40,10 @@
 
 [help]
     autocorrect = 10
+
+[alias]
+    co = checkout
+    c = commit -m
+    camend = commit --amend
+    sw = switch
+    s = status

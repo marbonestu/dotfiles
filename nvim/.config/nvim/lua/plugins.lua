@@ -15,6 +15,7 @@ require('packer').startup(function(use)
   use 'tpope/vim-abolish'
   use "mg979/vim-visual-multi"
   use 'ggandor/lightspeed.nvim' -- motion
+  use 'RRethy/vim-illuminate'
 
   -- file tree
   use { "kyazdani42/nvim-tree.lua", config = function() require("config.tree").setup() end }
@@ -96,6 +97,7 @@ require('packer').startup(function(use)
       "ray-x/lsp_signature.nvim"
     },
   }
+  use 'mfussenegger/nvim-jdtls'
   use { 'j-hui/fidget.nvim', config = function() require("fidget").setup() end }
 
   -- DAP
