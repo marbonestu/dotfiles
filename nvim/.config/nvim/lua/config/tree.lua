@@ -147,6 +147,13 @@ function M.setup()
     },
   }
 
+  local function telescope_find_files(_)
+    M.start_telescope "find_files"
+  end
+  local function telescope_live_grep(_)
+    M.start_telescope "live_grep"
+  end
+
   setup.view.mappings.list = {
     { key = { "l", "<CR>", "o" }, action = "edit", mode = "n" },
     { key = "h", action = "close_node" },
@@ -154,8 +161,8 @@ function M.setup()
     { key = "C", action = "cd" },
     { key = "<C-e>", action = "" },
     { key = "<C-y>", action = "" },
-    -- { key = "gtf", action = "telescope_find_files", action_cb = telescope_find_files },
-    -- { key = "gtg", action = "telescope_live_grep", action_cb = telescope_live_grep },
+    { key = "gtf", action = "telescope_find_files", action_cb = telescope_find_files },
+    { key = "gtg", action = "telescope_live_grep", action_cb = telescope_live_grep },
   }
 
   for opt, val in pairs(config) do
@@ -167,6 +174,27 @@ function M.setup()
 
   vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<CR>')
   vim.keymap.set('n', '<leader>?', '<cmd>NvimTreeFindFile<CR>')
+end
+
+function M.start_telescope(telescope_mode)
+  local node = require("nvim-tree.lib").get_node_at_cursor()
+  local abspath = node.link_to or node.absolute_path
+  local is_folder = node.open ~= nil
+  local basedir = is_folder and abspath or vim.fn.fnamemodify(abspath, ":h")
+  require("telescope.builtin")[telescope_mode] {
+    cwd = basedir,
+  }
+end
+
+
+function M.open_terminal_in_folder()
+  local node = require("nvim-tree.lib").get_node_at_cursor()
+  local abspath = node.link_to or node.absolute_path
+  local is_folder = node.open ~= nil
+  local basedir = is_folder and abspath or vim.fn.fnamemodify(abspath, ":h")
+  require("telescope.builtin")[telescope_mode] {
+    cwd = basedir,
+  }
 end
 
 return M
