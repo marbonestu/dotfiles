@@ -7,8 +7,8 @@
   vars:
     user: "{{ ansible_user_id }}"
   roles: 
-    - core-setup
+    # - core-setup
     - zsh
-    - neovim
-    - osx-defaults
+    # - neovim
+    # - osx-defaults
 

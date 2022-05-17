@@ -5,3 +5,5 @@ nvim/.config/nvim/plugin/packer_compiled.lua
 karabiner/.config/karabiner/automatic_backups/
 
 lvim/.config/lvim/plugin/packer_compiled.lua
+
+lazygit/.config/lazygit/state.yml

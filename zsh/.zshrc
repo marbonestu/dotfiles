@@ -38,6 +38,7 @@ bindkey -M vicmd 'j' history-substring-search-down
 ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
 
 export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
 export PATH=/opt/homebrew/bin/:$PATH
 export DPRINT_INSTALL="/Users/marc.arbones/.dprint"
 export LUA_LANGUAGE_SERVER="$HOME/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin"
@@ -45,6 +46,7 @@ export PATH="$DPRINT_INSTALL/bin:$PATH"
 export PATH="$LUA_LANGUAGE_SERVER:$PATH"
 
 export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
 export PATH="$GO_BIN_FOLDER:$PATH"
 
 eval "$(zoxide init zsh)"
