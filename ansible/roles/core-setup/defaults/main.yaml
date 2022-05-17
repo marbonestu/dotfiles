@@ -18,11 +18,17 @@ brew_packages:
   - stow
   - zsh
   - git-delta
+  - gh
   - ripgrep
   - pipx
   - starship
   - fnm
   - pyenv
+
+  # infrastructure 
+  - terraform
+  - awscli
+  - aws-vault
 
 # cask_packages:
   # - docker

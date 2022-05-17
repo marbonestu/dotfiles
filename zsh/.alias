@@ -14,9 +14,11 @@ alias gp='git pull'
 alias gP='git push'
 alias gf='git fetch origin'
 alias gca='git commit --amend'
+alias ghb='gh browse'
 
 # tmux
 alias t='tmux attach || tmux new-session'
+alias ta='tmux-sessionizer'
 
 
 function cd {
