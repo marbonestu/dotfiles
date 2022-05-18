@@ -33,10 +33,11 @@ vim.keymap.set('n', '<C-Down>', ':resize -5<CR>')
 vim.keymap.set('n', '<C-Right>', ':vertical resize +5<CR>')
 vim.keymap.set('n', '<C-Left>', ':vertical resize -5<CR>')
 
+vim.keymap.set('n', '<ESC>', ':noh<CR>', { silent = true, remap = true })
+
 if vim.fn.has "mac" == 1 then
   vim.keymap.set('n', '<A-Up>', ':resize +5<CR>')
   vim.keymap.set('n', '<A-Down>', ':resize -5<CR>')
   vim.keymap.set('n', '<A-Right>', ':vertical resize +5<CR>')
   vim.keymap.set('n', '<A-Left>', ':vertical resize -5<CR>')
 end
-
