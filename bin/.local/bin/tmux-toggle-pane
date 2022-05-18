@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+
+MAIN_PANE=$(tmux show -wqv @mainpane)
+SIDE_PANE=$(tmux show -wqv @sidepane)
+
+echo "main: $MAIN_PANE"
+echo "side: $SIDE_PANE"
+# echo "current pane: $TMUX_PANE"
+
+# if [ -z $SIDE_PANE ] || tmux lsp -F'#{pane_id}'|grep -q ^$SIDE_PANE; then 
+#   MAIN_PANE=$TMUX_PANE
+#   tmux set -w @mainpane "$MAIN_PANE"
+
+#   SIDE_PANE=$(tmux splitw -PF'#{pane_id}')
+#   tmux set -w @sidepane "$SIDE_PANE"
+
+if [ -n $SIDE_PANE ] && tmux lsp -F'#{pane_id}'|grep -q ^$SIDE_PANE && [[ $SIDE_PANE = $TMUX_PANE ]]; then  
+  # move to main pane
+  tmux select-pane -t $MAIN_PANE
+  tmux resize-pane -Z
+
+elif [ -n $SIDE_PANE ] && tmux lsp -F'#{pane_id}'|grep -q ^$SIDE_PANE && [[ $MAIN_PANE = $TMUX_PANE ]]; then  
+  # move to main pane
+  tmux select-pane -t $SIDE_PANE
+else 
+  MAIN_PANE=$TMUX_PANE
+  tmux set -w @mainpane "$MAIN_PANE"
+
+  SIDE_PANE=$(tmux splitw -PF'#{pane_id}')
+  tmux set -w @sidepane "$SIDE_PANE"
+fi
+
+
+

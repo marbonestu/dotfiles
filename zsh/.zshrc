@@ -30,6 +30,11 @@ source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh
 autoload -U +X compinit && compinit
 zstyle ':completion:*' menu select
 
+autoload -Uz bashcompinit && bashcompinit
+complete -C aws_completer aws
+complete -C aws_completer sudo
+complete -C aws_completer aws-vault
+
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
@@ -69,6 +74,5 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 # Gradle
 export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
-
 
 eval "`fnm env --use-on-cd`"

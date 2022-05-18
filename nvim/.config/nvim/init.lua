@@ -1,6 +1,7 @@
 require("plugins")
 require("settings")
 require("keymaps")
+require("config.tmux")
 
 vim.cmd [[colorscheme duskfox]]
 
