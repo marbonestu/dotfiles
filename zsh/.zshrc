@@ -3,6 +3,7 @@ eval "$(starship init zsh)"
 unsetopt BEEP
 
 source ~/.alias
+source ~/.profile
 
 # set history
 HISTFILESIZE=1000000000
