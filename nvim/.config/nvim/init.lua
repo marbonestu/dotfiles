@@ -29,7 +29,11 @@ require("lsp.utils").setup_server("pyright", {})
 require("lsp.utils").setup_server("jsonls", {})
 require("lsp.utils").setup_server("bashls", {})
 require("lsp.utils").setup_server("gopls", {})
-require("lsp.utils").setup_server("yamlls", {})
+require("lsp.utils").setup_server("yamlls", {
+  settings = {
+    schemas = {}
+  }
+})
 require("lsp.utils").setup_server("kotlin_language_server", {})
 require("lsp.utils").setup_server("rust_analyzer", {
   settings = {
@@ -37,8 +41,7 @@ require("lsp.utils").setup_server("rust_analyzer", {
       cargo = { allFeatures = true },
       checkOnSave = {
         command = "clippy",
-        extraArgs = {"--no-deps"},
+        extraArgs = { "--no-deps" },
       }
     }
-}})
-
+  } })

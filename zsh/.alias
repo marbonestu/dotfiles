@@ -5,6 +5,7 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # git
+alias g='git'
 alias gch='git branch -a --sort=-committerdate | fzf --header Checkout | sed "s/remotes/origin\///g" | xargs git switch'
 alias lg='lazygit'
 alias gs='git status'

@@ -1,6 +1,7 @@
 brew_taps:
   - homebrew/cask-versions
   - homebrew/cask-fonts
+  - aws/tap
 
 brew_packages:
   - ansible
@@ -29,6 +30,7 @@ brew_packages:
   - terraform
   - awscli
   - aws-vault
+  - aws-sam-cli
 
 # cask_packages:
   # - docker
