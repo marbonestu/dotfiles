@@ -10,6 +10,10 @@ local get_pane_id = function()
   return send_tmux_cmd('display-message -p "#{pane_id}"')[1]
 end
 
+local get_pane_current_path = function()
+  return send_tmux_cmd('display-message -p "#{pane_current_path}"')[1]
+end
+
 local M = {}
 
 -- move between tmux splits and neovim windows
@@ -99,7 +103,9 @@ M.open_in_current_dir = function()
     send_tmux_cmd("select-pane -t " .. linked_pane_id)
   end
 
-  send_keys("cd " .. current_dir)
+  if not (current_dir == get_pane_current_path()) then
+    send_keys("cd " .. current_dir)
+  end
 end
 
 M.kill = function()
