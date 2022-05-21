@@ -22,7 +22,6 @@ export EDITOR='nvim'
 
 [ -f $HOME/.forgit/forgit.plugin.zsh ] && source $HOME/.forgit/forgit.plugin.zsh
 
-export NVM_LAZY_LOAD=true
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
