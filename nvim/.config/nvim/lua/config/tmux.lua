@@ -1,16 +1,16 @@
 local api = vim.api
 
 -- shared
-local send_tmux_cmd = function(cmd)
+local function send_tmux_cmd(cmd)
   local stdout = vim.split(vim.fn.system("tmux " .. cmd), "\n")
   return stdout, vim.v.shell_error
 end
 
-local get_pane_id = function()
+local function get_pane_id()
   return send_tmux_cmd('display-message -p "#{pane_id}"')[1]
 end
 
-local get_pane_current_path = function()
+local function get_pane_current_path()
   return send_tmux_cmd('display-message -p "#{pane_current_path}"')[1]
 end
 
@@ -19,11 +19,11 @@ local M = {}
 -- move between tmux splits and neovim windows
 local tmux_directions = { h = "L", j = "D", k = "U", l = "R" }
 
-local send_move_cmd = function(direction)
+local function send_move_cmd(direction)
   send_tmux_cmd("selectp -" .. tmux_directions[direction])
 end
 
-M.move = function(direction)
+function M.move(direction)
   local current_win = api.nvim_get_current_win()
   vim.cmd("wincmd " .. direction)
 
@@ -41,7 +41,7 @@ vim.keymap.set("n", "<C-l>", ":lua require'config.tmux'.move('l')<CR>", keyopts)
 -- send commands to linked tmux pane
 local linked_pane_id, last_cmd
 
-local pane_is_valid = function()
+local function pane_is_valid()
   if not linked_pane_id then
     return false
   end
@@ -54,15 +54,15 @@ local pane_is_valid = function()
   return true
 end
 
-local send_raw_keys = function(keys)
+local function send_raw_keys(keys)
   send_tmux_cmd(string.format("send-keys -t %s %s", linked_pane_id, keys))
 end
 
-local send_keys = function(keys)
+local function send_keys(keys)
   send_raw_keys(string.format('"%s" Enter', keys))
 end
 
-M.send_command = function(cmd, opts)
+function M.send_command(cmd, opts)
   cmd = cmd or vim.fn.input("command: ", "", "shellcmd")
   if not cmd or cmd == "" then
     return
@@ -85,17 +85,20 @@ M.send_command = function(cmd, opts)
   last_cmd = cmd
 end
 
-M.send_last_command = function()
+function M.send_last_command()
   M.send_command(last_cmd)
 end
 
-M.clear_last_command = function()
+function M.clear_last_command()
   last_cmd = nil
 end
 
-M.open_in_current_dir = function()
+function M.open_in_current_dir()
   local current_dir = vim.fn.expand("%:p:h")
+  M.open_in_dir(current_dir)
+end
 
+function M.open_in_dir(path)
   if not pane_is_valid() then
     send_tmux_cmd("split-window -p 30")
     linked_pane_id = get_pane_id()
@@ -103,12 +106,12 @@ M.open_in_current_dir = function()
     send_tmux_cmd("select-pane -t " .. linked_pane_id)
   end
 
-  if not (current_dir == get_pane_current_path()) then
-    send_keys("cd " .. current_dir)
+  if not (path == get_pane_current_path()) then
+    send_keys("cd " .. path)
   end
 end
 
-M.kill = function()
+function M.kill()
   if not pane_is_valid() then
     return
   end
@@ -116,7 +119,7 @@ M.kill = function()
   send_tmux_cmd("kill-pane -t " .. linked_pane_id)
 end
 
-M.run_file = function(filetype)
+function M.run_file(filetype)
   filetype = filetype or vim.bo.filetype
   local cmd
   if filetype == "javascript" then
@@ -130,7 +133,6 @@ M.run_file = function(filetype)
 
   M.send_command(cmd .. " " .. api.nvim_buf_get_name(0))
 end
-
 
 vim.keymap.set("n", "<Leader>tn", ":lua require'config.tmux'.send_command()<CR>", keyopts)
 vim.keymap.set("n", "<Leader>td", ":lua require'config.tmux'.open_in_current_dir()<CR>", keyopts)
