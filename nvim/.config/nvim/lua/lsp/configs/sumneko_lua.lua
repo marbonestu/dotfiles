@@ -2,8 +2,6 @@ local M = {}
 
 local lsputils = require "lsp.utils"
 
--- DATA_PATH = vim.fn.stdpath "data"
-
 function M.config()
   return {
     library = { vimruntime = true, types = true, plugins = true },
@@ -12,7 +10,6 @@ function M.config()
       on_attach = lsputils.common_on_attach,
       on_init = lsputils.common_on_init,
       on_exit = lsputils.common_on_exit,
-      -- cmd_env = installed_server._default_options.cmd_env,
       settings = {
         Lua = {
           telemetry = {

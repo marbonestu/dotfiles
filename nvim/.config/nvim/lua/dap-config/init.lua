@@ -1,64 +1,77 @@
 local dap = require('dap')
--- dap.adapters.node2 = {
---   type = 'executable',
---   command = 'node',
---   args = {os.getenv('HOME') .. '/apps/node/out/src/nodeDebug.js'},
--- }
 
-dap.set_log_level('TRACE')
+dap.adapters.node2 = {
+  type = "executable",
+  command = "node",
+  args = {
+    os.getenv("HOME") .. "debuggers/vscode-node-debug2/out/src/nodeDebug.js",
+  },
+}
+
+dap.configurations.javascript = {
+  {
+    type = "node2",
+    request = "launch",
+    program = "${workspaceFolder}/${file}",
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = "inspector",
+    console = "integratedTerminal",
+  },
+}
 
 dap.adapters.chrome = {
-    type = "executable",
-    command = "node",
-    args = {os.getenv("HOME") .. "debuggers/vscode-chrome-debug/out/src/chromeDebug.js"} -- TODO adjust
+  type = "executable",
+  command = "node",
+  args = { os.getenv("HOME") .. "debuggers/vscode-chrome-debug/out/src/chromeDebug.js" }
 }
 
 dap.configurations.javascriptreact = { -- change this to javascript if needed
-    {
-        type = "chrome",
-        request = "attach",
-        program = "${file}",
-        cwd = vim.fn.getcwd(),
-        sourceMaps = true,
-        protocol = "inspector",
-        port = 9222,
-        webRoot = "${workspaceFolder}"
-    }
+  {
+    type = "chrome",
+    request = "attach",
+    program = "${file}",
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = "inspector",
+    port = 9222,
+    webRoot = "${workspaceFolder}"
+  }
 }
 
 dap.configurations.typescriptreact = { -- change to typescript if needed
-    {
-        type = "chrome",
-        request = "attach",
-        program = "${file}",
-        cwd = vim.fn.getcwd(),
-        sourceMaps = true,
-        protocol = "inspector",
-        port = 9222,
-        webRoot = "${workspaceFolder}"
-    }
+  {
+    type = "chrome",
+    request = "attach",
+    program = "${file}",
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = "inspector",
+    port = 9222,
+    webRoot = "${workspaceFolder}"
+  }
 }
 
 -- require('dap').set_log_level('INFO')
 dap.defaults.fallback.terminal_win_cmd = '20split new'
-vim.fn.sign_define('DapBreakpoint', {text='🟥', texthl='', linehl='', numhl=''})
-vim.fn.sign_define('DapBreakpointRejected', {text='🟦', texthl='', linehl='', numhl=''})
-vim.fn.sign_define('DapStopped', {text='⭐️', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpoint', { text = '🟥', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapBreakpointRejected', { text = '🟦', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapStopped', { text = '⭐️', texthl = '', linehl = '', numhl = '' })
 
-vim.keymap.set('n', '<leader>db', function() require"dap".toggle_breakpoint() end)
+vim.keymap.set('n', '<leader>db', function() require "dap".toggle_breakpoint() end)
 vim.keymap.set('n', '<leader>dB', ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
-vim.keymap.set('n', '<leader>dk', function() require"dap".step_out() end)
-vim.keymap.set('n', '<leader>dj', function() require"dap".step_into() end)
-vim.keymap.set('n', '<leader>dl', function() require"dap".step_over() end)
-vim.keymap.set('n', '<leader>dd', function() require"dap".continue() end)
-vim.keymap.set('n', '<leader>dn', function() require"dap".run_to_cursor() end)
-vim.keymap.set('n', '<leader>dc', function() require"dap".terminate() end)
-vim.keymap.set('n', '<leader>dR', function() require"dap".clear_breakpoints() end)
-vim.keymap.set('n', '<leader>de', function() require"dap".set_exception_breakpoints({"all"}) end)
-vim.keymap.set('n', '<leader>da', function() require"debugHelper".attach() end)
-vim.keymap.set('n', '<leader>dA', function() require"debugHelper".attachToRemote() end)
-vim.keymap.set('n', '<leader>dK', function() require"dap.ui.widgets".hover() end)
-vim.keymap.set('n', '<leader>d?', function() local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes) end)
+vim.keymap.set('n', '<leader>dk', function() require "dap".step_out() end)
+vim.keymap.set('n', '<leader>dj', function() require "dap".step_into() end)
+vim.keymap.set('n', '<leader>dl', function() require "dap".step_over() end)
+vim.keymap.set('n', '<leader>dd', function() require "dap".continue() end)
+vim.keymap.set('n', '<leader>dn', function() require "dap".run_to_cursor() end)
+vim.keymap.set('n', '<leader>dc', function() require "dap".terminate() end)
+vim.keymap.set('n', '<leader>dR', function() require "dap".clear_breakpoints() end)
+vim.keymap.set('n', '<leader>de', function() require "dap".set_exception_breakpoints({ "all" }) end)
+vim.keymap.set('n', '<leader>da', function() require "debugHelper".attach() end)
+vim.keymap.set('n', '<leader>dA', function() require "debugHelper".attachToRemote() end)
+vim.keymap.set('n', '<leader>dK', function() require "dap.ui.widgets".hover() end)
+vim.keymap.set('n', '<leader>d?', function() local widgets = require "dap.ui.widgets"; widgets.centered_float(widgets.scopes) end)
 
 -- nvim-telescope/telescope-dap.nvim
 -- require('telescope').load_extension('dap')
@@ -110,7 +123,7 @@ require("dapui").setup({
     },
   },
   windows = { indent = 1 },
-  render = { 
+  render = {
     max_type_length = nil, -- Can be integer or nil.
   }
 })
