@@ -14,7 +14,6 @@ end
 local sources = {
     -- formatting
     b.formatting.prettier,
-    b.formatting.fish_indent,
     b.formatting.shfmt,
     b.formatting.clang_format,
     b.formatting.trim_whitespace.with({
@@ -27,7 +26,7 @@ local sources = {
     b.diagnostics.selene.with({
         condition = with_root_file("selene.toml"),
     }),
-    b.diagnostics.write_good,
+    -- b.diagnostics.write_good,
     -- b.diagnostics.markdownlint,
     b.diagnostics.shellcheck.with({
         diagnostics_format = diagnostics_code_template,

@@ -6,6 +6,8 @@ vim.keymap.set("n", '<leader>q', ':q<CR>')
 vim.keymap.set("n", '<leader>Q', ':qa<CR>')
 vim.keymap.set("n", '<leader>c', ':bdelete<CR>')
 -- movement
+vim.keymap.set('n', 'gh', '^')
+vim.keymap.set('n', 'gl', '$')
 vim.keymap.set('n', '<C-h>', '<C-w>h')
 vim.keymap.set('n', '<C-j>', '<C-w>j')
 vim.keymap.set('n', '<C-k>', '<C-w>k')

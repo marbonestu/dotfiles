@@ -29,10 +29,10 @@ function M.lsp_attach(client, bufnr)
     import_all_select_source = false,
 
     -- eslint
-    eslint_enable_code_actions = false,
-    eslint_enable_disable_comments = true,
-    eslint_bin = "eslint",
-    eslint_enable_diagnostics = false,
+    eslint_enable_code_actions = true,
+    eslint_enable_disable_comments = false,
+    eslint_bin = "eslint_d",
+    eslint_enable_diagnostics = true,
     eslint_opts = {},
 
     -- formatting
@@ -41,13 +41,9 @@ function M.lsp_attach(client, bufnr)
     formatter_opts = {},
 
     -- update imports on file move
-    update_imports_on_move = false,
-    require_confirmation_on_move = false,
+    update_imports_on_move = true,
+    require_confirmation_on_move = true,
     watch_dir = nil,
-
-    -- filter diagnostics
-    filter_out_diagnostics_by_severity = {},
-    filter_out_diagnostics_by_code = {},
   }
 
   -- required to fix code action ranges and filter diagnostics
@@ -70,13 +66,9 @@ function M.config(installed_server)
 end
 
 function M.setup(installed_server)
-
   require('lspconfig').tsserver.setup({
-    -- init_options = require("nvim-lsp-ts-utils").init_options,
     on_attach = M.lsp_attach,
   })
-  -- M.autocmds()
-  -- M.keymappings()
   return M.config(installed_server)
 end
 

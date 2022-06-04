@@ -88,7 +88,7 @@ function showSlack()
   local app = application.find(appName)
   application.launchOrFocus(appName)
 
-  if (app and application.isRunnine(app)) then
+  if (app and application.isRunning(app)) then
     Grid.topleft()
   end
 end
@@ -97,6 +97,10 @@ end
 hotkey.bind(mashApps, 'j', function() application.launchOrFocus('kitty') end)
 hotkey.bind(mashApps, 'k', function() application.launchOrFocus('Google Chrome') end)
 hotkey.bind(mashApps, 'l', showSlack)
+
+-- TODO: add condition based on workspace
+hotkey.bind(mashApps, ';', function() application.launchOrFocus('Microsoft Outlook') end)
+hotkey.bind(mashApps, 'h', function() application.launchOrFocus('zoom.us') end)
 
 -- function moveWindowToDisplay(d)
 --   return function()

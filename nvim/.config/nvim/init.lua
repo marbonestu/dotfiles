@@ -27,8 +27,10 @@ require("lsp.configs.null-ls").setup()
 require("lsp.utils").setup_server("terraformls", {})
 require("lsp.utils").setup_server("pyright", {})
 require("lsp.utils").setup_server("jsonls", {})
+require("lsp.utils").setup_server("solargraph", {})
 require("lsp.utils").setup_server("bashls", {})
 require("lsp.utils").setup_server("gopls", {})
+require("lsp.utils").setup_server("eslint", {})
 require("lsp.utils").setup_server("yamlls", {
   settings = {
     schemas = {}

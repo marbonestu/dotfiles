@@ -93,6 +93,20 @@ function M.setup()
       },
     },
   }
+
+  -- Smithy parser
+  local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+  parser_config.smithy = {
+    install_info = {
+      url = "https://github.com/indoorvivants/tree-sitter-smithy", -- local path or git repo
+      files = { "src/parser.c" },
+      -- optional entries:
+      branch = "main", -- default branch in case of git repo if different from master
+      generate_requires_npm = true, -- if stand-alone parser without npm dependencies
+      requires_generate_from_grammar = true, -- if folder contains pre-generated src/parser.c
+    },
+    filetype = "smithy" -- if filetype does not agrees with parser name
+  }
 end
 
 return M
