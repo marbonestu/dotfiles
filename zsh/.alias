@@ -1,3 +1,5 @@
+alias ibrew='arch -x86_64 /usr/local/bin/brew'
+
 alias v='nvim'
 alias la='exa -la'
 alias ..='cd ..'
@@ -20,6 +22,11 @@ alias ghb='gh browse'
 # tmux
 alias t='tmux attach || tmux new-session'
 alias ta='tmux-sessionizer'
+
+# docker
+alias dc='docker-compose'
+alias dcu='docker-compose up'
+alias dcd='docker-compose down'
 
 
 function cd {

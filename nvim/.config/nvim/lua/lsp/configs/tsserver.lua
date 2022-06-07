@@ -41,8 +41,8 @@ function M.lsp_attach(client, bufnr)
     formatter_opts = {},
 
     -- update imports on file move
-    update_imports_on_move = true,
-    require_confirmation_on_move = true,
+    update_imports_on_move = false,
+    require_confirmation_on_move = false,
     watch_dir = nil,
   }
 
@@ -50,8 +50,8 @@ function M.lsp_attach(client, bufnr)
   ts_utils.setup_client(client)
 
   local opts = { silent = true }
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gs", ":TSLspOrganize<CR>", opts)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", opts)
+  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ls", ":TSLspOrganize<CR>", opts)
+  -- vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", ":TSLspRenameFile<CR>", opts)
   vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>lI", ":TSLspImportAll<CR>", opts)
 end
 
