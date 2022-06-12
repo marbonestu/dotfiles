@@ -35,7 +35,6 @@ spoon.Lunette:bindHotkeys(customBindings)
 
 local mashApps = {
   'cmd',
-  'control'
 }
 
 -- local mashGeneral = {
@@ -94,13 +93,13 @@ function showSlack()
 end
 
 -- App Shortcuts
-hotkey.bind(mashApps, 'j', function() application.launchOrFocus('kitty') end)
-hotkey.bind(mashApps, 'k', function() application.launchOrFocus('Google Chrome') end)
-hotkey.bind(mashApps, 'l', showSlack)
+hotkey.bind(mashApps, '7', function() application.launchOrFocus('kitty') end)
+hotkey.bind(mashApps, '8', function() application.launchOrFocus('Google Chrome') end)
+hotkey.bind(mashApps, '9', showSlack)
 
 -- TODO: add condition based on workspace
-hotkey.bind(mashApps, ';', function() application.launchOrFocus('Microsoft Outlook') end)
-hotkey.bind(mashApps, 'h', function() application.launchOrFocus('zoom.us') end)
+hotkey.bind(mashApps, '0', function() application.launchOrFocus('Microsoft Outlook') end)
+hotkey.bind(mashApps, '6', function() application.launchOrFocus('zoom.us') end)
 
 -- function moveWindowToDisplay(d)
 --   return function()
