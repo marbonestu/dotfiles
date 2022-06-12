@@ -26,6 +26,13 @@ vim.opt.pumheight = 10
 vim.o.completeopt = 'menuone,noselect' -- Set completeopt to have a better completion experience
 vim.opt.showmode = false
 
+-- auto-reload files when modified externally
+-- https://unix.stackexchange.com/a/383044
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+  command = "if mode() != 'c' | checktime | endif",
+  pattern = { "*" },
+})
 --Case insensitive searching UNLESS /C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
@@ -38,7 +45,6 @@ vim.wo.signcolumn = 'yes'
 -- highlight on yank
 vim.api.nvim_create_autocmd("TextYankPost", {
   callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 100 })
+    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 300 })
   end,
 })
-

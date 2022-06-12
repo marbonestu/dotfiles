@@ -41,8 +41,8 @@ function M.lsp_attach(client, bufnr)
     formatter_opts = {},
 
     -- update imports on file move
-    update_imports_on_move = false,
-    require_confirmation_on_move = false,
+    update_imports_on_move = true,
+    require_confirmation_on_move = true,
     watch_dir = nil,
   }
 
