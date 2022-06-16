@@ -18,7 +18,7 @@ set show-mode-in-prompt on
 set vi-cmd-mode-string "\1\e[2 q\2"
 set vi-ins-mode-string "\1\e[6 q\2"
 
-export EDITOR='nvim'
+export EDITOR='vim'
 
 [ -f $HOME/.forgit/forgit.plugin.zsh ] && source $HOME/.forgit/forgit.plugin.zsh
 
@@ -69,10 +69,16 @@ if [ -d WINHOME ]; then
 fi
 
 # java
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=$JAVA_HOME/bin:$PATH
 
 # Gradle
 export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
+
+# Ruby
+export GEM_HOME="$HOME/.gem/"
+eval "$(rbenv init - zsh)" 
+
+export SAM_CLI_TELEMETRY=0 
 
 eval "`fnm env --use-on-cd`"

@@ -16,6 +16,7 @@ require('packer').startup(function(use)
   use "mg979/vim-visual-multi"
   use 'ggandor/lightspeed.nvim' -- motion
   use 'RRethy/vim-illuminate'
+  use 'David-Kunz/jester'
 
   -- file tree
   use { "kyazdani42/nvim-tree.lua", config = function() require("config.tree").setup() end }
@@ -24,6 +25,10 @@ require('packer').startup(function(use)
   use {
     "windwp/nvim-autopairs",
     config = function() require("nvim-autopairs").setup {} end
+  }
+  use {
+    "ahmedkhalf/project.nvim",
+    config = function() require("config.projects").setup() end
   }
 
   -- Fuzzy finder

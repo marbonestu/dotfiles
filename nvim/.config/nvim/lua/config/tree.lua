@@ -1,37 +1,6 @@
 local M = {}
 
 function M.setup()
-  local config = {
-    show_icons = {
-      git = 0,
-      folders = 1,
-      files = 1,
-      folder_arrows = 1,
-    },
-    git_hl = 1,
-    root_folder_modifier = ":t",
-    icons = {
-      default = "",
-      symlink = "",
-      git = {
-        unstaged = "",
-        staged = "S",
-        unmerged = "",
-        renamed = "➜",
-        deleted = "",
-        untracked = "U",
-        ignored = "◌",
-      },
-      folder = {
-        default = "",
-        open = "",
-        empty = "",
-        empty_open = "",
-        symlink = "",
-      },
-    },
-
-  }
   local setup = {
     disable_netrw = true,
     hijack_netrw = true,
@@ -52,7 +21,6 @@ function M.setup()
     },
     open_on_tab = false,
     hijack_cursor = false,
-    update_cwd = false,
     diagnostics = {
       enable = true,
       show_on_dirs = false,
@@ -63,10 +31,11 @@ function M.setup()
         error = "",
       },
     },
+    update_cwd = false,
+    respect_buf_cwd = true,
     update_focused_file = {
       enable = true,
       update_cwd = true,
-      ignore_list = {},
     },
     system_open = {
       cmd = nil,
@@ -92,6 +61,8 @@ function M.setup()
       signcolumn = "yes",
     },
     renderer = {
+      highlight_git = true,
+      root_folder_modifier = ":t",
       indent_markers = {
         enable = false,
         icons = {
@@ -102,6 +73,32 @@ function M.setup()
       },
       icons = {
         webdev_colors = true,
+        show = {
+          file = true,
+          folder = true,
+          git = false,
+          folder_arrow = true,
+        },
+        glyphs = {
+          default = "",
+          symlink = "",
+          git = {
+            unstaged = "",
+            staged = "S",
+            unmerged = "",
+            renamed = "➜",
+            deleted = "",
+            untracked = "U",
+            ignored = "◌",
+          },
+          folder = {
+            default = "",
+            open = "",
+            empty = "",
+            empty_open = "",
+            symlink = "",
+          },
+        }
       },
     },
     filters = {
@@ -113,43 +110,12 @@ function M.setup()
       cmd = "trash",
       require_confirm = true,
     },
-    log = {
-      enable = false,
-      truncate = false,
-      types = {
-        all = false,
-        config = false,
-        copy_paste = false,
-        diagnostics = false,
-        git = false,
-        profile = false,
-      },
-    },
-    actions = {
-      use_system_clipboard = true,
-      change_dir = {
-        enable = true,
-        global = false,
-        restrict_above_cwd = false,
-      },
-      open_file = {
-        quit_on_open = false,
-        resize_window = false,
-        window_picker = {
-          enable = true,
-          chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-          exclude = {
-            filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-            buftype = { "nofile", "terminal", "help" },
-          },
-        },
-      },
-    },
   }
 
   local function telescope_find_files(_)
     M.start_telescope "find_files"
   end
+
   local function telescope_live_grep(_)
     M.start_telescope "live_grep"
   end
@@ -166,11 +132,6 @@ function M.setup()
     { key = "t", action = "open_in_terminal", action_cb = M.open_in_terminal },
   }
 
-  for opt, val in pairs(config) do
-    vim.g["nvim_tree_" .. opt] = val
-  end
-
-
   require("nvim-tree").setup(setup)
 
   vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<CR>')
@@ -186,7 +147,6 @@ function M.start_telescope(telescope_mode)
     cwd = basedir,
   }
 end
-
 
 function M.open_in_terminal()
   local node = require("nvim-tree.lib").get_node_at_cursor()
