@@ -6,7 +6,8 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 end
 
 local packer_group = vim.api.nvim_create_augroup('Packer', { clear = true })
-vim.api.nvim_create_autocmd('BufWritePost', { command = 'source <afile> | PackerCompile', group = packer_group, pattern = 'init.lua' })
+vim.api.nvim_create_autocmd('BufWritePost',
+  { command = 'source <afile> | PackerCompile', group = packer_group, pattern = 'init.lua' })
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim' -- Package manager
@@ -17,7 +18,10 @@ require('packer').startup(function(use)
   use 'ggandor/lightspeed.nvim' -- motion
   use 'RRethy/vim-illuminate'
   use 'David-Kunz/jester'
-
+  use {
+    'declancm/maximize.nvim',
+    config = function() require('maximize').setup() end
+  }
   -- file tree
   use { "kyazdani42/nvim-tree.lua", config = function() require("config.tree").setup() end }
   use 'kyazdani42/nvim-web-devicons'
@@ -32,19 +36,24 @@ require('packer').startup(function(use)
   }
 
   -- Fuzzy finder
-  use({
-    "nvim-telescope/telescope.nvim",
-    config = function() require("config.telescope").setup() end,
-    requires = {
-      -- "nvim-telescope/telescope-z.nvim",
-      "nvim-lua/popup.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-fzf-native.nvim",
-      "nvim-telescope/telescope-ui-select.nvim",
-      -- { "nvim-telescope/telescope-frecency.nvim", requires = "tami5/sql.nvim" }
-      -- "nvim-telescope/telescope-dap.nvim",
-    },
-  })
+  use { 'ibhagwan/fzf-lua',
+    config = function () require('config.fzf').setup() end,
+    -- optional for icon support
+    requires = { 'kyazdani42/nvim-web-devicons' }
+  }
+  -- use({
+  --   "nvim-telescope/telescope.nvim",
+  --   config = function() require("config.telescope").setup() end,
+  --   requires = {
+  --     -- "nvim-telescope/telescope-z.nvim",
+  --     "nvim-lua/popup.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "nvim-telescope/telescope-fzf-native.nvim",
+  --     "nvim-telescope/telescope-ui-select.nvim",
+  --     -- { "nvim-telescope/telescope-frecency.nvim", requires = "tami5/sql.nvim" }
+  --     -- "nvim-telescope/telescope-dap.nvim",
+  --   },
+  -- })
 
   -- themes
   use({

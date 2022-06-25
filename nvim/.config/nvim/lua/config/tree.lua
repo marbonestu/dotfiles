@@ -22,7 +22,7 @@ function M.setup()
     open_on_tab = false,
     hijack_cursor = false,
     diagnostics = {
-      enable = true,
+      enable = false,
       show_on_dirs = false,
       icons = {
         hint = "",
@@ -63,6 +63,7 @@ function M.setup()
     renderer = {
       highlight_git = true,
       root_folder_modifier = ":t",
+      group_empty = true,
       indent_markers = {
         enable = false,
         icons = {
