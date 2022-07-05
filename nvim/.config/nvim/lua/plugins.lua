@@ -19,8 +19,10 @@ require('packer').startup(function(use)
   use 'RRethy/vim-illuminate'
   use 'David-Kunz/jester'
   use {
-    'declancm/maximize.nvim',
-    config = function() require('maximize').setup() end
+    'caenrique/nvim-maximize-window-toggle',
+    config = function()
+      vim.keymap.set('n', '<leader>z', '<cmd>ToggleOnly<CR>')
+    end
   }
   -- file tree
   use { "kyazdani42/nvim-tree.lua", config = function() require("config.tree").setup() end }
@@ -30,14 +32,14 @@ require('packer').startup(function(use)
     "windwp/nvim-autopairs",
     config = function() require("nvim-autopairs").setup {} end
   }
-  use {
-    "ahmedkhalf/project.nvim",
-    config = function() require("config.projects").setup() end
-  }
+  -- use {
+  --   "ahmedkhalf/project.nvim",
+  --   config = function() require("config.projects").setup() end
+  -- }
 
   -- Fuzzy finder
   use { 'ibhagwan/fzf-lua',
-    config = function () require('config.fzf').setup() end,
+    config = function() require('config.fzf').setup() end,
     -- optional for icon support
     requires = { 'kyazdani42/nvim-web-devicons' }
   }

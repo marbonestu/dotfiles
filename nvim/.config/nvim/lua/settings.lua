@@ -25,6 +25,7 @@ vim.opt.signcolumn = 'yes'
 vim.opt.pumheight = 10
 vim.o.completeopt = 'menuone,noselect' -- Set completeopt to have a better completion experience
 vim.opt.showmode = false
+vim.opt.scrolloff = 10
 
 -- auto-reload files when modified externally
 -- https://unix.stackexchange.com/a/383044

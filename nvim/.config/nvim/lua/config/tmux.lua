@@ -98,6 +98,10 @@ function M.open_in_current_dir()
   M.open_in_dir(current_dir)
 end
 
+function M.open_in_current_pwd()
+  M.open_in_dir(vim.fn.getcwd())
+end
+
 function M.open_in_dir(path)
   if not pane_is_valid() then
     send_tmux_cmd("split-window -p 30")
@@ -136,6 +140,7 @@ end
 
 vim.keymap.set("n", "<Leader>tn", ":lua require'config.tmux'.send_command()<CR>", keyopts)
 vim.keymap.set("n", "<Leader>td", ":lua require'config.tmux'.open_in_current_dir()<CR>", keyopts)
+vim.keymap.set("n", "<Leader>tt", ":lua require'config.tmux'.open_in_current_pwd()<CR>", keyopts)
 -- vim.keymap.set("n", "<Leader>tt", ":lua require'config.tmux'.send_last_command()<CR>", keyopts)
 -- vim.keymap.set("n", "<Leader>tc", ":lua require'config.tmux'.clear_last_command()<CR>", keyopts)
 -- vim.keymap.set("n", "<Leader>tr", ":lua require'config.tmux'.run_file()<CR>", keyopts)

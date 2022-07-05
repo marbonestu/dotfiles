@@ -91,7 +91,7 @@ function M.common_on_attach(client, bufnr)
   vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
   vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts)
-  vim.keymap.set('n', '<leader>so', require('telescope.builtin').lsp_document_symbols, opts)
+  -- vim.keymap.set('n', '<leader>so', require('telescope.builtin').lsp_document_symbols, opts)
 end
 
 function M.common_capabilities()
