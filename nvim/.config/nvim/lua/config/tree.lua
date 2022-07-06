@@ -114,7 +114,7 @@ function M.setup()
   }
 
   local function telescope_find_files(_)
-    M.start_telescope "find_files"
+    M.start_telescope "files"
   end
 
   local function telescope_live_grep(_)
@@ -144,7 +144,7 @@ function M.start_telescope(telescope_mode)
   local abspath = node.link_to or node.absolute_path
   local is_folder = node.open ~= nil
   local basedir = is_folder and abspath or vim.fn.fnamemodify(abspath, ":h")
-  require("telescope.builtin")[telescope_mode] {
+  require("fzf-lua")[telescope_mode] {
     cwd = basedir,
   }
 end

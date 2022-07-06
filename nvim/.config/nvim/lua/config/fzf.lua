@@ -11,8 +11,8 @@ function M.setup()
     oldfiles = {
       prompt                  = 'History❯ ',
       cwd_only                = true,
-      stat_file               = true, -- verify files exist on disk
-      include_current_session = false, -- include bufs from current session
+      stat_file               = true,
+      include_current_session = true,
     },
   }
 
