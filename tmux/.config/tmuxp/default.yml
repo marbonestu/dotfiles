@@ -5,10 +5,8 @@ windows:
   start_directory: ${START_DIR}
   shell_command_before:
     - v 
-- window_name: server
-  layout: tiled
-  start_directory: ${START_DIR}
 - window_name: git
+  window_index: 2
   layout: tiled
   start_directory: ${START_DIR}
   shell_command_before:
