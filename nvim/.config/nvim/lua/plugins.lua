@@ -17,12 +17,25 @@ require('packer').startup(function(use)
   use "mg979/vim-visual-multi"
   use 'ggandor/lightspeed.nvim' -- motion
   use 'RRethy/vim-illuminate'
-  use 'David-Kunz/jester'
+  use { "ellisonleao/glow.nvim", branch = 'main' }
   use {
     'caenrique/nvim-maximize-window-toggle',
     config = function()
       vim.keymap.set('n', '<leader>z', '<cmd>ToggleOnly<CR>')
     end
+  }
+
+  use {
+    "nvim-neotest/neotest",
+    config = function()
+      require('config.neotest').setup()
+    end,
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "antoinemadec/FixCursorHold.nvim",
+      "haydenmeade/neotest-jest"
+    }
   }
   -- file tree
   use { "kyazdani42/nvim-tree.lua", config = function() require("config.tree").setup() end }
@@ -125,6 +138,14 @@ require('packer').startup(function(use)
   use { 'mfussenegger/nvim-dap-python', config = function()
     require("dap-python").setup('~/.virtualenvs/debugpy/bin/python')
   end }
+
+  use { 'suketa/nvim-dap-ruby', config = function()
+    local dap = require('dap')
+    dap.set_log_level('TRACE')
+
+    require('dap-ruby').setup()
+  end }
+
   use { "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } }
   use 'theHamsta/nvim-dap-virtual-text'
   use { "Pocco81/DAPInstall.nvim", requires = { "mfussenegger/nvim-dap" } }

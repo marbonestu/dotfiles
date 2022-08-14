@@ -141,9 +141,6 @@ end
 vim.keymap.set("n", "<Leader>tn", ":lua require'config.tmux'.send_command()<CR>", keyopts)
 vim.keymap.set("n", "<Leader>td", ":lua require'config.tmux'.open_in_current_dir()<CR>", keyopts)
 vim.keymap.set("n", "<Leader>tt", ":lua require'config.tmux'.open_in_current_pwd()<CR>", keyopts)
--- vim.keymap.set("n", "<Leader>tt", ":lua require'config.tmux'.send_last_command()<CR>", keyopts)
--- vim.keymap.set("n", "<Leader>tc", ":lua require'config.tmux'.clear_last_command()<CR>", keyopts)
--- vim.keymap.set("n", "<Leader>tr", ":lua require'config.tmux'.run_file()<CR>", keyopts)
 
 -- automatically kill pane on exit
 api.nvim_create_autocmd("VimLeave", {

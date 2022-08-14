@@ -21,6 +21,7 @@ function M.setup()
   vim.keymap.set('n', '<leader>sb', function() require('fzf-lua').buffers() end)
   vim.keymap.set('n', '<leader>sr', function() require('fzf-lua').oldfiles() end)
   vim.keymap.set('n', '<leader>st', function() require('fzf-lua').live_grep() end)
+  vim.keymap.set('n', '<leader>sp', function() require('fzf-lua').resume() end)
 
 end
 

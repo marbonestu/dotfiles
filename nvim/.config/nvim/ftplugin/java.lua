@@ -87,30 +87,9 @@ config.settings = {
 
         useJava7Objects = true,
       },
-
       useBlocks = true,
     };
-    configuration = {
-      runtimes = {
-        -- {
-        --   name = "JavaSE-1.8",
-        --   path = "/usr/lib/jvm/java-8-openjdk/",
-        -- },
-        -- {
-        --   name = "JavaSE-11",
-        --   path = "/usr/lib/jvm/java-11-openjdk/",
-        -- },
-        -- {
-        --   name = "JavaSE-16",
-        --   path = home .. "/.local/jdks/jdk-16.0.1+9/",
-        -- },
-        {
-          name = "JavaSE-17",
-          path = "/usr/local/jvm/java-17-openjdk-amd64",
-        },
 
-      }
-    };
   };
 }
 

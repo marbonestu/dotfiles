@@ -129,7 +129,7 @@ function M.setup()
     { key = "<C-e>", action = "" },
     { key = "<C-y>", action = "" },
     { key = "gtf", action = "telescope_find_files", action_cb = telescope_find_files },
-    { key = "gtg", action = "telescope_live_grep", action_cb = telescope_live_grep },
+    { key = "gts", action = "fzf_live_grep", action_cb = telescope_live_grep },
     { key = "t", action = "open_in_terminal", action_cb = M.open_in_terminal },
   }
 

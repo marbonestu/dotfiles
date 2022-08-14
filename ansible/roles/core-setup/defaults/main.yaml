@@ -25,6 +25,8 @@ brew_packages:
   - starship
   - fnm
   - pyenv
+  - ffmpeg
+  - gifsicle
 
   # infrastructure 
   - terraform

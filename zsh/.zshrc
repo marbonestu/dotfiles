@@ -75,6 +75,7 @@ export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
 
 # Ruby
 export GEM_HOME="$HOME/.gem/"
+export PATH=$PATH:"$GEM_HOME/bin"
 eval "$(rbenv init - zsh)" 
 
 export SAM_CLI_TELEMETRY=0 
