@@ -41,6 +41,7 @@ function M.config()
       ["n <leader>gR"] = '<cmd>lua require"gitsigns".reset_buffer()<CR>',
       ["n <leader>gp"] = '<cmd>lua require"gitsigns".preview_hunk()<CR>',
       ["n <leader>gl"] = '<cmd>lua require"gitsigns".blame_line()<CR>',
+      ["n <leader>gL"] = '<cmd>G blame<CR>',
       -- Text objects
       ["o ih"] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
       ["x ih"] = ':<C-U>lua require"gitsigns".select_hunk()<CR>',
