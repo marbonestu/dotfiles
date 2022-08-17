@@ -71,7 +71,7 @@ function M.send_command(cmd, opts)
   if not pane_is_valid() then
     local nvim_pane_id = get_pane_id()
 
-    send_tmux_cmd("split-window -p 30")
+    send_tmux_cmd("split-window -l 25")
     linked_pane_id = get_pane_id()
 
     if not opts.focus then
@@ -104,7 +104,7 @@ end
 
 function M.open_in_dir(path)
   if not pane_is_valid() then
-    send_tmux_cmd("split-window -p 30")
+    send_tmux_cmd("split-window -l 25")
     linked_pane_id = get_pane_id()
   else
     send_tmux_cmd("select-pane -t " .. linked_pane_id)
