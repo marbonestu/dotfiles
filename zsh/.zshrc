@@ -52,6 +52,9 @@ export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/go/bin
 export PATH="$GO_BIN_FOLDER:$PATH"
 
+# tmuxp for sessions
+export DISABLE_AUTO_TITLE='true'
+
 eval "$(zoxide init zsh)"
 
 [ -f $HOME/.config/broot/launcher/bash/br ] && source $HOME/.config/broot/launcher/bash/br
@@ -66,17 +69,15 @@ if [ -d WINHOME ]; then
   alias winhome='$WINHOME'
 fi
 
-# java
-export JAVA_HOME=$(/usr/libexec/java_home)
-export PATH=$JAVA_HOME/bin:$PATH
-
 # Gradle
 export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
 
 # Ruby
 export GEM_HOME="$HOME/.gem/"
 export PATH=$PATH:"$GEM_HOME/bin"
-eval "$(rbenv init - zsh)" 
+
+# eval "$(rbenv init - zsh)" 
+eval "$(frum init)"
 
 export SAM_CLI_TELEMETRY=0 
 
