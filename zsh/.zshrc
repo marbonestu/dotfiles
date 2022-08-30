@@ -19,6 +19,7 @@ set vi-cmd-mode-string "\1\e[2 q\2"
 set vi-ins-mode-string "\1\e[6 q\2"
 
 export EDITOR='vim'
+export KUBE_EDITOR='nvim'
 
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -32,6 +33,8 @@ autoload -Uz bashcompinit && bashcompinit
 complete -C aws_completer aws
 complete -C aws_completer sudo
 complete -C aws_completer aws-vault
+
+. <(flux completion zsh)
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down

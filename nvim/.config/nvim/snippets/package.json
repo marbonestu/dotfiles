@@ -7,8 +7,15 @@
   "contributes": {
     "snippets": [
       {
-        "language": ["typescript","typescriptreact"],
+        "language": [
+          "typescript",
+          "typescriptreact"
+        ],
         "path": "typescript.json"
+      },
+      {
+        "language": "yaml",
+        "path": "kubernetes-flux.json"
       }
     ]
   }

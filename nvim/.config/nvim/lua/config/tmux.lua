@@ -32,11 +32,11 @@ function M.move(direction)
   end
 end
 
-local keyopts = { silent = true }
-vim.keymap.set("n", "<C-h>", ":lua require'config.tmux'.move('h')<CR>", keyopts)
-vim.keymap.set("n", "<C-j>", ":lua require'config.tmux'.move('j')<CR>", keyopts)
-vim.keymap.set("n", "<C-k>", ":lua require'config.tmux'.move('k')<CR>", keyopts)
-vim.keymap.set("n", "<C-l>", ":lua require'config.tmux'.move('l')<CR>", keyopts)
+-- local keyopts = { silent = true }
+-- vim.keymap.set("n", "<C-h>", ":lua require'config.tmux'.move('h')<CR>", keyopts)
+-- vim.keymap.set("n", "<C-j>", ":lua require'config.tmux'.move('j')<CR>", keyopts)
+-- vim.keymap.set("n", "<C-k>", ":lua require'config.tmux'.move('k')<CR>", keyopts)
+-- vim.keymap.set("n", "<C-l>", ":lua require'config.tmux'.move('l')<CR>", keyopts)
 
 -- send commands to linked tmux pane
 local linked_pane_id, last_cmd
