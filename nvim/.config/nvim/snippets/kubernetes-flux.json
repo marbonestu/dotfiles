@@ -1,11 +1,23 @@
 {
-  "k8s flux helm repository": {
-    "prefix": "k-helmrepo",
-    "description": "k8s Helm Repository",
+  "k8s Namespace": {
+    "prefix": "k-namespace",
+    "description": "k8s Namespace",
     "body": [
       "---",
-      "apiVersion: source.toolkit.fluxcd.io/v1beta2",
-      "kind: HelmRepository",
+      "apiVersion: v1",
+      "kind: Namespace",
+      "metadata:",
+      "  name: ${1:name}",
+      ""
+    ]
+  },
+  "k8s flux helm repository": {
+    "prefix": "k-helmrepo",
+    "description": "k8s helm repository",
+    "body": [
+      "---",
+      "apiversion: source.toolkit.fluxcd.io/v1beta2",
+      "kind: helmrepository",
       "metadata:",
       "  name: ${1:name}",
       "  namespace: flux-system",
