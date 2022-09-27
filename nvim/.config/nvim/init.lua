@@ -3,7 +3,12 @@ require("settings")
 require("keymaps")
 require("config.tmux")
 
-vim.cmd [[colorscheme duskfox]]
+-- vim.cmd [[colorscheme duskfox]]
+vim.g.catppuccin_flavour = "mocha" -- latte, frappe, macchiato, mocha
+
+require("catppuccin").setup()
+
+vim.cmd [[colorscheme catppuccin]]
 
 require("dap-config")
 require("nvim-lsp-installer").setup {

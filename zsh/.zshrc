@@ -18,7 +18,7 @@ set show-mode-in-prompt on
 set vi-cmd-mode-string "\1\e[2 q\2"
 set vi-ins-mode-string "\1\e[6 q\2"
 
-export EDITOR='vim'
+export EDITOR='nvim'
 export KUBE_EDITOR='nvim'
 
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -85,6 +85,10 @@ eval "$(frum init)"
 export SAM_CLI_TELEMETRY=0 
 
 eval "`fnm env --use-on-cd`"
+
+[ -d /home/linuxbrew/.linuxbrew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"

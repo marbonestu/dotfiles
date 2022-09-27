@@ -77,7 +77,8 @@ require('packer').startup(function(use)
     "rmehri01/onenord.nvim",
     "EdenEast/nightfox.nvim",
     "folke/tokyonight.nvim",
-    "rebelot/kanagawa.nvim"
+    "rebelot/kanagawa.nvim",
+    { "catppuccin/nvim", as = "catppuccin" }
   })
 
   use {
