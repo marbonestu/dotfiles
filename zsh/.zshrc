@@ -34,7 +34,7 @@ complete -C aws_completer aws
 complete -C aws_completer sudo
 complete -C aws_completer aws-vault
 
-. <(flux completion zsh)
+command -v flux >/dev/null 2>&1 && . <(flux completion zsh)
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -79,8 +79,8 @@ export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
 export GEM_HOME="$HOME/.gem/"
 export PATH=$PATH:"$GEM_HOME/bin"
 
-# eval "$(rbenv init - zsh)" 
-eval "$(frum init)"
+eval "$(rbenv init - zsh)" 
+# eval "$(frum init)"
 
 export SAM_CLI_TELEMETRY=0 
 
@@ -93,3 +93,4 @@ export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+export PATH="/opt/homebrew/opt/postgresql@12/bin:$PATH"
