@@ -27,7 +27,7 @@
       "  wait: false",
       "  sourceRef:",
       "    kind: HelmRepository",
-      "    name: ${3:}",
+      "    name: ${1:}",
       ""
     ],
     "description": "Flux Kustomization Helm Repository"
@@ -44,12 +44,12 @@
       "  namespace: flux-system",
       "spec:",
       "  interval: 10m",
-      "  path: ${$:./}",
+      "  path: ${2:./}",
       "  prune: true",
       "  wait: false",
       "  sourceRef:",
       "    kind: GitRepository",
-      "    name: ${3:}",
+      "    name: ${1:}",
       ""
     ],
     "description": "Flux Kustomization Git Repository"
