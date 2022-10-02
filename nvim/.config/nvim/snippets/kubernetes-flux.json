@@ -1,4 +1,59 @@
 {
+  "k8s kustomization": {
+    "prefix": "k-kustomization",
+    "description": "Kustomization",
+    "body": [
+      "---",
+      "apiVersion: kustomize.config.k8s.io/v1beta1",
+      "kind: Kustomization",
+      "",
+      "resources:",
+      "  - ${1:}"
+    ]
+  },
+  "Flux Kustomization Helm": {
+    "prefix": "flux-kustomization-helm",
+    "body": [
+      "---",
+      "apiVersion: kustomize.toolkit.fluxcd.io/v1beta2",
+      "kind: Kustomization",
+      "metadata:",
+      "  name: ${1:}",
+      "  namespace: flux-system",
+      "spec:",
+      "  interval: 10m",
+      "  path: ${$2:./}",
+      "  prune: true",
+      "  wait: false",
+      "  sourceRef:",
+      "    kind: HelmRepository",
+      "    name: ${3:}",
+      ""
+    ],
+    "description": "Flux Kustomization Helm Repository"
+  },
+
+  "Flux Kustomization Git": {
+    "prefix": "flux-kustomization-git",
+    "body": [
+      "---",
+      "apiVersion: kustomize.toolkit.fluxcd.io/v1beta2",
+      "kind: Kustomization",
+      "metadata:",
+      "  name: ${1:}",
+      "  namespace: flux-system",
+      "spec:",
+      "  interval: 10m",
+      "  path: ${$:./}",
+      "  prune: true",
+      "  wait: false",
+      "  sourceRef:",
+      "    kind: GitRepository",
+      "    name: ${3:}",
+      ""
+    ],
+    "description": "Flux Kustomization Git Repository"
+  },
   "k8s Namespace": {
     "prefix": "k-namespace",
     "description": "k8s Namespace",
@@ -16,8 +71,8 @@
     "description": "k8s helm repository",
     "body": [
       "---",
-      "apiversion: source.toolkit.fluxcd.io/v1beta2",
-      "kind: helmrepository",
+      "apiVersion: source.toolkit.fluxcd.io/v1beta2",
+      "kind: HelmRepository",
       "metadata:",
       "  name: ${1:name}",
       "  namespace: flux-system",
