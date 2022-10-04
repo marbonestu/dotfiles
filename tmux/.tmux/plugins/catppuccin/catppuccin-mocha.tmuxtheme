@@ -46,8 +46,8 @@ set message-style "fg=${thm_cyan},bg=${thm_gray},align=centre"
 set message-command-style "fg=${thm_cyan},bg=${thm_gray},align=centre"
 
 # panes
-set pane-border-style "fg=${thm_gray}"
-set pane-active-border-style "fg=${thm_blue}"
+set pane-border-style "fg=${thm_cyan}"
+set pane-active-border-style "fg=${thm_cyan}"
 
 # windows
 setw window-status-activity-style "fg=${thm_fg},bg=${thm_bg},none"
@@ -61,8 +61,8 @@ set status-left "#[fg=$thm_fg]   #S "
 set status-right ""
 
 # current_dir
-setw window-status-format "#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_gray]#I #[fg=$thm_fg,bg=$thm_bg] #W "
-setw window-status-current-format "#[fg=$thm_cyan,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_bg,bg=$thm_cyan]#I #[fg=$thm_fg,bg=$thm_bg] #W "
+setw window-status-format "#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_gray]#I #[fg=$thm_fg,bg=$thm_bg] #W #{?window_zoomed_flag,#[fg=$thm_green]Z ,} "
+setw window-status-current-format "#[fg=$thm_cyan,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_bg,bg=$thm_cyan]#I #[fg=$thm_fg,bg=$thm_bg] #W #{?window_zoomed_flag,#[fg=$thm_green]Z ,} "
 set -g status-justify center
 
 # parent_dir/current_dir
