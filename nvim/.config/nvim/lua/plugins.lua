@@ -17,6 +17,9 @@ require('packer').startup(function(use)
   use "mg979/vim-visual-multi"
   use 'ggandor/lightspeed.nvim' -- motion
   use 'RRethy/vim-illuminate'
+  use { 'norcalli/nvim-colorizer.lua', config = function()
+    require 'colorizer'.setup()
+  end }
   use { "ellisonleao/glow.nvim", branch = 'main' }
   use {
     'caenrique/nvim-maximize-window-toggle',
