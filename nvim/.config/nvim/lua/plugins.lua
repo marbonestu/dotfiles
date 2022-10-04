@@ -45,10 +45,6 @@ require('packer').startup(function(use)
     "windwp/nvim-autopairs",
     config = function() require("nvim-autopairs").setup {} end
   }
-  -- use {
-  --   "ahmedkhalf/project.nvim",
-  --   config = function() require("config.projects").setup() end
-  -- }
 
   -- Fuzzy finder
   use { 'ibhagwan/fzf-lua',
@@ -56,19 +52,6 @@ require('packer').startup(function(use)
     -- optional for icon support
     requires = { 'kyazdani42/nvim-web-devicons' }
   }
-  -- use({
-  --   "nvim-telescope/telescope.nvim",
-  --   config = function() require("config.telescope").setup() end,
-  --   requires = {
-  --     -- "nvim-telescope/telescope-z.nvim",
-  --     "nvim-lua/popup.nvim",
-  --     "nvim-lua/plenary.nvim",
-  --     "nvim-telescope/telescope-fzf-native.nvim",
-  --     "nvim-telescope/telescope-ui-select.nvim",
-  --     -- { "nvim-telescope/telescope-frecency.nvim", requires = "tami5/sql.nvim" }
-  --     -- "nvim-telescope/telescope-dap.nvim",
-  --   },
-  -- })
 
   -- themes
   use({

@@ -27,6 +27,7 @@ vim.o.completeopt = 'menuone,noselect' -- Set completeopt to have a better compl
 vim.opt.showmode = false
 vim.opt.scrolloff = 10
 
+vim.o.cmdheight = 0
 -- auto-reload files when modified externally
 -- https://unix.stackexchange.com/a/383044
 vim.o.autoread = true
