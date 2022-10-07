@@ -51,10 +51,11 @@ require("lsp.utils").setup_server("rust_analyzer", {
         extraArgs = { "--no-deps" },
       }
     }
-  } })
+  }
+})
 
 -- Jump to last accessed window on closing the current one
-WinCloseJmp = function ()
+WinCloseJmp = function()
   -- Exclude floating windows
   if '' ~= vim.api.nvim_win_get_config(0).relative then return end
   -- Record the window we jump from (previous) and to (current)
@@ -65,9 +66,9 @@ WinCloseJmp = function ()
   end
 
   -- Loop through all windows to check if the previous one has been closed
-  for winnr=1,vim.fn.winnr('$') do
+  for winnr = 1, vim.fn.winnr('$') do
     if vim.fn.win_getid(winnr) == vim.t.winid_rec.prev then
-      return        -- Return if previous window is not closed
+      return -- Return if previous window is not closed
     end
   end
 

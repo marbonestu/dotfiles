@@ -26,7 +26,6 @@ brew_packages:
   - fnm
   - pyenv
   - ffmpeg
-  - gifsicle
 
   # infrastructure 
   - terraform
