@@ -1,5 +1,45 @@
 local dap = require('dap')
 
+require("dap-vscode-js").setup({
+  -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
+  debugger_path = "/Users/marbones-remote/vscode-js-debug", -- Path to vscode-js-debug installation.
+  -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
+  adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }, -- which adapters to register in nvim-dap
+})
+
+for _, language in ipairs({ "typescript", "javascript" }) do
+  require("dap").configurations[language] = {
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Launch file",
+      program = "${file}",
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "pwa-node",
+      request = "attach",
+      name = "Attach",
+      processId = require 'dap.utils'.pick_process,
+      cwd = "${workspaceFolder}",
+    },
+    {
+      type = "pwa-node",
+      request = "launch",
+      name = "Debug Jest Tests",
+      -- trace = true, -- include debugger info
+      runtimeExecutable = "node",
+      runtimeArgs = {
+        "./node_modules/jest/bin/jest.js",
+        "--runInBand",
+      },
+      rootPath = "${workspaceFolder}",
+      cwd = "${workspaceFolder}",
+      console = "integratedTerminal",
+      internalConsoleOptions = "neverOpen",
+    }
+  }
+end
 
 -- require('dap').set_log_level('INFO')
 dap.defaults.fallback.terminal_win_cmd = '20split new'
@@ -20,7 +60,8 @@ vim.keymap.set('n', '<leader>de', function() require "dap".set_exception_breakpo
 vim.keymap.set('n', '<leader>da', function() require "debugHelper".attach() end)
 vim.keymap.set('n', '<leader>dA', function() require "debugHelper".attachToRemote() end)
 vim.keymap.set('n', '<leader>dK', function() require "dap.ui.widgets".hover() end)
-vim.keymap.set('n', '<leader>d?', function() local widgets = require "dap.ui.widgets"; widgets.centered_float(widgets.scopes) end)
+vim.keymap.set('n', '<leader>d?',
+  function() local widgets = require "dap.ui.widgets"; widgets.centered_float(widgets.scopes) end)
 
 -- nvim-telescope/telescope-dap.nvim
 -- require('telescope').load_extension('dap')
@@ -53,7 +94,7 @@ require("dapui").setup({
   layouts = {
     {
       elements = {
-      -- Elements can be strings or table with id and size keys.
+        -- Elements can be strings or table with id and size keys.
         { id = "scopes", size = 0.25 },
         "breakpoints",
         "stacks",

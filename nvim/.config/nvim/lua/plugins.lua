@@ -121,6 +121,9 @@ require('packer').startup(function(use)
   use { 'j-hui/fidget.nvim', config = function() require("fidget").setup() end }
 
   -- DAP
+  --
+  use { "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } }
+
   use { 'mfussenegger/nvim-dap' }
   use { 'mfussenegger/nvim-dap-python', config = function()
     require("dap-python").setup('~/.virtualenvs/debugpy/bin/python')
