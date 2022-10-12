@@ -11,6 +11,7 @@ require("catppuccin").setup()
 vim.cmd [[colorscheme catppuccin]]
 
 require("dap-config")
+
 require("nvim-lsp-installer").setup {
   ensure_installed = {
     "gopls",
