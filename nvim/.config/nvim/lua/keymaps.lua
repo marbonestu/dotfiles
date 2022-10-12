@@ -16,6 +16,8 @@ vim.keymap.set('n', '<C-d>', '3j')
 vim.keymap.set('n', '<C-u>', '3k')
 vim.keymap.set('n', '<C-e>', '7<C-e>')
 vim.keymap.set('n', '<C-y>', '7<C-y>')
+vim.keymap.set('v', '<C-e>', '7<C-e>')
+vim.keymap.set('v', '<C-y>', '7<C-y>')
 vim.keymap.set('v', '<C-d>', '3j')
 vim.keymap.set('v', '<C-u>', '3k')
 
