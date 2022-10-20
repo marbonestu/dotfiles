@@ -98,7 +98,7 @@ function M.common_capabilities()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
 
   -- for nvim-cmp
-  capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
   -- Code actions
   capabilities.textDocument.codeAction = {

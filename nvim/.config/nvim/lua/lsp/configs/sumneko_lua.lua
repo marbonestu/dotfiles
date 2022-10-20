@@ -35,7 +35,7 @@ function M.config()
 end
 
 function M.setup()
-  local luadev = require("lua-dev").setup(M.config())
+  local luadev = require("neodev").setup(M.config())
   local lspconfig = require "lspconfig"
   lspconfig.sumneko_lua.setup(luadev)
 end

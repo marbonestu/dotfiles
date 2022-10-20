@@ -112,7 +112,7 @@ require('packer').startup(function(use)
     requires = {
       "jose-elias-alvarez/nvim-lsp-ts-utils",
       "jose-elias-alvarez/null-ls.nvim",
-      "folke/lua-dev.nvim",
+      "folke/neodev.nvim",
       "williamboman/nvim-lsp-installer",
       "ray-x/lsp_signature.nvim"
     },

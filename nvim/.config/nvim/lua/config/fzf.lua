@@ -23,10 +23,10 @@ function M.setup()
   }
 
 
-  vim.keymap.set('n', '<leader>f', function() require('fzf-lua').files({ continue_last_search = true }) end)
-  vim.keymap.set('n', '<leader>sb', function() require('fzf-lua').buffers({ continue_last_search = true }) end)
-  vim.keymap.set('n', '<leader>sr', function() require('fzf-lua').oldfiles({ continue_last_search = true }) end)
-  vim.keymap.set('n', '<leader>st', function() require('fzf-lua').live_grep({ continue_last_search = true }) end)
+  vim.keymap.set('n', '<leader>f', function() require('fzf-lua').files({ continue_last_search = false }) end)
+  vim.keymap.set('n', '<leader>sb', function() require('fzf-lua').buffers({ continue_last_search = false }) end)
+  vim.keymap.set('n', '<leader>sr', function() require('fzf-lua').oldfiles({ continue_last_search = false }) end)
+  vim.keymap.set('n', '<leader>st', function() require('fzf-lua').live_grep({ continue_last_search = false }) end)
   vim.keymap.set('n', '<leader>sp', function() require('fzf-lua').resume() end)
   vim.keymap.set('n', '<leader>gb', function() require('fzf-lua').git_bcommits() end)
 
