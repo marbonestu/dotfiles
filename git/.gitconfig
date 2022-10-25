@@ -30,6 +30,9 @@
 [pull]
     rebase = true
 
+[rebase]
+  autoStash = true
+
 [include]
   path = ~/delta/themes.gitconfig
 
