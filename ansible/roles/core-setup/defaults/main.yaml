@@ -26,6 +26,8 @@ brew_packages:
   - fnm
   - pyenv
   - ffmpeg
+  - gifsicle
+  - restic # backups
 
   # infrastructure 
   - terraform

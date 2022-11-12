@@ -37,50 +37,6 @@ local mashApps = {
   'cmd',
 }
 
--- local mashGeneral = {
---   'cmd',
---   'shift'
--- }
-
--- local movementGeneral = {
---   'alt',
---   'cmd'
--- }
-
-
--- function yabai(args)
---   hs.task.new("/usr/local/bin/yabai",nil, function(ud, ...)
---     print("stream", hs.inspect(table.pack(...)))
---     return true
---   end, args):start()
-
--- end
-
--- hs.hotkey.bind(movementGeneral, "j", function() yabai({"-m", "window", "--focus", "north"}) end)
--- hs.hotkey.bind(movementGeneral, "k", function() yabai({"-m", "window", "--focus", "south"}) end)
--- hs.hotkey.bind(movementGeneral, "h", function() yabai({"-m", "window", "--focus", "west"}) end)
--- hs.hotkey.bind(movementGeneral, "l", function() yabai({"-m", "window", "--focus", "east"}) end)
-
--- -- Disable window animations (janky for iTerm)
--- hs.window.animationDuration = 0
-
--- -- Window Management
--- hotkey.bind(mashGeneral, 'O', Grid.fullscreen)
--- hotkey.bind(mashGeneral, 'H', Grid.leftchunk)
--- hotkey.bind(mashGeneral, 'L', Grid.rightchunk)
--- hotkey.bind(mashGeneral, 'K', Grid.topHalf)
--- hotkey.bind(mashGeneral, 'J', Grid.bottomHalf)
-
--- hotkey.bind(mashGeneral, 'U', Grid.topleft)
--- hotkey.bind(mashGeneral, 'N', Grid.bottomleft)
--- hotkey.bind(mashGeneral, 'I', Grid.topright)
--- hotkey.bind(mashGeneral, 'M', Grid.bottomright)
-
--- -- Spotify
--- hotkey.bind(mashGeneral, 'P', hs.spotify.play)
--- hotkey.bind(mashGeneral, 'Y', hs.spotify.pause)
--- hotkey.bind(mashGeneral, 'T', hs.spotify.displayCurrentTrack)
-
 -- Slack-specific app launcher (since I keep it "peeked" to the side by default)
 function showSlack()
   local appName = 'Slack'
@@ -94,7 +50,7 @@ end
 
 -- App Shortcuts
 hotkey.bind(mashApps, '7', function() application.launchOrFocus('kitty') end)
-hotkey.bind(mashApps, '8', function() application.launchOrFocus('Google Chrome') end)
+hotkey.bind(mashApps, '8', function() application.launchOrFocus('Firefox') end)
 hotkey.bind(mashApps, '9', showSlack)
 
 -- TODO: add condition based on workspace
