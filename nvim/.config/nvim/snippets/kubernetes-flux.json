@@ -10,6 +10,26 @@
       "  - ${1:}"
     ]
   },
+  "Flux Kustomization": {
+    "prefix": "k-flux-kustomization-def",
+    "description": "Flux Kustomization for definitions",
+    "body": [
+      "---",
+      "apiVersion: kustomize.toolkit.fluxcd.io/v1beta2",
+      "kind: Kustomization",
+      "metadata:",
+      "  name: ${1:}",
+      "  namespace: flux-system",
+      "  labels:",
+      "    component.cluster/part-of: definitions",
+      "spec:",
+      "  dependsOn:",
+      "    - ${2:}",
+      "  path: \"${3:}\"",
+      "  prune: true",
+      ""
+    ]
+  },
   "Flux Kustomization Helm": {
     "prefix": "flux-kustomization-helm",
     "body": [
@@ -31,7 +51,6 @@
     ],
     "description": "Flux Kustomization Helm Repository"
   },
-
   "Flux Kustomization Git": {
     "prefix": "flux-kustomization-git",
     "body": [
@@ -93,17 +112,24 @@
       "  namespace: ${2:}",
       "spec:",
       "  interval: 15m",
+      "  install:",
+      "    createNamespace: true",
+      "    remediation:",
+      "      retries: 5",
+      "  upgrade:",
+      "    remediation:",
+      "      retries: 5",
       "  chart:",
       "    spec:",
       "      chart: ${3:}",
-      "      version: 1.1.12",
+      "      version: ${4:}",
       "      sourceRef:",
       "        kind: HelmRepository",
-      "        name: ${1:}",
+      "        name: ${3:}",
       "        namespace: flux-system",
       "      interval: 15m",
       "  values:",
-      "    ${4:}"
+      "    ${5:}"
     ]
   }
 }

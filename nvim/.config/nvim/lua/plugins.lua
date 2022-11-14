@@ -17,6 +17,13 @@ require('packer').startup(function(use)
   use "mg979/vim-visual-multi"
   use 'ggandor/lightspeed.nvim' -- motion
   use 'RRethy/vim-illuminate'
+  use { 'windwp/nvim-spectre',
+    requires = {
+      "nvim-lua/plenary.nvim"
+    },
+    config = function()
+      require('config.spectre').setup()
+    end }
   use { 'norcalli/nvim-colorizer.lua', config = function()
     require 'colorizer'.setup()
   end }

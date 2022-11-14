@@ -3,7 +3,7 @@
 if [[ $# -eq 1 ]]; then
     selected=$1
 else
-    selected=$(find ~/projects ~/projects/diligent -mindepth 1 -maxdepth 1 -type d  | fzf --header 'jump-to-project' )
+    selected=$(find ~/projects ~/projects/diligent ~/projects/flux -mindepth 1 -maxdepth 1 -type d  | fzf --header 'jump-to-project' )
 fi
 
 if [[ -z $selected ]]; then
