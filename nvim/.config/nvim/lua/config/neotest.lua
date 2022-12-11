@@ -26,17 +26,17 @@ function M.setup()
 		},
 	})
 
-	keymap("n", "<leader>tt", neotest.run.run)
-	keymap("n", "<leader>tf", function()
+	keymap("n", "<leader>Tt", neotest.run.run)
+	keymap("n", "<leader>Tf", function()
 		neotest.run.run(vim.fn.expand("%"))
 	end)
 	keymap("n", "<leader>td", function()
 		neotest.run.run({ strategy = "dap" })
 	end)
-	keymap("n", "<leader>tx", neotest.run.stop)
-	keymap("n", "<leader>ta", neotest.run.attach)
-	keymap("n", "<leader>ts", neotest.summary.open)
-	keymap("n", "<leader>to", neotest.output.open)
+	keymap("n", "<leader>Tx", neotest.run.stop)
+	keymap("n", "<leader>Ta", neotest.run.attach)
+	keymap("n", "<leader>Ts", neotest.summary.open)
+	keymap("n", "<leader>To", neotest.output.open)
 end
 
 return M
