@@ -15,6 +15,8 @@ M.setup_lsp = function()
   local config = {
     -- disable virtual text
     virtual_text = false,
+    -- virtual_text = { spacing = 4, prefix = "●" },
+
     -- show signs
     signs = {
       active = signs,
@@ -38,30 +40,14 @@ M.setup_lsp = function()
     border = "rounded",
   })
 
-  vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-    border = "rounded",
-  })
-end
-
-function M.lsp_diagnostics()
-  vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    underline = false,
-    signs = true,
-    update_in_insert = false,
-  })
-
-  local on_references = vim.lsp.handlers["textDocument/references"]
-  vim.lsp.handlers["textDocument/references"] = vim.lsp.with(on_references, { loclist = true, virtual_text = true })
-
-  vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-    border = "rounded",
-  })
+  -- vim.lsp.handlers["textDocument/references"] = vim.lsp.with(vim.lsp.handlers["textDocument/references"] { loclist = true,
+  --   virtual_text = true })
 
   vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
     border = "rounded",
   })
 end
+
 
 M.lsp_highlight = function(client)
   -- Set autocommands conditional on server_capabilities
@@ -86,16 +72,6 @@ function M.lsp_config(client, bufnr)
   }
   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
-  -- -- Key mappings
-  -- local keymap = require "utils.keymap"
-  -- for mode, mapping in pairs(lsp_keymappings) do
-  --   keymap.map(mode, mapping)
-  -- end
-
-  -- -- LSP and DAP menu
-  -- local whichkey = require "config.whichkey"
-  -- whichkey.register_lsp(client)
-
   if client.name == "tsserver" or client.name == "jsonls" then
     client.server_capabilities.document_formatting = false
     client.server_capabilities.document_range_formatting = false
@@ -117,36 +93,13 @@ end
 function M.common_on_attach(client, bufnr)
   M.lsp_config(client, bufnr)
   M.lsp_highlight(client, bufnr)
-  M.lsp_diagnostics()
+
+  require('config.lsp.keymaps').setup()
 
   vim.api.nvim_create_user_command("Format", function()
     vim.lsp.buf.format { async = true }
   end, {})
 
-  local opts = { buffer = bufnr }
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-  -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-  vim.keymap.set('n', 'gr', "<cmd>Trouble lsp_references<cr>", opts)
-  vim.keymap.set('n', '<leader>ldv', "<Cmd>vsplit | lua vim.lsp.buf.definition()<CR>", opts)
-  vim.keymap.set('n', '<leader>lds', "<Cmd>split | lua vim.lsp.buf.definition()<CR>", opts)
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-  vim.keymap.set('n', '<leader>ls', vim.lsp.buf.signature_help, opts)
-  vim.keymap.set('n', '<leader>lj', vim.diagnostic.goto_next, opts)
-  vim.keymap.set('n', '<leader>lk', vim.diagnostic.goto_prev, opts)
-  vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', '<leader>li', "<cmd>LspInfo<CR>", opts)
-  vim.keymap.set('n', '<leader>lf', "<cmd>Format<CR>", opts)
-  vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
-  vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
-  vim.keymap.set('n', '<leader>wl', function()
-    vim.inspect(vim.lsp.buf.list_workspace_folders())
-  end, opts)
-  vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-  vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, opts)
-  -- vim.keymap.set('n', '<leader>so', require('telescope.builtin').lsp_document_symbols, opts)
 end
 
 function M.common_capabilities()
@@ -169,6 +122,11 @@ function M.common_capabilities()
     },
   }
 
+  capabilities.textDocument.foldingRange = {
+    dynamicRegistration = false,
+    lineFoldingOnly = true,
+  }
+
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = { "documentation", "detail", "additionalTextEdits" },
@@ -188,12 +146,10 @@ function M.setup_server(server, config)
     flags = { debounce_text_changes = 150 },
   }
 
-  for k, v in pairs(config) do
-    options[k] = v
-  end
+  opts = vim.tbl_deep_extend("force", {}, options, config or {})
 
   local lspconfig = require "lspconfig"
-  lspconfig[server].setup(vim.tbl_deep_extend("force", options, {}))
+  lspconfig[server].setup(opts)
 end
 
 return M

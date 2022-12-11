@@ -16,6 +16,10 @@
       {
         "language": "yaml",
         "path": "kubernetes-flux.json"
+      },
+      {
+        "language": "lua",
+        "path": "lua.json"
       }
     ]
   }

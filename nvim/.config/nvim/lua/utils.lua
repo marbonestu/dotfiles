@@ -1,5 +1,13 @@
 local M = {}
 
+function M.get_keys(dict)
+  local keys = {}
+  for key, _ in pairs(dict) do
+    table.insert(keys, key)
+  end
+  return keys
+end
+
 function M.log(msg, hl, name)
   name = name or "Neovim"
   hl = hl or "Todo"
