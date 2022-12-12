@@ -17,8 +17,8 @@ dap.configurations.lua = {
 		end,
 		port = function()
 			local val = tonumber(vim.fn.input("Port: "))
-			assert(val, "Please provide a port number")
-			return val
+			-- assert(val, "Please provide a port number")
+			return val or 8086
 		end,
 	},
 }
