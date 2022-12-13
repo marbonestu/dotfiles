@@ -49,13 +49,13 @@ function showSlack()
 end
 
 -- App Shortcuts
-hotkey.bind(mashApps, '7', function() application.launchOrFocus('kitty') end)
-hotkey.bind(mashApps, '8', function() application.launchOrFocus('Firefox') end)
-hotkey.bind(mashApps, '9', showSlack)
+hotkey.bind(mashApps, '1', function() application.launchOrFocus('kitty') end)
+hotkey.bind(mashApps, '2', function() application.launchOrFocus('Firefox') end)
+hotkey.bind(mashApps, '3', showSlack)
 
 -- TODO: add condition based on workspace
-hotkey.bind(mashApps, '0', function() application.launchOrFocus('Microsoft Outlook') end)
-hotkey.bind(mashApps, '6', function() application.launchOrFocus('zoom.us') end)
+hotkey.bind(mashApps, '4', function() application.launchOrFocus('Microsoft Outlook') end)
+hotkey.bind(mashApps, '5', function() application.launchOrFocus('zoom.us') end)
 
 -- function moveWindowToDisplay(d)
 --   return function()

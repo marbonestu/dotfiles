@@ -34,6 +34,28 @@ complete -C aws_completer aws
 complete -C aws_completer sudo
 complete -C aws_completer aws-vault
 
+## Auhto complete for AWS PROFILES
+function _assume(){
+  #You write your code here
+  local state 
+    _arguments '1: :->log'
+
+    case $state in
+        log)
+            _describe 'command' "($(aws_profiles))"    
+            ;;
+        cache)
+
+            ;;
+    esac
+}
+
+function aws_profiles() {
+  [[ -r "${AWS_CONFIG_FILE:-$HOME/.aws/config}" ]] || return 1
+  grep --color=never -Eo '\[.*\]' "${AWS_CONFIG_FILE:-$HOME/.aws/config}" | sed -E 's/^[[:space:]]*\[(profile)?[[:space:]]*([^[:space:]]+)\][[:space:]]*$/\2/g'
+}
+compdef _assume assume
+
 command -v flux >/dev/null 2>&1 && . <(flux completion zsh)
 
 bindkey '^[[A' history-substring-search-up
@@ -94,3 +116,7 @@ export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 export PATH="/opt/homebrew/opt/postgresql@12/bin:$PATH"
+
+
+# diligent dev scripts
+[ -d $HOME/projects/diligent/grc-devops-scripts-v2 ] && export PATH="$HOME/projects/diligent/grc-devops-scripts-v2/scripts:$PATH"
