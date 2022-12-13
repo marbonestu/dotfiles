@@ -10,8 +10,6 @@ DOTFILES_FOLDERS="
   alacritty
 "
 
-for folder in `echo $DOTFILES_FOLDERS | sed "s/,/ /g"` 
-do
- stow -vSt ~ $folder
+for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
+	stow -vSt ~ $folder
 done
-
