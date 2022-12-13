@@ -101,7 +101,7 @@ export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
 export GEM_HOME="$HOME/.gem/"
 export PATH=$PATH:"$GEM_HOME/bin"
 
-eval "$(rbenv init - zsh)" 
+# eval "$(rbenv init - zsh)" 
 # eval "$(frum init)"
 
 export SAM_CLI_TELEMETRY=0 
