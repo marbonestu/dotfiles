@@ -8,6 +8,7 @@ DOTFILES_FOLDERS="
   zsh,
   lazygit,
   alacritty,
+  kitty,
   i3,
   rofi,
   xorg
