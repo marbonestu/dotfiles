@@ -22,6 +22,8 @@ vim.keymap.set('v', '<C-d>', '5j')
 vim.keymap.set('v', '<C-u>', '5k')
 vim.keymap.set('v', '<C-u>', '7k')
 vim.keymap.set('n', '<C-a>', "ggVG")
+vim.keymap.set('n', 'ZL', "25zl")
+vim.keymap.set('n', 'ZH', "25zh")
 
 vim.keymap.set('n', 'v$', 'v$h')
 
