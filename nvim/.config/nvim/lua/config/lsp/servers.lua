@@ -33,6 +33,12 @@ M.configs = {
 				},
 			},
 		}
+
+		-- options.on_attach = function(client, bufnr)
+		-- 	options.on_attach(client, bufnr)
+      -- vim.keymap.set('n', '<leader>lI', ":TypescriptAddMissingImports")
+		-- end
+
 		require("typescript").setup({ server = options, settings = settings })
 	end,
 	-- svelte = {},
@@ -53,6 +59,7 @@ M.configs = {
 	marksman = {},
 	pyright = {},
 	terraformls = {},
+	solargraph = {},
 	rust_analyzer = function(options)
 		require("rust-tools").setup({
 			tools = {
