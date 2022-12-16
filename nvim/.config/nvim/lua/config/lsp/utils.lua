@@ -94,7 +94,7 @@ function M.common_on_attach(client, bufnr)
   M.lsp_config(client, bufnr)
   M.lsp_highlight(client, bufnr)
 
-  require('config.lsp.keymaps').setup()
+  require('config.lsp.keymaps').setup(client)
 
   vim.api.nvim_create_user_command("Format", function()
     vim.lsp.buf.format { async = true }
