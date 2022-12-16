@@ -1,5 +1,9 @@
 eval "$(starship init zsh)"
 
+function have() {
+  command -v "$1" &> /dev/null
+}
+
 unsetopt BEEP
 
 source ~/.alias
@@ -30,9 +34,9 @@ autoload -U +X compinit && compinit
 zstyle ':completion:*' menu select
 
 autoload -Uz bashcompinit && bashcompinit
-complete -C aws_completer aws
-complete -C aws_completer sudo
-complete -C aws_completer aws-vault
+# complete -C aws_completer aws
+# complete -C aws_completer sudo
+# complete -C aws_completer aws-vault
 
 ## Auhto complete for AWS PROFILES
 function _assume(){
@@ -56,7 +60,7 @@ function aws_profiles() {
 }
 compdef _assume assume
 
-command -v flux >/dev/null 2>&1 && . <(flux completion zsh)
+
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -101,8 +105,8 @@ export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
 export GEM_HOME="$HOME/.gem/"
 export PATH=$PATH:"$GEM_HOME/bin"
 
-# eval "$(rbenv init - zsh)" 
-# eval "$(frum init)"
+have "frum" && eval "$(frum init)"
+have "flux" && . <(flux completion zsh)
 
 export SAM_CLI_TELEMETRY=0 
 
