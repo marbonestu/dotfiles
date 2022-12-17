@@ -38,7 +38,7 @@ autoload -Uz bashcompinit && bashcompinit
 # complete -C aws_completer sudo
 # complete -C aws_completer aws-vault
 
-## Auhto complete for AWS PROFILES
+## Autocomplete for AWS PROFILES
 function _assume(){
   #You write your code here
   local state 

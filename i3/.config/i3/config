@@ -208,10 +208,10 @@ bindsym $mod+k focus up
 bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left resize shrink width 30px
-bindsym $mod+Down resize grow height 30px
-bindsym $mod+Up resize shrink height 30px
-bindsym $mod+Right resize grow width 30px
+bindsym $mod+Left resize shrink width 50px
+bindsym $mod+Down resize grow height 50px
+bindsym $mod+Up resize shrink height 50px
+bindsym $mod+Right resize grow width 50px
 
 # move focused window
 bindsym $mod+Shift+h move left
