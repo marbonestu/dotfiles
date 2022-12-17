@@ -10,13 +10,10 @@ PROJECTS_PATHS=(
 EXISTING_PROJECTS_PATHS=()
 
 for index in "${!PROJECTS_PATHS[@]}"; do
-	echo "${PROJECTS_PATHS[$index]}"
 	if [ -d "${PROJECTS_PATHS[$index]}" ]; then
 		EXISTING_PROJECTS_PATHS+=("${PROJECTS_PATHS["$index"]}")
 	fi
 done
-
-echo "${EXISTING_PROJECTS_PATHS[@]}"
 
 if [[ $# -eq 1 ]]; then
 	selected=$1
