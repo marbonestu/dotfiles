@@ -171,6 +171,7 @@ bindcode $mod+Shift+90 	 move container to workspace  $ws10
 ######################################
 
 # start a terminal
+# bindsym $mod+Return exec "kitty --class 'Kitty' --hold -e 'tmuxp load -y scratch'"
 bindsym $mod+Return exec kitty
 
 # kill focused window
@@ -208,10 +209,10 @@ bindsym $mod+k focus up
 bindsym $mod+l focus right
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Left resize shrink width 50px
-bindsym $mod+Down resize grow height 50px
-bindsym $mod+Up resize shrink height 50px
-bindsym $mod+Right resize grow width 50px
+bindsym $mod+Left resize shrink width 100px
+bindsym $mod+Down resize grow height 100px
+bindsym $mod+Up resize shrink height 100px
+bindsym $mod+Right resize grow width 100px
 
 # move focused window
 bindsym $mod+Shift+h move left
