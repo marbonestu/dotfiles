@@ -5,6 +5,7 @@ PROJECTS_PATHS=(
   ~/projects/fermyon
   ~/projects/diligent
   ~/projects/flux
+  ~/projects/wasmcloud
 )
 
 EXISTING_PROJECTS_PATHS=()

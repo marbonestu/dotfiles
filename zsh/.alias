@@ -21,7 +21,7 @@ alias gca='git commit --amend'
 alias ghb='gh browse'
 
 # tmux
-alias t='tmux attach || tmux new-session'
+alias t='tmuxp load -y scratch'
 alias ta='tmux-sessionizer'
 
 # docker
