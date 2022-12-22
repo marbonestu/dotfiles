@@ -1,0 +1,21 @@
+{
+  "Creates a cdk stack": {
+    "prefix": "cdkstack",
+    "body": [
+      "import * as cdk from \"aws-cdk-lib\";",
+      "import { Stack } from \"aws-cdk-lib\";",
+      "import { Construct } from \"constructs\";",
+      "import { EnvConfig } from \"../../environments/env-config\";",
+      "",
+      "export class ${1:}Stack extends Stack {",
+      "  public readonly envConfig: EnvConfig;",
+      "",
+      "  constructor(scope: Construct, id: string, props: cdk.StackProps, envConfig: EnvConfig) {",
+      "    super(scope, id, props);",
+      "  }",
+      "}",
+      ""
+    ],
+    "description": "Creates a cdk stack"
+  }
+}

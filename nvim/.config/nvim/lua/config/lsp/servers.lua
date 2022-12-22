@@ -2,7 +2,6 @@ local M = {}
 local utils = require("utils")
 
 M.configs = {
-	---@type lspconfig.options
 	ansiblels = {},
 	bashls = {},
 	clangd = {},
@@ -36,7 +35,7 @@ M.configs = {
 
 		-- options.on_attach = function(client, bufnr)
 		-- 	options.on_attach(client, bufnr)
-      -- vim.keymap.set('n', '<leader>lI', ":TypescriptAddMissingImports")
+		-- vim.keymap.set('n', '<leader>lI', ":TypescriptAddMissingImports")
 		-- end
 
 		require("typescript").setup({ server = options, settings = settings })

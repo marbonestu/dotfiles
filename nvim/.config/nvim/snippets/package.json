@@ -14,6 +14,12 @@
         "path": "typescript.json"
       },
       {
+        "language": [
+          "typescript"
+        ],
+        "path": "cdk-typescript.json"
+      },
+      {
         "language": "yaml",
         "path": "kubernetes-flux.json"
       },
