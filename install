@@ -12,7 +12,8 @@ DOTFILES_FOLDERS="
   kitty,
   i3,
   rofi,
-  xorg
+  xorg,
+  polybar
 "
 
 for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
