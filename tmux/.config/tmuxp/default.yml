@@ -6,7 +6,7 @@ windows:
   shell_command_before:
     - v 
 - window_name: git
-  window_index: 2
+  window_index: 1
   layout: tiled
   start_directory: ${START_DIR}
   shell_command_before:
