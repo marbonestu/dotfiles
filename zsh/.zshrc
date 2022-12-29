@@ -121,6 +121,9 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 export PATH="/opt/homebrew/opt/postgresql@12/bin:$PATH"
 
+# Android
+export ANDROID_HOME="$HOME/.android"
+export NDK_HOME="$ANDROID_HOME/ndk/25.0.8775105"
 
 # diligent dev scripts
 [ -d $HOME/projects/diligent/grc-devops-scripts-v2 ] && export PATH="$HOME/projects/diligent/grc-devops-scripts-v2/scripts:$PATH"

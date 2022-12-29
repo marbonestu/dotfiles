@@ -2,3 +2,5 @@ session_name: scratch
 windows:
 - window_name: scratch
   layout: main-vertical
+  shell_command_before:
+    - clear
