@@ -45,6 +45,7 @@ function gclone {
   git clone "$@" && cd "$(basename "$_" .git)"
 }
 
+alias myip="curl -s https://ipv4.icanhazip.com/"
 alias video_to_gif='function video_to_gif(){ ffmpeg -i $1 output.gif && gifsicle -O3 output.gif -o output.gif && say "Video is ready!"};video_to_gif'
 # And now you can do this:
 # video_to_gif video.mov output2.gif

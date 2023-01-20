@@ -1,7 +1,7 @@
 local dap = require("dap")
 
 require("config.dap.typescript")
-require("config.dap.rust")
+-- require("config.dap.rust")
 require("config.dap.lua")
 
 		-- require("dap-vscode-js").setup({

@@ -37,6 +37,7 @@ require("packer").startup(function(use)
 	-- lsp
 	use({
 		"neovim/nvim-lspconfig",
+		tag = "v0.1.3",
 		{
 			"williamboman/mason.nvim",
 			config = function()
@@ -51,8 +52,16 @@ require("packer").startup(function(use)
 		"jose-elias-alvarez/null-ls.nvim",
 		"folke/neoconf.nvim",
 		"jose-elias-alvarez/typescript.nvim",
-		{ "lvimuser/lsp-inlayhints.nvim", branch = "anticonceal" },
-		"SmiteshP/nvim-navic",
+		-- { "lvimuser/lsp-inlayhints.nvim", branch = "anticonceal" },
+		-- "SmiteshP/nvim-navic",
+	})
+	use({
+		"saecki/crates.nvim",
+		tag = "v0.3.0",
+		requires = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("crates").setup()
+		end,
 	})
 	use({
 		"j-hui/fidget.nvim",
