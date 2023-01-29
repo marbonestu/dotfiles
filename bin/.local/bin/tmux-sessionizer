@@ -6,6 +6,7 @@ PROJECTS_PATHS=(
   ~/projects/diligent
   ~/projects/flux
   ~/projects/wasmcloud
+  ~/projects/nvim-configs/
 )
 
 EXISTING_PROJECTS_PATHS=()

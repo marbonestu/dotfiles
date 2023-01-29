@@ -64,7 +64,7 @@ M.configs = {
 		require("rust-tools").setup({
 			tools = {
 				executor = require("rust-tools/executors").termopen, -- can be quickfix or termopen
-				reload_workspac_from_cargo_toml = true,
+				reload_workspace_from_cargo_toml = true,
 				runnables = {
 					use_telescope = true,
 				},
