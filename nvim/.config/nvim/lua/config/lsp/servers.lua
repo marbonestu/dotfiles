@@ -92,13 +92,13 @@ M.configs = {
 					})
 				end,
 			},
-			dap = {
-				adapter = require("rust-tools.dap").get_codelldb_adapter(
-					"codelldb",
-					require("mason-registry").get_package("codelldb"):get_install_path()
-						.. "/extension/lldb/lib/liblldb.dylib"
-				),
-			},
+			-- dap = {
+				-- adapter = require("rust-tools.dap").get_codelldb_adapter(
+					-- "codelldb",
+					-- require("mason-registry").get_package("codelldb"):get_install_path()
+					-- 	.. "/extension/lldb/lib/liblldb.dylib"
+				-- ),
+			-- },
 			server = vim.tbl_deep_extend("force", options, {
 				settings = {
 					["rust-analyzer"] = {
@@ -125,7 +125,7 @@ M.configs = {
 			},
 		},
 	},
-	sumneko_lua = function(options)
+	lua_ls = function(options)
 		require("neodev").setup({
 			debug = true,
 			experimental = {
@@ -135,7 +135,7 @@ M.configs = {
 				runtime = "~/neovim/runtime/",
 			},
 		})
-		require("lspconfig")["sumneko_lua"].setup(vim.tbl_deep_extend("force", options or {}, {
+		require("lspconfig")["lua_ls"].setup(vim.tbl_deep_extend("force", options or {}, {
 			-- cmd = { "/home/folke/projects/lua-language-server/bin/lua-language-server" },
 			single_file_support = true,
 			settings = {

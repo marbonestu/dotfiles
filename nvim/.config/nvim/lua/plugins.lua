@@ -48,7 +48,7 @@ require("packer").startup(function(use)
 		"folke/neodev.nvim",
 		"b0o/SchemaStore.nvim",
 		"ray-x/lsp_signature.nvim",
-		"simrat39/rust-tools.nvim",
+		{ "simrat39/rust-tools.nvim", commmit = "074472f65a465a20f56d6c3e3190378b1a1cdeff" },
 		"jose-elias-alvarez/null-ls.nvim",
 		"folke/neoconf.nvim",
 		"jose-elias-alvarez/typescript.nvim",
