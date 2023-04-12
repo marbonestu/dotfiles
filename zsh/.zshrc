@@ -28,6 +28,9 @@ export KUBE_EDITOR='nvim'
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="bg=red,fg=black,bold"
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="bg=green,fg=black,bold"
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
 source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh
 
 autoload -U +X compinit && compinit
