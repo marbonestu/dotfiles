@@ -61,8 +61,8 @@ set status-left "#[fg=$thm_fg]   #S "
 set status-right ""
 
 # current_dir
-setw window-status-format "#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_gray]#I #[fg=$thm_fg,bg=$thm_bg] #W #{?window_zoomed_flag,#[fg=$thm_green]Z ,} "
-setw window-status-current-format "#[fg=$thm_cyan,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_bg,bg=$thm_cyan]#I #[fg=$thm_fg,bg=$thm_bg] #W #{?window_zoomed_flag,#[fg=$thm_green]Z ,} "
+setw window-status-format "#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_gray]#W#{?window_zoomed_flag,#[fg=$thm_green]Z,}#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics] "
+setw window-status-current-format "#[fg=$thm_cyan,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_bg,bg=$thm_cyan]#W#{?window_zoomed_flag,#[fg=$thm_blue] Z,}#[fg=$thm_cyan,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics] "
 set -g status-justify center
 
 # parent_dir/current_dir
