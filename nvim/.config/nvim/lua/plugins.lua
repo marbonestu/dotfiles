@@ -34,6 +34,8 @@ require("packer").startup(function(use)
 		"jbyuki/one-small-step-for-vimkind",
 	})
 
+	use("towolf/vim-helm")
+
 	-- lsp
 	use({
 		"neovim/nvim-lspconfig",

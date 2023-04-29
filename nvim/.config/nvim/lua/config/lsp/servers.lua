@@ -1,5 +1,20 @@
 local M = {}
 local utils = require("utils")
+local configs = require("lspconfig.configs")
+local lspconfig = require("lspconfig")
+local util = require("lspconfig.util")
+
+if not configs.helm_ls then
+	configs.helm_ls = {
+		default_config = {
+			cmd = { "helm_ls", "serve" },
+			filetypes = { "helm" },
+			root_dir = function(fname)
+				return util.root_pattern("Chart.yaml")(fname)
+			end,
+		},
+	}
+end
 
 M.configs = {
 	ansiblels = {},
@@ -40,6 +55,10 @@ M.configs = {
 
 		require("typescript").setup({ server = options, settings = settings })
 	end,
+	helm_ls = {
+		filetypes = { "helm" },
+		cmd = { "helm_ls", "serve" },
+	},
 	-- svelte = {},
 	eslint = {},
 	html = {},
