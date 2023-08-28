@@ -78,6 +78,7 @@ M.configs = {
 	pyright = {},
 	terraformls = {},
 	solargraph = {},
+	svelte = {},
 
 	rust_analyzer = function(options)
 		require("rust-tools").setup({

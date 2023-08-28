@@ -132,3 +132,11 @@ export NDK_HOME="$ANDROID_HOME/ndk/25.0.8775105"
 
 # diligent dev scripts
 [ -d $HOME/projects/diligent/grc-devops-scripts-v2 ] && export PATH="$HOME/projects/diligent/grc-devops-scripts-v2/scripts:$PATH"
+
+# pnpm
+export PNPM_HOME="/home/marbones/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

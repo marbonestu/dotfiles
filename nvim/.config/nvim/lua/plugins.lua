@@ -67,24 +67,38 @@ require("packer").startup(function(use)
 	})
 	use({
 		"j-hui/fidget.nvim",
+		tag = "legacy",
 		config = function()
 			require("fidget").setup()
 		end,
 	})
 
 	-- misc
-	use("tpope/vim-commentary")
+	use({
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+	})
+	-- use("tpope/vim-commentary")
 	use("tpope/vim-surround")
 	use("tpope/vim-abolish")
 	use("mg979/vim-visual-multi")
 
 	use("ggandor/lightspeed.nvim") -- motion
 	-- use 'ggandor/leap.nvim' -- motion
-
 	use({
-		"norcalli/nvim-colorizer.lua",
+		"ziontee113/color-picker.nvim",
 		config = function()
-			require("colorizer").setup()
+			require("color-picker")
+		end,
+	})
+	-- use("brenoprata10/nvim-highlight-colors")
+	use({
+		"NvChad/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup({
+			})
 		end,
 	})
 	use({
@@ -129,6 +143,17 @@ require("packer").startup(function(use)
 		"folke/tokyonight.nvim",
 		"rebelot/kanagawa.nvim",
 		{ "catppuccin/nvim", as = "catppuccin" },
+	})
+
+	use({
+		"olivercederborg/poimandres.nvim",
+		config = function()
+			require("poimandres").setup({
+				-- leave this setup function empty for default config
+				-- or refer to the configuration section
+				-- for configuration options
+			})
+		end,
 	})
 
 	use({
