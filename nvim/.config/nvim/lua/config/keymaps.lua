@@ -8,8 +8,6 @@ local Util = require("lazyvim.util")
 
 -- Visual-multi
 map("i", "jj", "<ESC>")
-map("n", "<leader>w", ":w<CR>")
-map("n", "<leader>q", ":q<CR>")
 map("n", "<leader>Q", ":qa<CR>")
 
 map("n", "gh", "^")

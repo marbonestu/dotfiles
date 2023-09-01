@@ -34,10 +34,38 @@ return {
           use_winbar = "smart",
           autoselect_one = true,
           include_current = false,
+          selection_chars = "ABCDEFG",
           filter_rules = {
             bo = {
               filetype = { "neo-tree-popup", "quickfix" },
               buftype = { "terminal", "quickfix", "nofile" },
+            },
+          },
+          hint = "floating-big-letter",
+          highlights = {
+            statusline = {
+              focused = {
+                fg = "#ededed",
+                bg = "#e35e4f",
+                bold = true,
+              },
+              unfocused = {
+                fg = "#ededed",
+                bg = "#000000",
+                bold = true,
+              },
+            },
+            winbar = {
+              focused = {
+                fg = "#ededed",
+                bg = "#e35e4f",
+                bold = true,
+              },
+              unfocused = {
+                fg = "#cdd6f4",
+                bg = "#45475a",
+                bold = true,
+              },
             },
           },
         },
@@ -47,10 +75,14 @@ return {
       window = {
         mappings = {
           ["<space>"] = "none",
-          ["l"] = "open",
+          ["l"] = "open_with_window_picker",
           ["h"] = "close_node",
           ["<C-v>"] = "open_vsplit",
           ["<C-x>"] = "open_split",
+          ["P"] = function(state)
+            local node = state.tree:get_node()
+            require("neo-tree.ui.renderer").focus_node(state, node:get_parent_id())
+          end,
         },
       },
       filesystem = {
