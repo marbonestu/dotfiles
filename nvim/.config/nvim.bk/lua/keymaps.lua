@@ -27,6 +27,12 @@ vim.keymap.set('n', 'ZH', "25zh")
 
 vim.keymap.set('n', 'v$', 'v$h')
 
+-- movements
+vim.keymap.set('n', 'd]`', "vf`hd")
+vim.keymap.set('n', 'd]"', 'vf"hd')
+vim.keymap.set('n', 'd]\'', "vf\'hd")
+vim.keymap.set('n', 'd]"', 'vf"hd')
+
 -- move selected line in visual mode
 vim.keymap.set('x', 'K', ':move \'<0<CR>gv-gv')
 vim.keymap.set('x', 'J', ':move \'>+3<CR>gv-gv')

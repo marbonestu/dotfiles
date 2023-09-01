@@ -39,9 +39,6 @@
 [includeIf "gitdir:~/projects/diligent/"]
     path = ~/.gitconfig-diligent
 
-[includeIf "gitdir:~/projects/disney/"]
-    path = ~/.gitconfig-disney
-
 [help]
     autocorrect = 10
 
