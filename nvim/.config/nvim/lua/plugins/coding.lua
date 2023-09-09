@@ -12,6 +12,8 @@ return {
           winhighlight = "Normal:Pmenu",
         },
       }
+      local cmp = require("cmp")
+      opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "copilot", group_index = 2 } }))
     end,
   },
   {

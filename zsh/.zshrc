@@ -143,4 +143,4 @@ esac
 #
 
 
-export OPENAI_API_KEY="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"
+export OPENAI_API_KEY="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"
