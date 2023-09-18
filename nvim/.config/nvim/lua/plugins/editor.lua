@@ -23,6 +23,13 @@ local function getTelescopeOpts(state, path)
   }
 end
 
+local function open_in_terminal(state, path)
+  local node = state.tree:get_node()
+  local is_folder = node.type == "directory"
+  local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
+  require("tmux").open_in_dir(basedir)
+end
+
 return {
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -127,10 +134,11 @@ return {
           ["<space>"] = "none",
           ["s"] = "none",
           ["/"] = "none",
-          ["l"] = "open_with_window_picker",
+          ["l"] = "open_fn",
           ["h"] = "close_node",
           ["<C-v>"] = "open_vsplit",
           ["<C-x>"] = "open_split",
+          ["t"] = "open_in_terminal",
           ["gtf"] = "telescope_find",
           ["gtg"] = "telescope_grep",
           ["P"] = function(state)
@@ -140,6 +148,26 @@ return {
         },
       },
       commands = {
+        open_fn = function(state)
+          local node = state.tree:get_node()
+          if require("neo-tree.utils").is_expandable(node) then
+            state.commands["toggle_node"](state)
+          else
+            local windows = vim.api.nvim_list_wins()
+            if #windows > 1 then
+              state.commands["open_with_window_picker"](state)
+            else
+              state.commands["open"](state)
+              vim.cmd("Neotree reveal")
+            end
+          end
+        end,
+
+        open_in_terminal = function(state)
+          local node = state.tree:get_node()
+          local path = node:get_id()
+          open_in_terminal(state, path)
+        end,
         telescope_find = function(state)
           local node = state.tree:get_node()
           local path = node:get_id()
