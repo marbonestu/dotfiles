@@ -140,6 +140,7 @@ return {
           ["<C-x>"] = "open_split",
           ["t"] = "open_in_terminal",
           ["gtf"] = "telescope_find",
+          ["gb"] = "open_in_browser",
           ["gtg"] = "telescope_grep",
           ["P"] = function(state)
             local node = state.tree:get_node()
@@ -162,7 +163,11 @@ return {
             end
           end
         end,
-
+        open_in_browser = function(state)
+          local node = state.tree:get_node()
+          local path = node:get_id()
+          require("git").open_file_in_browser(path)
+        end,
         open_in_terminal = function(state)
           local node = state.tree:get_node()
           local path = node:get_id()
@@ -286,6 +291,17 @@ return {
           return "<Ignore>"
         end, { expr = true })
 
+        map("n", "<leader>gb", function()
+          local buffer_path = vim.fn.expand("%:p")
+          local line_number = vim.fn.line(".")
+          require("git").open_file_in_browser(buffer_path, line_number)
+        end, { expr = true })
+
+        map("n", "<leader>gB", function()
+          local buffer_path = vim.fn.expand("%:p")
+          local line_number = vim.fn.line(".")
+          require("git").open_file_in_browser(buffer_path, line_number)
+        end, { expr = true })
         -- Actions
         map({ "n", "v" }, "<leader>g", ":Gitsigns stage_hunk<CR>")
         map({ "n", "v" }, "<leader>gr", ":Gitsigns reset_hunk<CR>")
@@ -293,9 +309,6 @@ return {
         map("n", "<leader>gu", gs.undo_stage_hunk)
         map("n", "<leader>gR", gs.reset_buffer)
         map("n", "<leader>gp", gs.preview_hunk)
-        map("n", "<leader>gb", function()
-          gs.blame_line({ full = true })
-        end)
         map("n", "<leader>gl", gs.blame_line)
         map("n", "<leader>gL", "<cmd>G blame<CR>")
         map("n", "<leader>gd", gs.diffthis)
