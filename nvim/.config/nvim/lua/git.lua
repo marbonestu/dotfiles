@@ -19,6 +19,21 @@ function M.open_file_in_browser(abs_path, line_number)
   process:close()
 end
 
+-- open file in broser at cursor
+function M.open_file_in_browser_at_cursor()
+  local abs_path = vim.fn.expand("%:p")
+  local line_number = vim.fn.line(".")
+  M.open_file_in_browser(abs_path, line_number)
+end
+
+function M.open_file_in_browser_branch(path, line_number)
+  local branch = vim.fn.systemlist("git rev-parse --abbrev-ref HEAD")[1]
+  local line_number_str = line_number and (":" .. line_number) or ""
+  local absolute_git_path = paths.path_relative(path, M.find_git_root())
+  local process = io.popen("gh browse " .. absolute_git_path .. line_number_str .. " -b " .. branch)
+  process:close()
+end
+
 -- -- Get the project root path
 -- local project_root = M.find_git_root()
 --

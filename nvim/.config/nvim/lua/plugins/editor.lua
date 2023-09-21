@@ -142,6 +142,11 @@ return {
           ["gtf"] = "telescope_find",
           ["gb"] = "open_in_browser",
           ["gtg"] = "telescope_grep",
+          ["Y"] = function(state)
+            local node = state.tree:get_node()
+            vim.fn.setreg("+", node:get_id())
+            vim.notify("Path copied to clipboard!")
+          end,
           ["P"] = function(state)
             local node = state.tree:get_node()
             require("neo-tree.ui.renderer").focus_node(state, node:get_parent_id())
@@ -300,7 +305,12 @@ return {
         map("n", "<leader>gB", function()
           local buffer_path = vim.fn.expand("%:p")
           local line_number = vim.fn.line(".")
-          require("git").open_file_in_browser(buffer_path, line_number)
+          require("git").open_file_in_browser_in_line(buffer_path, line_number)
+        end, { expr = true })
+        map("n", "<leader>g.", function()
+          local buffer_path = vim.fn.expand("%:p")
+          local line_number = vim.fn.line(".")
+          require("git").open_file_in_browser_branch(buffer_path, line_number)
         end, { expr = true })
         -- Actions
         map({ "n", "v" }, "<leader>g", ":Gitsigns stage_hunk<CR>")
