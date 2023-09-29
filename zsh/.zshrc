@@ -144,3 +144,13 @@ esac
 
 
 export OPENAI_API_KEY="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"
+
+# bun completions
+[ -s "/home/marbones/.bun/_bun" ] && source "/home/marbones/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Turso
+export PATH="/home/marbones/.turso:$PATH"

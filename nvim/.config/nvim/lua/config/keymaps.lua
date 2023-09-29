@@ -9,6 +9,7 @@ local Util = require("lazyvim.util")
 -- Visual-multi
 map("i", "jj", "<ESC>")
 map("n", "<leader>Q", ":qa<CR>")
+map("n", "<leader>q", ":q<CR>")
 
 map("n", "gh", "^")
 map("n", "gl", "$")

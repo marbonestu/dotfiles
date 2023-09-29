@@ -4,7 +4,7 @@ return {
     keys = function()
       return {
         {
-          "<leader>qs",
+          "<leader>ls",
           function()
             require("persistence").load()
           end,
@@ -12,16 +12,18 @@ return {
         },
         {
           "<leader>ql",
-          function()
-            require("persistence").load({ last = true })
-          end,
+          false,
+          -- function()
+          --   require("persistence").load({ last = true })
+          -- end,
           desc = "Restore Last Session",
         },
         {
           "<leader>qd",
-          function()
-            require("persistence").stop()
-          end,
+          false,
+          -- function()
+          --   require("persistence").stop()
+          -- end,
           desc = "Don't Save Current Session",
         },
       }
