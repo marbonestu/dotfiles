@@ -15,8 +15,9 @@ DOTFILES_FOLDERS="
   i3,
   rofi,
   xorg,
-  waybar
-  dunst
+  waybar,
+  dunst,
+  swaylock,
 "
 
 for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
