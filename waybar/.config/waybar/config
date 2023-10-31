@@ -83,6 +83,7 @@
         "tooltip": false
     },
     "memory": {
+      "interval": 3,
         "format": "{}% "
     },
     "temperature": {
