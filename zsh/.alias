@@ -35,6 +35,10 @@ alias dcd='docker-compose down'
 # kubernetes
 alias k='kubectl'
 
+# python
+alias venv='source .venv/bin/activate'
+alias activate_venv='source .venv/bin/activate'
+
 
 function cd {
   builtin cd "$@" && la

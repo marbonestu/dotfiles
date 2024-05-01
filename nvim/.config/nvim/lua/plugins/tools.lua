@@ -100,4 +100,7 @@ return {
       require("copilot_cmp").setup()
     end,
   },
+  {
+    "jamestthompson3/nvim-remote-containers",
+  },
 }
