@@ -9,6 +9,9 @@ unsetopt BEEP
 source ~/.alias
 source ~/.profile
 
+
+source ~/.aws-functions.sh
+
 # set history
 HISTFILESIZE=1000000000
 HISTSIZE=1000000000

@@ -32,6 +32,8 @@ alias dc='docker-compose'
 alias dcu='docker-compose up'
 alias dcd='docker-compose down'
 
+alias set-dns="sudo sed -i.old 's/# macOS Notice/nameserver 8.8.8.8/' /var/run/resolv.conf; dscacheutil -flushcache"
+
 # kubernetes
 alias k='kubectl'
 
