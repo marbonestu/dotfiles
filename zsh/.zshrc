@@ -67,6 +67,8 @@ compdef _assume assume
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
 
@@ -83,6 +85,8 @@ export PATH="$LUA_LANGUAGE_SERVER:$PATH"
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/go/bin
 export PATH="$GO_BIN_FOLDER:$PATH"
+export PATH=$PATH:/mnt/c/Users/marbo/AppData/Local/Programs/Microsoft\ VS\ Code/bin
+# C:\Users\marbo\AppData\Local\Programs\Microsoft VS Code\bin
 
 # tmuxp for sessions
 export DISABLE_AUTO_TITLE='true'
@@ -154,3 +158,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # Turso
 export PATH="/home/marbones/.turso:$PATH"
+
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
