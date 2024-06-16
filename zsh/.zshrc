@@ -28,10 +28,11 @@ export KUBE_EDITOR='nvim'
 source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh
+
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="bg=red,fg=black,bold"
 export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="bg=green,fg=black,bold"
 export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
-source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh
 
 autoload -U +X compinit && compinit
 zstyle ':completion:*' menu select
@@ -62,8 +63,6 @@ function aws_profiles() {
   grep --color=never -Eo '\[.*\]' "${AWS_CONFIG_FILE:-$HOME/.aws/config}" | sed -E 's/^[[:space:]]*\[(profile)?[[:space:]]*([^[:space:]]+)\][[:space:]]*$/\2/g'
 }
 compdef _assume assume
-
-
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
@@ -144,10 +143,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-#
-
-
-export OPENAI_API_KEY="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"
 
 # bun completions
 [ -s "/home/marbones/.bun/_bun" ] && source "/home/marbones/.bun/_bun"

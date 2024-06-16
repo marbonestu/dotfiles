@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+DOTFILES_FOLDERS="
+  bin,
+  dunst,
+  hypr,
+  git,
+  kitty,
+  nvim,
+  lazygit,
+  starship,
+  qt5ct,
+  qt6ct,
+  rofi,
+  tmux,
+  swappy,
+  swaync,
+  waybar,
+  wallust,
+  zsh,
+  wlogout,
+"
+
+for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
+	stow -vSt ~ $folder
+done
