@@ -3,6 +3,7 @@ nvim/.config/nvim/lvim.shada
 nvim/.config/nvim/luacache_modpaths
 nvim/.config/nvim/plugin/packer_compiled.lua
 karabiner/.config/karabiner/automatic_backups/
+*.save
 
 lvim/.config/lvim/plugin/packer_compiled.lua
 

@@ -19,7 +19,7 @@
 "modules-left": [
 	"custom/menu",
 	"custom/separator#blank_2", 
-	"hyprland/workspaces#pacman",
+	"hyprland/workspaces",
 	"custom/separator#blank_2",
 	"mpris",
 	"custom/swaync",
