@@ -199,41 +199,41 @@ return {
     },
   },
 
-  {
-    "telescope.nvim",
-    dependencies = {
-      { "nvim-telescope/telescope-dap.nvim" },
-      {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-      },
-      { "debugloop/telescope-undo.nvim" },
-    },
-    opts = {
-      defaults = {
-        layout_strategy = "horizontal",
-        layout_config = { prompt_position = "top" },
-        sorting_strategy = "ascending",
-        winblend = 10,
-      },
-      extensions = {
-        undo = {
-          use_delta = true,
-          side_by_side = true,
-          layout_strategy = "vertical",
-          layout_config = {
-            preview_height = 0.4,
-          },
-        },
-      },
-    },
-    config = function(_, opts)
-      local telescope = require("telescope")
-      telescope.setup(opts)
-      -- telescope.load_extension("dap")
-      -- telescope.load_extension("undo")
-    end,
-  },
+  -- {
+  --   "telescope.nvim",
+  --   dependencies = {
+  --     { "nvim-telescope/telescope-dap.nvim" },
+  --     {
+  --       "nvim-telescope/telescope-fzf-native.nvim",
+  --       build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+  --     },
+  --     { "debugloop/telescope-undo.nvim" },
+  --   },
+  --   opts = {
+  --     defaults = {
+  --       layout_strategy = "horizontal",
+  --       layout_config = { prompt_position = "top" },
+  --       sorting_strategy = "ascending",
+  --       winblend = 10,
+  --     },
+  --     extensions = {
+  --       undo = {
+  --         use_delta = true,
+  --         side_by_side = true,
+  --         layout_strategy = "vertical",
+  --         layout_config = {
+  --           preview_height = 0.4,
+  --         },
+  --       },
+  --     },
+  --   },
+  --   config = function(_, opts)
+  --     local telescope = require("telescope")
+  --     telescope.setup(opts)
+  --     -- telescope.load_extension("dap")
+  --     -- telescope.load_extension("undo")
+  --   end,
+  -- },
   {
     "lewis6991/gitsigns.nvim",
     opts = {
@@ -373,5 +373,9 @@ return {
       { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
     },
+  },
+  {
+    "j-hui/fidget.nvim",
+    opts = {},
   },
 }

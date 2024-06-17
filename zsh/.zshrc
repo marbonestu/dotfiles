@@ -6,6 +6,8 @@ function have() {
 
 unsetopt BEEP
 
+export PATH=$HOME/.cargo/bin:$PATH
+
 source ~/.alias
 source ~/.profile
 
