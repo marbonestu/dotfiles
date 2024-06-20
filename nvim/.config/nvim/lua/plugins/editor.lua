@@ -234,38 +234,10 @@ return {
   --     -- telescope.load_extension("undo")
   --   end,
   -- },
+
   {
     "lewis6991/gitsigns.nvim",
     opts = {
-
-      signs = {
-        add = { hl = "GitSignsAdd", text = "▍", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
-        change = {
-          hl = "GitSignsChange",
-          text = "▍",
-          numhl = "GitSignsChangeNr",
-          linehl = "GitSignsChangeLn",
-        },
-        delete = {
-          hl = "GitSignsDelete",
-          text = "▸",
-          numhl = "GitSignsDeleteNr",
-          linehl = "GitSignsDeleteLn",
-        },
-        topdelete = {
-          hl = "GitSignsDelete",
-          text = "▾",
-          numhl = "GitSignsDeleteNr",
-          linehl = "GitSignsDeleteLn",
-        },
-        changedelete = {
-          hl = "GitSignsChange",
-          text = "▍",
-          numhl = "GitSignsChangeNr",
-          linehl = "GitSignsChangeLn",
-        },
-      },
-
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
 
@@ -313,19 +285,11 @@ return {
           require("git").open_file_in_browser_branch(buffer_path, line_number)
         end, { expr = true })
         -- Actions
-        map({ "n", "v" }, "<leader>g", ":Gitsigns stage_hunk<CR>")
-        map({ "n", "v" }, "<leader>gr", ":Gitsigns reset_hunk<CR>")
-        map("n", "<leader>gS", gs.stage_buffer)
-        map("n", "<leader>gu", gs.undo_stage_hunk)
-        map("n", "<leader>gR", gs.reset_buffer)
-        map("n", "<leader>gp", gs.preview_hunk)
-        map("n", "<leader>gl", gs.blame_line)
-        map("n", "<leader>gL", "<cmd>G blame<CR>")
+        map("n", "<leader>gO", "<cmd>G blame<CR>")
         map("n", "<leader>gd", gs.diffthis)
         map("n", "<leader>gD", function()
           gs.diffthis("~")
         end)
-        map("n", "<leader>gd", gs.toggle_deleted)
 
         -- Text object
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
