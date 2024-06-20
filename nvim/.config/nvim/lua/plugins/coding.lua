@@ -31,4 +31,11 @@ return {
     event = "InsertEnter",
     opts = {}, -- this is equalent to setup({}) function
   },
+
+  {
+    "L3MON4D3/LuaSnip",
+    config = function()
+      require("luasnip.loaders.from_vscode").lazy_load("../snippets")
+    end,
+  },
 }
