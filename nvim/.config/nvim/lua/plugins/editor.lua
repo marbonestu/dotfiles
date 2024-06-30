@@ -342,4 +342,29 @@ return {
     "j-hui/fidget.nvim",
     opts = {},
   },
+
+  {
+    "folke/trouble.nvim",
+    opts = {
+      modes = {
+        symbols = {
+          win = { size = { width = 50 } },
+        },
+      },
+    },
+    keys = {
+      { "<leader>xx", "<cmd>Trouble diagnostics focus=true<cr>", desc = "Diagnostics (Trouble)" },
+      {
+        "<leader>xX",
+        "<cmd>Trouble diagnostics filter.buf=0 focus=true<cr>",
+        desc = "Buffer Diagnostics (Trouble)",
+      },
+      { "<leader>cs", "<cmd>Trouble symbols focus=true<cr>", desc = "Symbols (Trouble)" },
+      {
+        "<leader>cS",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP references/definitions/... (Trouble)",
+      },
+    },
+  },
 }

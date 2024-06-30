@@ -11,3 +11,19 @@
 --     require("persistence").load({ last = true })
 --   end,
 -- })
+--
+
+-- Close a window and return to the last window you jumped from
+vim.api.nvim_create_autocmd("WinClosed", {
+  callback = function()
+    local bufname = vim.fn.bufname()
+    if bufname == "Neotest Summary" then
+      local current_win = vim.fn.winnr()
+      vim.cmd("wincmd p")
+      local prev_win = vim.fn.winnr()
+      if prev_win == current_win then
+        vim.cmd("wincmd w")
+      end
+    end
+  end,
+})
