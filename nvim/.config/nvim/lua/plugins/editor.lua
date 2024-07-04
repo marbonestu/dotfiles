@@ -241,10 +241,8 @@ return {
       on_attach = function(bufnr)
         local gs = package.loaded.gitsigns
 
-        local function map(mode, l, r, opts)
-          opts = opts or {}
-          opts.buffer = bufnr
-          vim.keymap.set(mode, l, r, opts)
+        local function map(mode, l, r, desc)
+          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
         end
 
         -- Navigation
@@ -256,7 +254,7 @@ return {
             gs.next_hunk()
           end)
           return "<Ignore>"
-        end, { expr = true })
+        end, "Next hunk")
 
         map("n", "<leader>gk", function()
           if vim.wo.diff then
@@ -266,33 +264,50 @@ return {
             gs.prev_hunk()
           end)
           return "<Ignore>"
-        end, { expr = true })
+        end, "Prev hunk")
 
         map("n", "<leader>gb", function()
           local buffer_path = vim.fn.expand("%:p")
           local line_number = vim.fn.line(".")
           require("git").open_file_in_browser(buffer_path, line_number)
-        end, { expr = true })
+        end, "Open file in browser")
 
         map("n", "<leader>gB", function()
           local buffer_path = vim.fn.expand("%:p")
           local line_number = vim.fn.line(".")
           require("git").open_file_in_browser_in_line(buffer_path, line_number)
-        end, { expr = true })
+        end, "Open file and line in browser ")
         map("n", "<leader>g.", function()
           local buffer_path = vim.fn.expand("%:p")
           local line_number = vim.fn.line(".")
           require("git").open_file_in_browser_branch(buffer_path, line_number)
-        end, { expr = true })
-        -- Actions
-        map("n", "<leader>gO", "<cmd>G blame<CR>")
-        map("n", "<leader>gd", gs.diffthis)
-        map("n", "<leader>gD", function()
-          gs.diffthis("~")
-        end)
-
-        -- Text object
-        map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>")
+        end, "Open file/line and branch in browser")
+        -- -- Actions
+        -- map("n", "<leader>gd", gs.diffthis)
+        -- map("n", "<leader>gD", function()
+        --   gs.diffthis("~")
+        -- end)
+        -- map("n", "<leader>gd", gs.toggle_deleted)
+        --
+        -- map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
+        -- map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
+        map("n", "<leader>ghS", function()
+          gs.stage_buffer()
+        end, "Stage Buffer")
+        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
+        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
+        map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
+        map("n", "<leader>ghb", function()
+          gs.blame_line({ full = true })
+        end, "Blame Line")
+        map("n", "<leader>ghB", function()
+          gs.blame()
+        end, "Blame Buffer")
+        -- map("n", "<leader>ghd", gs.diffthis, "Diff This")
+        -- map("n", "<leader>ghD", function()
+        --   gs.diffthis("~")
+        -- end, "Diff This ~")
+        -- map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
       end,
     },
   },
@@ -311,7 +326,7 @@ return {
         ["<leader>c"] = { name = "+code" },
         ["<leader>f"] = { name = "+file/find" },
         ["<leader>g"] = { name = "+git" },
-        ["<leader>gh"] = { name = "+hunks" },
+        -- ["<leader>gh"] = { name = "+hunks" },
         -- ["<leader>q"] = { name = "+quit/session" },
         ["<leader>s"] = { name = "+search" },
         ["<leader>u"] = { name = "+ui" },
