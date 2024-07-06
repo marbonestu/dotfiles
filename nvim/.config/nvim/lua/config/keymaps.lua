@@ -51,3 +51,22 @@ map("n", "<A-Down>", ":resize -4<CR>")
 map("n", "<A-Right>", ":vertical resize +6<CR>")
 map("n", "<A-Left>", ":vertical resize -4<CR>")
 map("n", "gm", ":call cursor(1, len(getline('.'))/2)<CR>")
+
+-- buffers
+map("n", "<leader>bn", function()
+  print(vim.fn.bufname())
+end)
+
+-- Utils
+function ToggleVirtualText()
+  if vim.g.virtual_text_enabled then
+    vim.diagnostic.config({ virtual_text = false })
+    vim.g.virtual_text_enabled = false
+    print("Virtual text disabled")
+  else
+    vim.diagnostic.config({ virtual_text = true })
+    vim.g.virtual_text_enabled = true
+    print("Virtual text enabled")
+  end
+end
+map("n", "<leader>uv", ToggleVirtualText)

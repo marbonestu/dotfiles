@@ -121,7 +121,9 @@ return {
     optional = true,
     opts = {
       adapters = {
-        ["rustaceanvim.neotest"] = {},
+        ["rustaceanvim.neotest"] = {
+          args = { "--no-capture" },
+        },
       },
     },
   },
