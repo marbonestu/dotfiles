@@ -9,7 +9,7 @@ unsetopt BEEP
 export PATH=$HOME/.cargo/bin:$PATH
 
 source ~/.alias
-source ~/.profile
+# source ~/.profile
 
 # set history
 HISTFILESIZE=1000000000
@@ -160,6 +160,9 @@ export PATH="/home/marbones/.turso:$PATH"
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# eval "$(pyenv virtualenv-init -)"
 
 source ~/.asdf/asdf.sh
+
+# sst
+export PATH=/home/marbonestu/.sst/bin:$PATH
