@@ -166,3 +166,7 @@ source ~/.asdf/asdf.sh
 
 # sst
 export PATH=/home/marbonestu/.sst/bin:$PATH
+
+# dotnet
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH="$DOTNET_ROOT:$PATH"
