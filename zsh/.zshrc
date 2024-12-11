@@ -1,172 +1,172 @@
-eval "$(starship init zsh)"
+# Zsh Vi Mode and Comprehensive Development Prompt Configuration
 
-function have() {
-  command -v "$1" &> /dev/null
-}
+# Ensure needed directories exist
+mkdir -p ~/.zsh
 
-unsetopt BEEP
+# Plugin directory
+ZSH_PLUGIN_DIR="${ZDOTDIR:-$HOME}/.zsh"
 
-export PATH=$HOME/.cargo/bin:$PATH
+# Autosuggestions setup with persistent history
+if [[ ! -d "$ZSH_PLUGIN_DIR/zsh-autosuggestions" ]]; then
+    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_PLUGIN_DIR/zsh-autosuggestions"
+fi
 
-source ~/.alias
-# source ~/.profile
+# History substring search setup
+if [[ ! -d "$ZSH_PLUGIN_DIR/zsh-history-substring-search" ]]; then
+    git clone https://github.com/zsh-users/zsh-history-substring-search "$ZSH_PLUGIN_DIR/zsh-history-substring-search"
+fi
 
-# set history
-HISTFILESIZE=1000000000
-HISTSIZE=1000000000
+# Persistent history configuration
 HISTFILE=~/.zsh_history
-SAVEHIST=1000000000
-setopt appendhistory
-setopt share_history
-setopt autocd
+HISTSIZE=10000
+SAVEHIST=10000
+setopt EXTENDED_HISTORY      # Write the history file in the ":start:elapsed;command" format
+setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicate entries first when trimming history
+setopt HIST_IGNORE_DUPS      # Don't record an entry that was just recorded again
+setopt HIST_IGNORE_ALL_DUPS  # Delete old recorded entry if new entry is a duplicate
+setopt HIST_FIND_NO_DUPS     # Do not display a line previously found
+setopt HIST_SAVE_NO_DUPS     # Don't write duplicate entries in the history file
+setopt HIST_REDUCE_BLANKS    # Remove superfluous blanks before recording entry
+setopt SHARE_HISTORY         # Share history between all sessions
 
-set show-mode-in-prompt on
-set vi-cmd-mode-string "\1\e[2 q\2"
-set vi-ins-mode-string "\1\e[6 q\2"
+# Enable vi mode
+bindkey -v
 
-export EDITOR='nvim'
-export KUBE_EDITOR='nvim'
-
-source ~/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-source ~/.zsh/plugins/zsh-vi-mode/zsh-vi-mode.zsh
-
-export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="bg=red,fg=black,bold"
-export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="bg=green,fg=black,bold"
-export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
-
-autoload -U +X compinit && compinit
-zstyle ':completion:*' menu select
-
-autoload -Uz bashcompinit && bashcompinit
-# complete -C aws_completer aws
-# complete -C aws_completer sudo
-# complete -C aws_completer aws-vault
-
-## Autocomplete for AWS PROFILES
-function _assume(){
-  #You write your code here
-  local state 
-    _arguments '1: :->log'
-
-    case $state in
-        log)
-            _describe 'command' "($(aws_profiles))"    
-            ;;
-        cache)
-
-            ;;
+# Custom keybinding to exit INSERT mode by pressing 'jj'
+bindkey -M viins 'jj' vi-cmd-mode
+#
+# Cursor shape change function for different vi modes
+function zle-keymap-select {
+    case $KEYMAP in
+        vicmd)      print -n '\e[1 q';;      # Block cursor for normal mode
+        viins|main) print -n '\e[5 q';;      # Beam cursor for insert mode
     esac
 }
 
-function aws_profiles() {
-  [[ -r "${AWS_CONFIG_FILE:-$HOME/.aws/config}" ]] || return 1
-  grep --color=never -Eo '\[.*\]' "${AWS_CONFIG_FILE:-$HOME/.aws/config}" | sed -E 's/^[[:space:]]*\[(profile)?[[:space:]]*([^[:space:]]+)\][[:space:]]*$/\2/g'
+function zle-line-init {
+    echo -ne '\e[5 q'  # Beam cursor on startup
 }
-compdef _assume assume
 
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
+zle -N zle-keymap-select
+zle -N zle-line-init
+
+# Cursor shape persistence after each command
+preexec() { 
+    echo -ne '\e[5 q'  # Beam cursor before executing a command
+}
+
+# Custom keybinding to exit INSERT mode by pressing 'jj'
+bindkey -M viins 'jj' vi-cmd-mode
+
+# History substring search keybindings (vim-style)
+source "$ZSH_PLUGIN_DIR/zsh-history-substring-search/zsh-history-substring-search.zsh"
 bindkey -M vicmd 'k' history-substring-search-up
 bindkey -M vicmd 'j' history-substring-search-down
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
-ZVM_VI_INSERT_ESCAPE_BINDKEY=jj
+# Efficient vi mode indicator
+function zsh_vi_mode_prompt() {
+    case $KEYMAP in
+        vicmd) echo "%F{red}[N]%f" ;;
+        viins|main) echo "%F{green}[I]%f" ;;
+        *) echo "%F{yellow}[?]%f" ;;
+    esac
+}
+# Lightweight git branch function
 
-export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/.local/bin:$PATH
-export PATH=/opt/homebrew/bin/:$PATH
-export DPRINT_INSTALL="/Users/marc.arbones/.dprint"
-export LUA_LANGUAGE_SERVER="$HOME/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin"
-export PATH="$DPRINT_INSTALL/bin:$PATH"
-export PATH="$LUA_LANGUAGE_SERVER:$PATH"
+function git_prompt() {
+    git branch 2>/dev/null | grep '^*' | cut -d' ' -f2- | sed 's/^/ (/;s/$/)/;s/^( /(/'
+}
 
-export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:$HOME/go/bin
-export PATH="$GO_BIN_FOLDER:$PATH"
-export PATH=$PATH:/mnt/c/Users/marbo/AppData/Local/Programs/Microsoft\ VS\ Code/bin
-# C:\Users\marbo\AppData\Local\Programs\Microsoft VS Code\bin
+function dev_env_prompt() {
+    local env_info=""
+    
+    # Python version detection
+    if [[ -f "pyproject.toml" || -f "setup.py" || -f "requirements.txt" ]]; then
+        local py_version=$(python --version 2>&1 | cut -d' ' -f2)
+        if [[ -n "$py_version" ]]; then
+            env_info+="%F{blue}(py:$py_version)%f"
+        fi
+        
+        # Virtual environment detection
+        if [[ -n "$VIRTUAL_ENV" ]]; then
+            env_info+="%F{cyan}(venv)%f"
+        fi
+    fi
+    
+    # Node.js version detection
+    if [[ -f "package.json" ]]; then
+        local node_version=$(node --version 2>&1 | sed 's/^v//')
+        if [[ -n "$node_version" ]]; then
+            env_info+="%F{green}(node:$node_version)%f"
+        fi
+    fi
+    
+    # Rust version detection
+    if [[ -f "Cargo.toml" ]]; then
+        local rust_version=$(rustc --version | cut -d' ' -f2)
+        if [[ -n "$rust_version" ]]; then
+            env_info+="%F{red}(rust:$rust_version)%f"
+        fi
+    fi
+    
+    echo "$env_info"
+}
+# Current directory shortening
+function short_path() {
+    local full_path=$(pwd)
+    local home_path=$(echo $HOME)
+    
+    # Replace home directory with ~
+    full_path=${full_path/#$home_path/\~}
+    
+    # If path is too long, show only last two directories
+    if [[ ${#full_path} -gt 40 ]]; then
+        full_path=$(echo $full_path | awk -F'/' '{print $(NF-1)"/"$NF}')
+    fi
+    
+    echo $full_path
+}
 
-# tmuxp for sessions
-export DISABLE_AUTO_TITLE='true'
+# # Prompt setup
+# setopt PROMPT_SUBST
+# export PROMPT='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f$(git_prompt)$(dev_env_prompt)$(zsh_vi_mode_prompt) $ '
 
-eval "$(zoxide init zsh)"
+# Prompt setup
+setopt PROMPT_SUBST
+PROMPT="%F{green}$(short_path)%f %F{yellow}$(dev_env_prompt)$(git_prompt)%f %F{242}%*%f
+%(?.%F{blue}❯%f.%F{red}❯%f) "
 
-[ -f $HOME/.config/broot/launcher/bash/br ] && source $HOME/.config/broot/launcher/bash/br
+# Right prompt for additional information
+RPROMPT='%F{242}%*%f'
 
-# fnm
-export PATH=/Users/marc.arbones/.fnm:$PATH
+# Autosuggestions configuration
+source "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+ZSH_AUTOSUGGEST_USE_ASYNC=true
 
-# WSL
-export WINHOME=/mnt/c/Users/marbo/
-export APPDATA=/mnt/c/Users/marbo/AppData/Roaming
-if [ -d WINHOME ]; then
-  alias winhome='$WINHOME'
+# Tab completion
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit
+else
+    compinit -C
 fi
 
-# Gradle
-export PATH=$PATH:/opt/gradle/gradle-7.4.2/bin
+# Performance optimization for completion
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case-insensitive completion
+source "${ZDOTDIR:-$HOME}/.zsh-autosuggestions/zsh-autosuggestions.zsh"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
-# Ruby
-export GEM_HOME="$HOME/.gem/"
-export PATH=$PATH:"$GEM_HOME/bin"
+# Tab completion
+autoload -Uz compinit
+compinit -C
 
-# have "frum" && eval "$(frum init)"
-have "flux" && . <(flux completion zsh)
-have "rbenv" && eval "$(rbenv init - zsh)"
-
-
-export SAM_CLI_TELEMETRY=0 
-
-eval "`fnm env --use-on-cd`"
-
-[ -d /home/linuxbrew/.linuxbrew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-
-export SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-export PATH="/opt/homebrew/opt/postgresql@12/bin:$PATH"
-
-# Android
-export ANDROID_HOME="$HOME/.android"
-export NDK_HOME="$ANDROID_HOME/ndk/25.0.8775105"
-
-# diligent dev scripts
-[ -d $HOME/projects/diligent/grc-devops-scripts-v2 ] && export PATH="$HOME/projects/diligent/grc-devops-scripts-v2/scripts:$PATH"
-
-# pnpm
-export PNPM_HOME="/home/marbones/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-# bun completions
-[ -s "/home/marbones/.bun/_bun" ] && source "/home/marbones/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Turso
-export PATH="/home/marbones/.turso:$PATH"
-
-# Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-# eval "$(pyenv virtualenv-init -)"
-
-source ~/.asdf/asdf.sh
-
-# sst
-export PATH=/home/marbonestu/.sst/bin:$PATH
-
-# dotnet
-export DOTNET_ROOT=$HOME/.dotnet
-export PATH="$DOTNET_ROOT:$PATH"
+# Performance optimization
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache

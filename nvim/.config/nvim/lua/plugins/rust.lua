@@ -122,7 +122,7 @@ return {
     opts = {
       adapters = {
         ["rustaceanvim.neotest"] = {
-          args = { "--no-capture" },
+          args = { "-- --no-capture" },
         },
       },
     },
