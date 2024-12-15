@@ -1,28 +1,3 @@
-local function getTelescopeOpts(state, path)
-  local node = state.tree:get_node()
-  local is_folder = node.type == "directory"
-  local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
-  return {
-    cwd = basedir,
-    search_dirs = { basedir },
-    attach_mappings = function(prompt_bufnr, map)
-      local actions = require("telescope.actions")
-      actions.select_default:replace(function()
-        actions.close(prompt_bufnr)
-        local action_state = require("telescope.actions.state")
-        local selection = action_state.get_selected_entry()
-        local filename = selection.filename
-        if filename == nil then
-          filename = selection[1]
-        end
-        -- any way to open the file without triggering auto-close event of neo-tree?
-        vim.cmd("e " .. vim.fn.fnameescape(filename))
-      end)
-      return true
-    end,
-  }
-end
-
 local function open_in_terminal(state, path)
   local node = state.tree:get_node()
   local is_folder = node.type == "directory"
@@ -31,22 +6,33 @@ local function open_in_terminal(state, path)
 end
 
 return {
+  -- file explorer
   {
     "nvim-neo-tree/neo-tree.nvim",
+    cmd = "Neotree",
     keys = {
       {
         "<leader>fe",
         function()
-          require("neo-tree.command").execute({ toggle = true, dir = require("lazyvim.util").get_root() })
+          require("neo-tree.command").execute({ toggle = true, dir = LazyVim.root() })
         end,
-        desc = "Explorer NeoTree (root dir)",
+        desc = "Explorer NeoTree (Root Dir)",
       },
       {
         "<leader>fE",
         function()
-          require("neo-tree.command").execute({ toggle = true, dir = vim.loop.cwd() })
+          require("neo-tree.command").execute({ toggle = true, dir = vim.uv.cwd() })
         end,
         desc = "Explorer NeoTree (cwd)",
+      },
+      { "<leader>E", "<leader>fe", desc = "Explorer NeoTree (Root Dir)", remap = true },
+      { "<leader>e", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
+      {
+        "<leader>ge",
+        function()
+          require("neo-tree.command").execute({ source = "git_status", toggle = true })
+        end,
+        desc = "Git Explorer",
       },
       {
         "<leader>?",
@@ -55,307 +41,253 @@ return {
         end,
         desc = "Explorer NeoTree (cwd)",
       },
-      { "<leader>E", "<leader>fe", desc = "Explorer NeoTree (root dir)", remap = true },
-      { "<leader>e", "<leader>fE", desc = "Explorer NeoTree (cwd)", remap = true },
-    },
-    dependencies = {
-      "mrbjarksen/neo-tree-diagnostics.nvim",
       {
-        "s1n7ax/nvim-window-picker",
-        opts = {
-          use_winbar = "smart",
-          autoselect_one = true,
-          include_current = false,
-          selection_chars = "ABCD",
-          filter_rules = {
-            bo = {
-              filetype = { "neo-tree-popup", "quickfix" },
-              buftype = { "terminal", "quickfix", "nofile" },
-            },
-          },
-          picker_config = {
-            statusline_winbar_picker = {
-              -- You can change the display string in status bar.
-              -- It supports '%' printf style. Such as `return char .. ': %f'` to display
-              -- buffer file path. See :h 'stl' for details.
-              selection_display = function(char, windowid)
-                return "%=" .. char .. "%="
-              end,
-
-              -- whether you want to use winbar instead of the statusline
-              -- "always" means to always use winbar,
-              -- "never" means to never use winbar
-              -- "smart" means to use winbar if cmdheight=0 and statusline if cmdheight > 0
-              use_winbar = "always", -- "always" | "never" | "smart"
-            },
-
-            floating_big_letter = {
-              -- window picker plugin provides bunch of big letter fonts
-              -- fonts will be lazy loaded as they are being requested
-              -- additionally, user can pass in a table of fonts in to font
-              -- property to use instead
-
-              font = "ansi-shadow", -- ansi-shadow |
-            },
-          },
-          hint = "statusline-winbar",
-          highlights = {
-            statusline = {
-              focused = {
-                fg = "#ededed",
-                bg = "#e35e4f",
-                bold = true,
-              },
-              unfocused = {
-                fg = "#cdd6f4",
-                bg = "#0064a3",
-                bold = true,
-              },
-            },
-            winbar = {
-              focused = {
-                fg = "#ededed",
-                bg = "#e35e4f",
-                bold = true,
-              },
-              unfocused = {
-                fg = "#cdd6f4",
-                bg = "#0064a3",
-                bold = true,
-              },
-            },
-          },
-        },
+        "<leader>be",
+        function()
+          require("neo-tree.command").execute({ source = "buffers", toggle = true })
+        end,
+        desc = "Buffer Explorer",
       },
     },
-    opts = {
-      window = {
-        mappings = {
-          ["<space>"] = "none",
-          ["s"] = "none",
-          ["/"] = "none",
-          ["l"] = "open_fn",
-          ["h"] = "close_node",
-          ["<C-v>"] = "open_vsplit",
-          ["<C-x>"] = "open_split",
-          ["t"] = "open_in_terminal",
-          ["gtf"] = "telescope_find",
-          ["gb"] = "open_in_browser",
-          ["gtg"] = "telescope_grep",
-          ["Y"] = function(state)
-            local node = state.tree:get_node()
-            vim.fn.setreg("+", node:get_id())
-            vim.notify("Path copied to clipboard!")
-          end,
-          ["P"] = function(state)
-            local node = state.tree:get_node()
-            require("neo-tree.ui.renderer").focus_node(state, node:get_parent_id())
-          end,
-        },
-      },
-      commands = {
-        open_fn = function(state)
-          local node = state.tree:get_node()
-          if require("neo-tree.utils").is_expandable(node) then
-            state.commands["toggle_node"](state)
+    dependencies = {},
+    deactivate = function()
+      vim.cmd([[Neotree close]])
+    end,
+    init = function()
+      -- FIX: use `autocmd` for lazy-loading neo-tree instead of directly requiring it,
+      -- because `cwd` is not set up properly.
+      vim.api.nvim_create_autocmd("BufEnter", {
+        group = vim.api.nvim_create_augroup("Neotree_start_directory", { clear = true }),
+        desc = "Start Neo-tree with directory",
+        once = true,
+        callback = function()
+          if package.loaded["neo-tree"] then
+            return
           else
-            local windows = vim.api.nvim_list_wins()
-            if #windows > 1 then
-              state.commands["open_with_window_picker"](state)
-            else
-              state.commands["open"](state)
-              vim.cmd("Neotree reveal")
+            local stats = vim.uv.fs_stat(vim.fn.argv(0))
+            if stats and stats.type == "directory" then
+              require("neo-tree")
             end
           end
         end,
-        open_in_browser = function(state)
-          local node = state.tree:get_node()
-          local path = node:get_id()
-          require("git").open_file_in_browser(path)
-        end,
-        open_in_terminal = function(state)
-          local node = state.tree:get_node()
-          local path = node:get_id()
-          open_in_terminal(state, path)
-        end,
-        telescope_find = function(state)
-          local node = state.tree:get_node()
-          local path = node:get_id()
-          require("telescope.builtin").find_files(getTelescopeOpts(state, path))
-        end,
-        telescope_grep = function(state)
-          local node = state.tree:get_node()
-          local path = node:get_id()
-          require("telescope.builtin").live_grep(getTelescopeOpts(state, path))
-        end,
-      },
+      })
+    end,
+    opts = {
       filesystem = {
         filtered_items = {
+          visible = true, -- This is what you want: If you set this to `true`, all "hide" just mean "dimmed out"
           hide_dotfiles = false,
-          hide_hidden = false, -- only works on Windows for hidden files/directories
-          hide_gitignored = false,
+          hide_gitignored = true,
+        },
+      },
+      window = {
+        mappings = {
+          ["<C-v>"] = "open_vsplit",
+          ["<C-x>"] = "open_split",
+          ["l"] = {
+            function(state)
+              local node = state.tree:get_node()
+              if require("neo-tree.utils").is_expandable(node) then
+                state.commands["toggle_node"](state)
+              else
+                local windows = vim.api.nvim_list_wins()
+                if #windows > 1 then
+                  state.commands["open_with_window_picker"](state)
+                else
+                  state.commands["open"](state)
+                  vim.cmd("Neotree reveal")
+                end
+              end
+            end,
+          },
+          ["h"] = "close_node",
+          ["t"] = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            open_in_terminal(state, path)
+          end,
+          ["gtf"] = {
+            function(state)
+              local node = state.tree:get_node()
+              local path = node:get_id()
+
+              local is_folder = node.type == "directory"
+              local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
+              require("fzf-lua").files({
+                cwd = basedir,
+              })
+            end,
+          },
+          ["gb"] = "open_in_browser",
+          ["gtg"] = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            local is_folder = node.type == "directory"
+            local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
+            require("fzf-lua").live_grep({
+              cwd = basedir,
+            })
+          end,
+          ["<space>"] = "none",
+          ["Y"] = {
+            function(state)
+              local node = state.tree:get_node()
+              local path = node:get_id()
+              vim.fn.setreg("+", path, "c")
+            end,
+            desc = "Copy Path to Clipboard",
+          },
+          ["O"] = {
+            function(state)
+              require("lazy.util").open(state.tree:get_node().path, { system = true })
+            end,
+            desc = "Open with System Application",
+          },
+          ["P"] = { "toggle_preview", config = { use_float = false } },
+        },
+        commands = {
+          open_fn = function(state)
+            local node = state.tree:get_node()
+            if require("neo-tree.utils").is_expandable(node) then
+              state.commands["toggle_node"](state)
+            else
+              local windows = vim.api.nvim_list_wins()
+              if #windows > 1 then
+                state.commands["open_with_window_picker"](state)
+              else
+                state.commands["open"](state)
+                vim.cmd("Neotree reveal")
+              end
+            end
+          end,
+          open_in_browser = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            require("git").open_file_in_browser(path)
+          end,
+          open_in_terminal = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            open_in_terminal(state, path)
+          end,
+          fzf_find = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            require("fzf-lua").files({
+              cwd = path,
+            })
+          end,
+          fzf_grep = function(state)
+            local node = state.tree:get_node()
+            local path = node:get_id()
+            require("fzf-lua").live_grep({
+              cwd = path,
+            })
+          end,
+        },
+      },
+      default_component_configs = {
+        indent = {
+          with_expanders = true, -- if nil and file nesting is enabled, will enable expanders
+          expander_collapsed = "",
+          expander_expanded = "",
+          expander_highlight = "NeoTreeExpander",
+        },
+        git_status = {
+          symbols = {
+            unstaged = "󰄱",
+            staged = "󰱒",
+          },
         },
       },
     },
-  },
+    config = function(_, opts)
+      local function on_move(data)
+        Snacks.rename.on_rename_file(data.source, data.destination)
+      end
 
-  -- {
-  --   "telescope.nvim",
-  --   dependencies = {
-  --     { "nvim-telescope/telescope-dap.nvim" },
-  --     {
-  --       "nvim-telescope/telescope-fzf-native.nvim",
-  --       build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-  --     },
-  --     { "debugloop/telescope-undo.nvim" },
-  --   },
-  --   opts = {
-  --     defaults = {
-  --       layout_strategy = "horizontal",
-  --       layout_config = { prompt_position = "top" },
-  --       sorting_strategy = "ascending",
-  --       winblend = 10,
-  --     },
-  --     extensions = {
-  --       undo = {
-  --         use_delta = true,
-  --         side_by_side = true,
-  --         layout_strategy = "vertical",
-  --         layout_config = {
-  --           preview_height = 0.4,
-  --         },
-  --       },
-  --     },
-  --   },
-  --   config = function(_, opts)
-  --     local telescope = require("telescope")
-  --     telescope.setup(opts)
-  --     -- telescope.load_extension("dap")
-  --     -- telescope.load_extension("undo")
-  --   end,
-  -- },
-
-  {
-    "lewis6991/gitsigns.nvim",
-    opts = {
-      on_attach = function(bufnr)
-        local gs = package.loaded.gitsigns
-
-        local function map(mode, l, r, desc)
-          vim.keymap.set(mode, l, r, { buffer = buffer, desc = desc })
-        end
-
-        -- Navigation
-        map("n", "<leader>gj", function()
-          if vim.wo.diff then
-            return "]c"
+      local events = require("neo-tree.events")
+      opts.event_handlers = opts.event_handlers or {}
+      vim.list_extend(opts.event_handlers, {
+        { event = events.FILE_MOVED, handler = on_move },
+        { event = events.FILE_RENAMED, handler = on_move },
+      })
+      require("neo-tree").setup(opts)
+      vim.api.nvim_create_autocmd("TermClose", {
+        pattern = "*lazygit",
+        callback = function()
+          if package.loaded["neo-tree.sources.git_status"] then
+            require("neo-tree.sources.git_status").refresh()
           end
-          vim.schedule(function()
-            gs.next_hunk()
-          end)
-          return "<Ignore>"
-        end, "Next hunk")
-
-        map("n", "<leader>gk", function()
-          if vim.wo.diff then
-            return "[c"
-          end
-          vim.schedule(function()
-            gs.prev_hunk()
-          end)
-          return "<Ignore>"
-        end, "Prev hunk")
-
-        map("n", "<leader>gof", function()
-          local buffer_path = vim.fn.expand("%:p")
-          local line_number = vim.fn.line(".")
-          require("git").open_file_in_browser(buffer_path, line_number)
-        end, "Open file in browser")
-
-        map("n", "<leader>gol", function()
-          local buffer_path = vim.fn.expand("%:p")
-          local line_number = vim.fn.line(".")
-          require("git").open_file_in_browser_in_line(buffer_path, line_number)
-        end, "Open file and line in browser ")
-        map("n", "<leader>go.", function()
-          local buffer_path = vim.fn.expand("%:p")
-          local line_number = vim.fn.line(".")
-          require("git").open_file_in_browser_branch(buffer_path, line_number)
-        end, "Open file/line and branch in browser")
-        -- -- Actions
-        -- map("n", "<leader>gd", gs.diffthis)
-        -- map("n", "<leader>gD", function()
-        --   gs.diffthis("~")
-        -- end)
-        -- map("n", "<leader>gd", gs.toggle_deleted)
-        --
-        -- map({ "n", "v" }, "<leader>ghs", ":Gitsigns stage_hunk<CR>", "Stage Hunk")
-        -- map({ "n", "v" }, "<leader>ghr", ":Gitsigns reset_hunk<CR>", "Reset Hunk")
-        map("n", "<leader>ghS", function()
-          gs.stage_buffer()
-        end, "Stage Buffer")
-        map("n", "<leader>ghu", gs.undo_stage_hunk, "Undo Stage Hunk")
-        map("n", "<leader>ghR", gs.reset_buffer, "Reset Buffer")
-        map("n", "<leader>ghr", gs.reset_hunk, "Reset Hunk")
-        map("n", "<leader>ghp", gs.preview_hunk_inline, "Preview Hunk Inline")
-        map("n", "<leader>ghb", function()
-          gs.blame_line({ full = true })
-        end, "Blame Line")
-        map("n", "<leader>ghB", function()
-          gs.blame()
-        end, "Blame Buffer")
-        -- map("n", "<leader>ghd", gs.diffthis, "Diff This")
-        -- map("n", "<leader>ghD", function()
-        --   gs.diffthis("~")
-        -- end, "Diff This ~")
-        -- map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", "GitSigns Select Hunk")
-      end,
-    },
-  },
-  { "folke/noice.nvim", enabled = false },
-
-  {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    vscode = true,
-    ---@type Flash.Config
-    opts = {},
-    -- stylua: ignore
-    keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "<leader>S", mode = { "n", "o", "x" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-    },
-  },
-  {
-    "j-hui/fidget.nvim",
-    opts = {},
+        end,
+      })
+    end,
   },
 
   {
-    "folke/trouble.nvim",
+    "s1n7ax/nvim-window-picker",
     opts = {
-      modes = {
-        symbols = {
-          win = { size = { width = 50 } },
+      use_winbar = "smart",
+      autoselect_one = true,
+      include_current = false,
+      selection_chars = "ABCD",
+      filter_rules = {
+        bo = {
+          filetype = { "neo-tree-popup", "quickfix" },
+          buftype = { "terminal", "quickfix", "nofile" },
         },
       },
-    },
-    keys = {
-      { "<leader>xx", "<cmd>Trouble diagnostics focus=true<cr>", desc = "Diagnostics (Trouble)" },
-      {
-        "<leader>xX",
-        "<cmd>Trouble diagnostics filter.buf=0 focus=true<cr>",
-        desc = "Buffer Diagnostics (Trouble)",
+      picker_config = {
+        statusline_winbar_picker = {
+          -- You can change the display string in status bar.
+          -- It supports '%' printf style. Such as `return char .. ': %f'` to display
+          -- buffer file path. See :h 'stl' for details.
+          selection_display = function(char, windowid)
+            return "%=" .. char .. "%="
+          end,
+
+          -- whether you want to use winbar instead of the statusline
+          -- "always" means to always use winbar,
+          -- "never" means to never use winbar
+          -- "smart" means to use winbar if cmdheight=0 and statusline if cmdheight > 0
+          use_winbar = "always", -- "always" | "never" | "smart"
+        },
+
+        floating_big_letter = {
+          -- window picker plugin provides bunch of big letter fonts
+          -- fonts will be lazy loaded as they are being requested
+          -- additionally, user can pass in a table of fonts in to font
+          -- property to use instead
+
+          font = "ansi-shadow", -- ansi-shadow |
+        },
       },
-      { "<leader>cs", "<cmd>Trouble symbols focus=true<cr>", desc = "Symbols (Trouble)" },
-      {
-        "<leader>cS",
-        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-        desc = "LSP references/definitions/... (Trouble)",
+      hint = "statusline-winbar",
+      highlights = {
+        statusline = {
+          focused = {
+            fg = "#ededed",
+            bg = "#e35e4f",
+            bold = true,
+          },
+          unfocused = {
+            fg = "#cdd6f4",
+            bg = "#0064a3",
+            bold = true,
+          },
+        },
+        winbar = {
+          focused = {
+            fg = "#ededed",
+            bg = "#e35e4f",
+            bold = true,
+          },
+          unfocused = {
+            fg = "#cdd6f4",
+            bg = "#0064a3",
+            bold = true,
+          },
+        },
       },
     },
   },

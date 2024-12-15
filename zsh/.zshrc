@@ -1,7 +1,8 @@
-# Zsh Vi Mode and Comprehensive Development Prompt Configuration
+eval "$(starship init zsh)"
 
 # Ensure needed directories exist
 mkdir -p ~/.zsh
+source ~/.alias
 
 # Plugin directory
 ZSH_PLUGIN_DIR="${ZDOTDIR:-$HOME}/.zsh"
@@ -65,81 +66,91 @@ bindkey -M vicmd 'j' history-substring-search-down
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
-# Efficient vi mode indicator
-function zsh_vi_mode_prompt() {
-    case $KEYMAP in
-        vicmd) echo "%F{red}[N]%f" ;;
-        viins|main) echo "%F{green}[I]%f" ;;
-        *) echo "%F{yellow}[?]%f" ;;
-    esac
-}
-# Lightweight git branch function
-
-function git_prompt() {
-    git branch 2>/dev/null | grep '^*' | cut -d' ' -f2- | sed 's/^/ (/;s/$/)/;s/^( /(/'
-}
-
-function dev_env_prompt() {
-    local env_info=""
-    
-    # Python version detection
-    if [[ -f "pyproject.toml" || -f "setup.py" || -f "requirements.txt" ]]; then
-        local py_version=$(python --version 2>&1 | cut -d' ' -f2)
-        if [[ -n "$py_version" ]]; then
-            env_info+="%F{blue}(py:$py_version)%f"
-        fi
-        
-        # Virtual environment detection
-        if [[ -n "$VIRTUAL_ENV" ]]; then
-            env_info+="%F{cyan}(venv)%f"
-        fi
-    fi
-    
-    # Node.js version detection
-    if [[ -f "package.json" ]]; then
-        local node_version=$(node --version 2>&1 | sed 's/^v//')
-        if [[ -n "$node_version" ]]; then
-            env_info+="%F{green}(node:$node_version)%f"
-        fi
-    fi
-    
-    # Rust version detection
-    if [[ -f "Cargo.toml" ]]; then
-        local rust_version=$(rustc --version | cut -d' ' -f2)
-        if [[ -n "$rust_version" ]]; then
-            env_info+="%F{red}(rust:$rust_version)%f"
-        fi
-    fi
-    
-    echo "$env_info"
-}
-# Current directory shortening
-function short_path() {
-    local full_path=$(pwd)
-    local home_path=$(echo $HOME)
-    
-    # Replace home directory with ~
-    full_path=${full_path/#$home_path/\~}
-    
-    # If path is too long, show only last two directories
-    if [[ ${#full_path} -gt 40 ]]; then
-        full_path=$(echo $full_path | awk -F'/' '{print $(NF-1)"/"$NF}')
-    fi
-    
-    echo $full_path
-}
-
+# # Efficient vi mode indicator
+# function zsh_vi_mode_prompt() {
+#     case $KEYMAP in
+#         vicmd) echo "%F{red}[N]%f" ;;
+#         viins|main) echo "%F{green}[I]%f" ;;
+#         *) echo "%F{yellow}[?]%f" ;;
+#     esac
+# }
+# # Lightweight git branch function
+#
+# function git_prompt() {
+#     git branch 2>/dev/null | grep '^*' | cut -d' ' -f2- | sed 's/^/ (/;s/$/)/;s/^( /(/'
+# }
+#
+# function dev_env_prompt() {
+#     local env_info=""
+#
+#     # Python version detection
+#     if [[ -f "pyproject.toml" || -f "setup.py" || -f "requirements.txt" ]]; then
+#         local py_version=$(python --version 2>&1 | cut -d' ' -f2)
+#         if [[ -n "$py_version" ]]; then
+#             env_info+="%F{blue}(py:$py_version)%f"
+#         fi
+#
+#         # Virtual environment detection
+#         if [[ -n "$VIRTUAL_ENV" ]]; then
+#             env_info+="%F{cyan}(venv)%f"
+#         fi
+#     fi
+#
+#     # Node.js version detection
+#     if [[ -f "package.json" ]]; then
+#         local node_version=$(node --version 2>&1 | sed 's/^v//')
+#         if [[ -n "$node_version" ]]; then
+#             env_info+="%F{green}(node:$node_version)%f"
+#         fi
+#     fi
+#
+#     # Rust version detection
+#     if [[ -f "Cargo.toml" ]]; then
+#         local rust_version=$(rustc --version | cut -d' ' -f2)
+#         if [[ -n "$rust_version" ]]; then
+#             env_info+="%F{red}(rust:$rust_version)%f"
+#         fi
+#     fi
+#
+#     echo "$env_info"
+# }
+# # Current directory shortening
+# function short_path() {
+#     local full_path=$(pwd)
+#     local home_path=$(echo $HOME)
+#
+#     # Replace home directory with ~
+#     full_path=${full_path/#$home_path/\~}
+#
+#     # If path is too long, show only last two directories
+#     if [[ ${#full_path} -gt 40 ]]; then
+#         full_path=$(echo $full_path | awk -F'/' '{print $(NF-1)"/"$NF}')
+#     fi
+#
+#     echo $full_path
+# }
+#
+# # # Prompt setup
+# # setopt PROMPT_SUBST
+# # export PROMPT='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f$(git_prompt)$(dev_env_prompt)$(zsh_vi_mode_prompt) $ '
+#
 # # Prompt setup
 # setopt PROMPT_SUBST
-# export PROMPT='%F{magenta}%n%f@%F{yellow}%m%f:%F{cyan}%~%f$(git_prompt)$(dev_env_prompt)$(zsh_vi_mode_prompt) $ '
-
-# Prompt setup
-setopt PROMPT_SUBST
-PROMPT="%F{green}$(short_path)%f %F{yellow}$(dev_env_prompt)$(git_prompt)%f %F{242}%*%f
-%(?.%F{blue}❯%f.%F{red}❯%f) "
-
-# Right prompt for additional information
-RPROMPT='%F{242}%*%f'
+# PROMPT="%F{green}$(short_path)%f %F{yellow}$(dev_env_prompt)$(git_prompt)%f %F{242}%*%f
+# %(?.%F{blue}❯%f.%F{red}❯%f) "
+#
+# # Directory change reload prompt function
+# function reload_prompt_on_cd() {
+#     # Force Zsh to refresh the prompt without altering the prompt variables
+#     PROMPT=$PROMPT
+#     zle reset-prompt
+# }
+#
+# # Attach to the chpwd hook to reload the prompt on directory change
+# autoload -Uz add-zle-hook-widget
+# autoload -Uz add-zsh-hook
+# autoload -Uz add-zle 
+# add-zsh-hook chpwd reload_prompt_on_cd
 
 # Autosuggestions configuration
 source "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
@@ -163,10 +174,44 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case-insensitive com
 source "${ZDOTDIR:-$HOME}/.zsh-autosuggestions/zsh-autosuggestions.zsh"
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
-# Tab completion
-autoload -Uz compinit
-compinit -C
 
 # Performance optimization
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
+
+eval "$(zoxide init zsh)"
+
+export PATH=$HOME/.local/bin:$PATH
+export PATH=/opt/homebrew/bin/:$PATH
+export DPRINT_INSTALL="/Users/marc.arbones/.dprint"
+export LUA_LANGUAGE_SERVER="$HOME/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin"
+export PATH="$DPRINT_INSTALL/bin:$PATH"
+export PATH="$LUA_LANGUAGE_SERVER:$PATH"
+
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
+export PATH="$GO_BIN_FOLDER:$PATH"
+export PATH=$PATH:/mnt/c/Users/marbo/AppData/Local/Programs/Microsoft\ VS\ Code/bin
+
+# bun completions
+[ -s "/home/marbones/.bun/_bun" ] && source "/home/marbones/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# java
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# pnpm
+export PNPM_HOME="/home/marbones/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
