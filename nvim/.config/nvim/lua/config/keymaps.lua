@@ -46,11 +46,10 @@ map("v", ">", ">gv")
 map("n", "<leader>h", ":noh<CR>", { silent = true })
 map("n", "<ESC>", ":noh<CR>", { silent = true, remap = true })
 
-map("n", "<A-Up>", ":resize +6<CR>")
-map("n", "<A-Down>", ":resize -4<CR>")
-map("n", "<A-Right>", ":vertical resize +6<CR>")
-map("n", "<A-Left>", ":vertical resize -4<CR>")
-map("n", "gm", ":call cursor(1, len(getline('.'))/2)<CR>")
+map("n", "<A-Up>", "<cmd>resize +6<CR>")
+map("n", "<A-Down>", "<cmd>resize -4<CR>")
+map("n", "<A-Right>", "<cmd>vertical resize +6<CR>")
+map("n", "<A-Left>", "<cmd>vertical resize -4<CR>")
 
 -- buffers
 map("n", "<leader>bn", function()

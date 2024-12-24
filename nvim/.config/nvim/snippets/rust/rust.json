@@ -1,1 +1,12 @@
-{}
+{
+  "maint": {
+    "prefix": "maint",
+    "description": "Tokio main",
+    "body": [
+      "#[tokio::main]",
+      "async fn main() {",
+      "    ${1:todo!();}",
+      "}"
+    ]
+  }
+}
