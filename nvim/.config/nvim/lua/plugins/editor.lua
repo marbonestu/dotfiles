@@ -1,3 +1,28 @@
+local function getTelescopeOpts(state, path)
+  local node = state.tree:get_node()
+  local is_folder = node.type == "directory"
+  local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
+  return {
+    cwd = basedir,
+    search_dirs = { basedir },
+    attach_mappings = function(prompt_bufnr, map)
+      local actions = require("telescope.actions")
+      actions.select_default:replace(function()
+        actions.close(prompt_bufnr)
+        local action_state = require("telescope.actions.state")
+        local selection = action_state.get_selected_entry()
+        local filename = selection.filename
+        if filename == nil then
+          filename = selection[1]
+        end
+        -- any way to open the file without triggering auto-close event of neo-tree?
+        vim.cmd("e " .. vim.fn.fnameescape(filename))
+      end)
+      return true
+    end,
+  }
+end
+
 local function open_in_terminal(state, path)
   local node = state.tree:get_node()
   local is_folder = node.type == "directory"
@@ -111,6 +136,8 @@ return {
               local node = state.tree:get_node()
               local path = node:get_id()
 
+              -- require("telescope.builtin").find_files(getTelescopeOpts(state, path))
+
               local is_folder = node.type == "directory"
               local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
               require("fzf-lua").files({
@@ -122,6 +149,8 @@ return {
           ["gtg"] = function(state)
             local node = state.tree:get_node()
             local path = node:get_id()
+            -- require("telescope.builtin").live_grep(getTelescopeOpts(state, path))
+
             local is_folder = node.type == "directory"
             local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
             require("fzf-lua").live_grep({
@@ -223,6 +252,16 @@ return {
       })
     end,
   },
+  {
+    "ibhagwan/fzf-lua",
+    opts = {
+      defaults = {
+        lsp = {
+          async_or_timeout = true,
+        },
+      },
+    },
+  },
 
   {
     "s1n7ax/nvim-window-picker",
@@ -291,4 +330,22 @@ return {
       },
     },
   },
+
+  -- {
+  --   "nvim-telescope/telescope.nvim",
+  --   cmd = "Telescope",
+  --   enabled = function()
+  --     return LazyVim.pick.want() == "telescope"
+  --   end,
+  --   keys = {
+  --     {
+  --       "gr",
+  --       function()
+  --         require("telescope.builtin").lsp_references({ reuse_win = true })
+  --       end,
+  --       desc = "Goto Definition",
+  --       has = "definition",
+  --     },
+  --   },
+  -- },
 }
