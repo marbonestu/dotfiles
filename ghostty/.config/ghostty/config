@@ -1,5 +1,5 @@
 # Comments start with a `#` and are only valid on their own line.
-# Blank lines are ignored!
+window-decoration = false
 macos-titlebar-proxy-icon = hidden
 title = " "
 macos-option-as-alt = true

@@ -19,6 +19,7 @@ DOTFILES_FOLDERS="
   wallust,
   zsh,
   wlogout,
+  ghostty
 "
 
 for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
