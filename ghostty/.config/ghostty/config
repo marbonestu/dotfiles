@@ -5,6 +5,11 @@ title = " "
 macos-option-as-alt = true
 keybind = alt+right=unbind
 keybind = alt+left=unbind
+keybind = alt+1=unbind
+keybind = alt+2=unbind
+keybind = alt+3=unbind
+keybind = alt+4=unbind
+keybind = alt+5=unbind
 # keybind = ctrl+z=close_surface
 # keybind = alt+shift+equal=new_split:right
 # keybind = alt+shift+-=new_split:down
