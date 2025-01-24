@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
 PROJECTS_PATHS=(
-  ~/projects
-  ~/projects/fermyon
-  ~/projects/diligent
-  ~/projects/flux
-  ~/projects/wasmcloud
-  ~/projects/nvim-configs/
+	~/projects
+	~/projects/fermyon
+	~/projects/diligent
+	~/projects/pact-foundation
+	~/projects/flux
+	~/projects/wasmcloud
+	~/projects/nvim-configs/
 )
 
 EXISTING_PROJECTS_PATHS=()

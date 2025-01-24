@@ -136,26 +136,26 @@ return {
               local node = state.tree:get_node()
               local path = node:get_id()
 
-              -- require("telescope.builtin").find_files(getTelescopeOpts(state, path))
+              require("telescope.builtin").find_files(getTelescopeOpts(state, path))
 
-              local is_folder = node.type == "directory"
-              local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
-              require("fzf-lua").files({
-                cwd = basedir,
-              })
+              -- local is_folder = node.type == "directory"
+              -- local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
+              -- require("fzf-lua").files({
+              --   cwd = basedir,
+              -- })
             end,
           },
           ["gb"] = "open_in_browser",
           ["gtg"] = function(state)
             local node = state.tree:get_node()
             local path = node:get_id()
-            -- require("telescope.builtin").live_grep(getTelescopeOpts(state, path))
+            require("telescope.builtin").live_grep(getTelescopeOpts(state, path))
 
-            local is_folder = node.type == "directory"
-            local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
-            require("fzf-lua").live_grep({
-              cwd = basedir,
-            })
+            -- local is_folder = node.type == "directory"
+            -- local basedir = is_folder and path or vim.fn.fnamemodify(path, ":h")
+            -- require("fzf-lua").live_grep({
+            --   cwd = basedir,
+            -- })
           end,
           ["<space>"] = "none",
           ["Y"] = {

@@ -50,7 +50,7 @@ end
 
 -- App Shortcuts
 hotkey.bind(mashApps, "1", function()
-	application.launchOrFocus("kitty")
+	application.launchOrFocus("Ghostty")
 end)
 hotkey.bind(mashApps, "2", function()
 	application.launchOrFocus("Firefox")

@@ -2,7 +2,7 @@ theme = "tokyonight"
 
 [editor]
 line-number = "relative"
-mouse = false
+mouse = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -14,6 +14,10 @@ hidden = false
 
 
 [keys.normal]
+C-h = "jump_view_left"
+C-j = "jump_view_down"
+C-k = "jump_view_up"
+C-l = "jump_view_right"
 C-e = "@9zj"
 C-y = "@9zk"
 C-d = "@5j"
@@ -25,9 +29,7 @@ C-s = [":write", "normal_mode"]
 
 [keys.normal.space]
 Q = ":qa"
+e = ":sh zellij run -f -x 10% -y 10% --width 80% --height 80% -- sh ~/.config/helix/nnn-picker.sh"
 
 [keys.normal.space.u]
 h = ":toggle lsp.display-inlay-hints"
-
-[keys.normal]
-C-e = ":sh zellij run -f -x 10% -y 10% --width 80% --height 80% -- sh ~/.config/helix/nnn-picker.sh"

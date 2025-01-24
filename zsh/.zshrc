@@ -173,11 +173,6 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case-insensitive completion
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
-
-# Performance optimization
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
-
 eval "$(zoxide init zsh)"
 
 export PATH=$HOME/.local/bin:$PATH
@@ -194,6 +189,8 @@ export PATH=$PATH:/mnt/c/Users/marbo/AppData/Local/Programs/Microsoft\ VS\ Code/
 
 # bun completions
 [ -s "/home/marbones/.bun/_bun" ] && source "/home/marbones/.bun/_bun"
+
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"

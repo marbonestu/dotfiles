@@ -1,0 +1,25 @@
+# Comments start with a `#` and are only valid on their own line.
+# Blank lines are ignored!
+macos-titlebar-proxy-icon = hidden
+title = " "
+macos-option-as-alt = true
+keybind = alt+right=unbind
+keybind = alt+left=unbind
+# keybind = ctrl+z=close_surface
+# keybind = alt+shift+equal=new_split:right
+# keybind = alt+shift+-=new_split:down
+# keybind = shift+alt+w=close_window
+# keybind = shift+alt+z=toggle_split_zoom
+# keybind = shift+alt+j=goto_split:bottom
+# keybind = shift+alt+k=goto_split:top
+# keybind = shift+alt+l=goto_split:right
+# keybind = shift+alt+h=goto_split:left
+# keybind = alt+up=resize_split:up,30
+# keybind = alt+down=resize_split:down,30
+# keybind = alt+left=resize_split:left,30
+# keybind = alt+right=resize_split:right,30
+
+# keybind = global:cmd+grave_accent=toggle_quick_terminal
+
+theme = tokyonight_night
+

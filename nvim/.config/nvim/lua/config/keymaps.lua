@@ -56,6 +56,23 @@ map("n", "<leader>bn", function()
   print(vim.fn.bufname())
 end)
 
+map("n", "<leader>gof", function()
+  local buffer_path = vim.fn.expand("%:p")
+  local line_number = vim.fn.line(".")
+  require("git").open_file_in_browser(buffer_path, line_number)
+end)
+
+map("n", "<leader>gol", function()
+  local buffer_path = vim.fn.expand("%:p")
+  local line_number = vim.fn.line(".")
+  require("git").open_file_in_browser_in_line(buffer_path, line_number)
+end)
+map("n", "<leader>go.", function()
+  local buffer_path = vim.fn.expand("%:p")
+  local line_number = vim.fn.line(".")
+  require("git").open_file_in_browser_branch(buffer_path, line_number)
+end)
+
 -- Utils
 function ToggleVirtualText()
   if vim.g.virtual_text_enabled then

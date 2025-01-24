@@ -5,13 +5,15 @@ DOTFILES_FOLDERS="
   tmux,
   hypr,
   git,
+  helix,
   nvim,
   zsh,
   lazygit,
   starship,
   kitty,
+  ghostty
 "
 
 for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
-	stow -vSt ~ $folder
+  stow -vSt ~ $folder
 done

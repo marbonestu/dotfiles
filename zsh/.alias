@@ -1,5 +1,7 @@
 alias ibrew='arch -x86_64 /usr/local/bin/brew'
 
+alias a='assume'
+
 alias v='nvim'
 alias la='eza -la'
 alias ls='eza'
@@ -26,6 +28,7 @@ alias t='tmuxp load -y scratch'
 alias ta='tmux-sessionizer'
 
 # docker
+alias docker='podman'
 alias d='docker'
 alias dpa='docker ps -a'
 alias dia='docker images -a'
@@ -58,3 +61,15 @@ alias video_to_gif='function video_to_gif(){ ffmpeg -i $1 output.gif && gifsicle
 # And now you can do this:
 # video_to_gif video.mov output2.gif
 
+function gc {
+  local GHOSTTY_DIR="$HOME/.config/ghostty"
+  local CMD="sed -i '' 's:\(config-file = {1}\)/.*:\1/{2}:' $GHOSTTY_DIR/config && osascript -so -e 'tell application \"Ghostty\" to activate' -e 'tell application \"System Events\" to keystroke \",\" using {command down, shift down}'"
+  fd \
+    --type f \
+    --exclude 'config' \
+    --base-directory $GHOSTTY_DIR \
+  | fzf \
+    --preview "cat $GHOSTTY_DIR/{}" \
+    --delimiter=/ \
+    --bind="enter:become:$CMD"
+}
