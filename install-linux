@@ -6,6 +6,7 @@ DOTFILES_FOLDERS="
   git,
   kitty,
   nvim,
+  helix,
   lazygit,
   starship,
   qt5ct,

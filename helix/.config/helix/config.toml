@@ -1,0 +1,33 @@
+theme = "tokyonight"
+
+[editor]
+line-number = "relative"
+mouse = false
+
+[editor.cursor-shape]
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+
+[keys.normal]
+C-e = "@9zj"
+C-y = "@9zk"
+C-d = "@5j"
+C-u = "@5k"
+C-s = ":write" # Ctrl and 's' to write
+
+[keys.insert]
+C-s = [":write", "normal_mode"]
+
+[keys.normal.space]
+Q = ":qa"
+
+[keys.normal.space.u]
+h = ":toggle lsp.display-inlay-hints"
+
+[keys.normal]
+C-e = ":sh zellij run -f -x 10% -y 10% --width 80% --height 80% -- sh ~/.config/helix/nnn-picker.sh"
