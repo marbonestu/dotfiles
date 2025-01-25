@@ -14,6 +14,7 @@ hidden = false
 
 
 [keys.normal]
+S-k = "hover"
 C-h = "jump_view_left"
 C-j = "jump_view_down"
 C-k = "jump_view_up"
@@ -24,8 +25,9 @@ C-d = "@5j"
 C-u = "@5k"
 C-s = ":write" # Ctrl and 's' to write
 
-[keys.insert]
-C-s = [":write", "normal_mode"]
+[keys.insert.j]
+j = "normal_mode"
+
 
 [keys.normal.space]
 Q = ":qa"

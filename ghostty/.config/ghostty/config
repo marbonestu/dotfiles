@@ -1,6 +1,9 @@
 # Comments start with a `#` and are only valid on their own line.
 window-decoration = false
 macos-titlebar-proxy-icon = hidden
+window-padding-x = 5
+window-padding-y = 5
+
 title = " "
 macos-option-as-alt = true
 keybind = alt+right=unbind
