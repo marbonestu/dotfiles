@@ -1,9 +1,13 @@
-theme = "tokyonight"
+theme = "tokyonight-ext"
 
 [editor]
 line-number = "relative"
 mouse = true
 preview-completion-insert = false
+
+[editor.indent-guides]
+render = true
+skip-levels = 1
 
 [editor.cursor-shape]
 insert = "bar"
