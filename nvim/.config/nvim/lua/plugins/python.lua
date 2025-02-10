@@ -14,4 +14,21 @@ return {
   keys = {
     { ",v", "<cmd>VenvSelect<cr>" },
   },
+
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                pycodestyle = { enabled = false }, -- Disable pycodestyle
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 }

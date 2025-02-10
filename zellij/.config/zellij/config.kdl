@@ -1,0 +1,140 @@
+theme "dracula"
+default_layout "compact"
+pane_frames false
+
+layout_dir "$HOME/.config/zellij/layouts"
+
+// The folder in which Zellij will look for themes
+// (Requires restart)
+//
+// theme_dir "/path/to/my/theme_dir"
+
+// Enable or disable the rendering of styled and colored underlines (undercurl).
+// May need to be disabled for certain unsupported terminals
+// (Requires restart)
+// Default: true
+//
+// styled_underlines false
+
+// Enable or disable writing of session metadata to disk (if disabled, other sessions might not know
+// metadata info on this session)
+// (Requires restart)
+// Default: false
+//
+// disable_session_metadata true
+
+// Enable or disable support for the enhanced Kitty Keyboard Protocol (the host terminal must also support it)
+// (Requires restart)
+// Default: true (if the host terminal supports it)
+//
+// support_kitty_keyboard_protocol false
+
+keybinds {
+  normal {}
+
+  locked {
+    bind "Alt g" { SwitchToMode "Normal"; }
+  }
+
+  move {
+    bind "Alt v" { SwitchToMode "Normal"; }
+  }
+
+  pane {
+    bind "Alt a" { SwitchToMode "Normal"; }
+  }
+
+  scroll {
+    bind "Alt s" { SwitchToMode "Normal"; }
+  }
+
+  session {
+    bind "Alt o" { SwitchToMode "Normal"; }
+    bind "Alt s" { SwitchToMode "scroll"; }
+  }
+
+  tab {
+    bind "Alt b" { SwitchToMode "Normal"; }
+  }
+
+  shared_except "locked" {
+    unbind "Ctrl h" // was Move, now Alt-v
+    unbind "Ctrl o" // was Session, now Alt-w
+    unbind "Ctrl s" // was Scroll, now Alt-s
+    unbind "Ctrl n" // was Resize, now Alt-z
+    unbind "Ctrl p" // was Pane, now Alt-p
+    unbind "Ctrl t" // was Tab, now Alt-b
+    unbind "Ctrl g" // was Locked, now Alt-g
+    unbind "Ctrl q" // was Quit, now Alt-q
+    bind "Alt Shift -" { NewPane "Down"; SwitchToMode "Normal"; }
+    bind "Alt Shift =" { NewPane "Right"; SwitchToMode "Normal"; }
+    bind "Alt w" { CloseFocus; SwitchToMode "Normal"; }
+    bind "Alt g" { SwitchToMode "locked"; }
+    bind "Alt d" { Run "zellij" "run" "-fc" "--" "bash" "-c" "$HOME/.config/zellij/scripts/open-project.sh"; }
+    bind "Alt q" { Quit; }
+    bind "Alt t" { NewTab; }
+    bind "Alt f" { ToggleFloatingPanes; }
+    bind "Alt 1" { GoToTab 1; }
+    bind "Alt 2" { GoToTab 2; }
+    bind "Alt 3" { GoToTab 3; }
+    bind "Alt 4" { GoToTab 4; }
+    bind "Alt 5" { GoToTab 5; }
+    bind "Alt 6" { GoToTab 6; }
+    bind "Alt 7" { GoToTab 7; }
+    bind "Alt 8" { GoToTab 8; }
+    bind "Alt 9" { GoToTab 9; }
+    bind "Alt 0" { GoToTab 10; }
+    bind "Alt Right" { Resize "Increase Right"; }
+    bind "Alt Left" { Resize "Increase Left"; }
+    bind "Alt Down" { Resize "Increase Down"; }
+    bind "Alt Up" { Resize "Increase Up"; }
+  }
+
+  tmux {
+      bind "[" { SwitchToMode "Scroll"; }
+      bind "Ctrl b" { Write 2; SwitchToMode "Normal"; }
+      bind "\"" { NewPane "Down"; SwitchToMode "Normal"; }
+      bind "%" { NewPane "Right"; SwitchToMode "Normal"; }
+      bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
+      bind "c" { NewTab; SwitchToMode "Normal"; }
+      bind "," { SwitchToMode "RenameTab"; }
+      bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
+      bind "n" { GoToNextTab; SwitchToMode "Normal"; }
+      bind "Left" { MoveFocus "Left"; SwitchToMode "Normal"; }
+      bind "Right" { MoveFocus "Right"; SwitchToMode "Normal"; }
+      bind "Down" { MoveFocus "Down"; SwitchToMode "Normal"; }
+      bind "Up" { MoveFocus "Up"; SwitchToMode "Normal"; }
+      bind "h" { MoveFocus "Left"; SwitchToMode "Normal"; }
+      bind "l" { MoveFocus "Right"; SwitchToMode "Normal"; }
+      bind "j" { MoveFocus "Down"; SwitchToMode "Normal"; }
+      bind "k" { MoveFocus "Up"; SwitchToMode "Normal"; }
+      bind "o" { FocusNextPane; }
+      bind "d" { Detach; }
+      bind "Space" { NextSwapLayout; }
+      bind "x" { CloseFocus; SwitchToMode "Normal"; }
+  }
+
+  shared_except "move" "locked" {
+    bind "Alt v" { SwitchToMode "move"; }
+  }
+
+  shared_except "pane" "locked" {
+    bind "Alt p" { SwitchToMode "pane"; }
+  }
+
+  shared_except "resize" "locked" {
+    bind "Alt z" { SwitchToMode "resize"; }
+  }
+
+  shared_except "scroll" "locked" {
+    bind "Alt s" { SwitchToMode "scroll"; }
+  }
+
+  shared_except "session" "locked" {
+    bind "Alt o" { SwitchToMode "session"; }
+  }
+
+  shared_except "tab" "locked" {
+    bind "Alt b" { SwitchToMode "tab"; }
+  }
+}
