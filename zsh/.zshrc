@@ -1,5 +1,8 @@
 eval "$(starship init zsh)"
 
+export SUDO_EDITOR='nvim'
+export EDITOR='nvim'
+
 # Ensure needed directories exist
 mkdir -p ~/.zsh
 source ~/.alias
@@ -211,5 +214,10 @@ esac
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+# chsarp
+# export PATH="$PATH:/home/marbonestu/.dotnet/tools"
+export PATH="$PATH:/home/marbonestu/.dotnet"
+export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
 
 eval "$(fnm env --use-on-cd --shell zsh)"
