@@ -4,6 +4,10 @@ theme = "tokyonight-ext"
 line-number = "relative"
 mouse = true
 preview-completion-insert = false
+end-of-line-diagnostics = "hint"
+
+[editor.inline-diagnostics]
+cursor-line = "warning" # show warnings and errors on the cursorline inline
 
 [editor.indent-guides]
 render = true
