@@ -28,7 +28,7 @@ alias t='tmuxp load -y scratch'
 alias ta='tmux-sessionizer'
 
 # docker
-alias docker='podman'
+# alias docker='podman'
 alias d='docker'
 alias dpa='docker ps -a'
 alias dia='docker images -a'

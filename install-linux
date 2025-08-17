@@ -20,9 +20,10 @@ DOTFILES_FOLDERS="
   zsh,
   wlogout,
   ghostty,
-  zellij
+  zellij,
+  opencode
 "
 
 for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
-	stow -vSt ~ $folder
+  stow -vSt ~ $folder
 done
