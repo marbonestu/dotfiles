@@ -11,7 +11,9 @@ DOTFILES_FOLDERS="
   lazygit,
   starship,
   kitty,
-  ghostty
+  ghostty,
+  zellij,
+  opencode
 "
 
 for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do

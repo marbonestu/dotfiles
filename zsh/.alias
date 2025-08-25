@@ -43,6 +43,7 @@ alias k='kubectl'
 alias venv='source .venv/bin/activate'
 alias activate_venv='source .venv/bin/activate'
 
+alias oc='opencode'
 
 function cd {
   builtin cd "$@" && la

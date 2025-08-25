@@ -19,15 +19,17 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        -- pylsp = {
-        --   settings = {
-        --     pylsp = {
-        --       plugins = {
-        --         pycodestyle = { enabled = false }, -- Disable pycodestyle
-        --       },
-        --     },
-        --   },
-        -- },
+        pylsp = {
+          settings = {
+            pylsp = {
+              plugins = {
+                pycodestyle = { enabled = false }, -- Disable pycodestyle
+                autopep8 = { enabled = false }, -- Disable autopep8 formatting
+                yapf = { enabled = false }, -- Disable yapf formatting
+              },
+            },
+          },
+        },
       },
     },
   },

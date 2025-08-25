@@ -1,0 +1,8 @@
+# Show the main prompt on the left
+add_newline = true
+
+# Show time on the right
+right_format = "$time"
+
+[time]
+disabled = false

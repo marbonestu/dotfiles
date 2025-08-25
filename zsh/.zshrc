@@ -2,6 +2,7 @@ eval "$(starship init zsh)"
 
 export SUDO_EDITOR='nvim'
 export EDITOR='nvim'
+export HELIX_RUNTIME=~/projects/helix/runtime
 
 # Ensure needed directories exist
 mkdir -p ~/.zsh
@@ -211,9 +212,9 @@ case ":$PATH:" in
 esac
 
 # Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# export PYENV_ROOT="$HOME/.pyenv"
+# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 
 # chsarp
 # export PATH="$PATH:/home/marbonestu/.dotnet/tools"
@@ -221,3 +222,7 @@ export PATH="$PATH:/home/marbonestu/.dotnet"
 export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
 
 eval "$(fnm env --use-on-cd --shell zsh)"
+
+# opencode
+export PATH=/Users/marbones-remote/.opencode/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"
