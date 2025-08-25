@@ -4,6 +4,10 @@ export SUDO_EDITOR='nvim'
 export EDITOR='nvim'
 export HELIX_RUNTIME=~/projects/helix/runtime
 
+# TAURI
+export GDK_BACKEND=x11 
+export WEBKIT_DISABLE_DMABUF_RENDERER=1
+
 # Ensure needed directories exist
 mkdir -p ~/.zsh
 source ~/.alias
