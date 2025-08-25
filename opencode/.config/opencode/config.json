@@ -3,9 +3,6 @@
   "theme": "opencode",
   "model": "anthropic/claude-sonnet-4-20250514",
   "autoupdate": true,
-  "instructions": [
-    "~/.config/opencode/instructions/*.md"
-  ],
   "mcp": {
     "playwright": {
       "type": "local",
@@ -15,6 +12,10 @@
       "type": "local",
       "command": ["npx", "-y", "@upstash/context7-mcp"],
       "enabled": true
+    },
+    "shadcn": {
+      "type": "local",
+      "command": ["npx", "-y", "mcp-remote", "https://www.shadcn.io/api/mcp"]
     }
   }
 }
