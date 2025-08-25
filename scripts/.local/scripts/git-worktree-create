@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+
+# Git Worktree Creator
+# Creates a new git worktree following the naming pattern: {repo-name}-{branch-name}
+
+set -e
+
+# Parse arguments
+CD_TO_WORKTREE=false
+BRANCH_NAME=""
+PARENT_DIR="../"
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --cd)
+            CD_TO_WORKTREE=true
+            shift
+            ;;
+        --parent-dir)
+            PARENT_DIR="$2"
+            shift 2
+            ;;
+        *)
+            if [ -z "$BRANCH_NAME" ]; then
+                BRANCH_NAME="$1"
+            else
+                echo "Error: Multiple branch names provided"
+                exit 1
+            fi
+            shift
+            ;;
+    esac
+done
+
+# Check if branch name is provided
+if [ -z "$BRANCH_NAME" ]; then
+    echo "Usage: $0 [--cd] [--parent-dir <path>] <branch-name>"
+    echo "Example: $0 feature/new-component"
+    echo "Example: $0 --cd feature/new-component"
+    echo "Example: $0 --parent-dir ~/projects feature/new-component"
+    echo ""
+    echo "Options:"
+    echo "  --cd                 Change directory to the new worktree after creation"
+    echo "  --parent-dir <path>  Directory where worktree will be created (default: ../)"
+    exit 1
+fi
+
+# Check if we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Error: Not in a git repository"
+    exit 1
+fi
+
+# Get the repository name from the remote URL or directory name
+REPO_NAME=$(basename "$(git rev-parse --show-toplevel)")
+
+# Sanitize branch name for directory usage (replace / with -)
+SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g')
+
+# Create worktree directory name
+WORKTREE_DIR="${REPO_NAME}-${SANITIZED_BRANCH}"
+
+# Resolve the parent directory path
+if [[ "$PARENT_DIR" == /* ]]; then
+    # Absolute path
+    RESOLVED_PARENT_DIR="$PARENT_DIR"
+else
+    # Relative path - resolve relative to current git repo
+    CURRENT_REPO_DIR=$(git rev-parse --show-toplevel)
+    RESOLVED_PARENT_DIR=$(cd "$CURRENT_REPO_DIR" && cd "$PARENT_DIR" && pwd)
+fi
+
+# Full path for the new worktree
+WORKTREE_PATH="${RESOLVED_PARENT_DIR}/${WORKTREE_DIR}"
+
+# Check if the worktree directory already exists
+if [ -d "$WORKTREE_PATH" ]; then
+    echo "Error: Directory '$WORKTREE_PATH' already exists"
+    exit 1
+fi
+
+# Check if the branch already exists locally
+if git show-ref --verify --quiet refs/heads/"$BRANCH_NAME"; then
+    echo "Creating worktree for existing branch: $BRANCH_NAME"
+    git worktree add "$WORKTREE_PATH" "$BRANCH_NAME"
+else
+    echo "Creating worktree with new branch: $BRANCH_NAME"
+    git worktree add -b "$BRANCH_NAME" "$WORKTREE_PATH"
+fi
+
+echo "✓ Worktree created: $WORKTREE_PATH"
+
+if [ "$CD_TO_WORKTREE" = true ]; then
+    echo "Changing directory to: $WORKTREE_PATH"
+    cd "$WORKTREE_PATH"
+    exec "$SHELL"
+else
+    echo "To navigate: cd $WORKTREE_PATH"
+fi

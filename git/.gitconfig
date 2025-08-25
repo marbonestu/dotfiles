@@ -47,6 +47,7 @@
 
 [alias]
     co = checkout
+    wt = worktree
     c = commit -m
     camend = commit --amend
     sw = switch

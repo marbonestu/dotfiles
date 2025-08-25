@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 DOTFILES_FOLDERS="
-  bin,
   dunst,
   hypr,
   git,
@@ -21,7 +20,8 @@ DOTFILES_FOLDERS="
   wlogout,
   ghostty,
   zellij,
-  opencode
+  opencode,
+  scripts
 "
 
 for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do

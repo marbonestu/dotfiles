@@ -22,6 +22,7 @@ alias gP='git push'
 alias gf='git fetch origin'
 alias gca='git commit --amend'
 alias ghb='gh browse'
+alias gwt='git-worktree-create'
 
 # tmux
 alias t='tmuxp load -y scratch'
