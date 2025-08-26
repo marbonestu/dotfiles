@@ -51,8 +51,30 @@ if ! git rev-parse --git-dir > /dev/null 2>&1; then
     exit 1
 fi
 
-# Get the repository name from the remote URL or directory name
-REPO_NAME=$(basename "$(git rev-parse --show-toplevel)")
+# Get the repository name, handling worktrees correctly
+if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    # Find the main repository (the worktree path that contains .git directory)
+    MAIN_WORKTREE_PATH=$(git worktree list | awk '{print $1}' | xargs -I {} find {} -maxdepth 1 -name ".git" -type d | sed 's|/.git||' | head -1)
+    
+    echo "Debug: Main worktree path = $MAIN_WORKTREE_PATH"
+    
+    if [ -n "$MAIN_WORKTREE_PATH" ]; then
+        REPO_NAME=$(basename "$MAIN_WORKTREE_PATH")
+        CURRENT_PATH=$(pwd)
+        if [ "$CURRENT_PATH" != "$MAIN_WORKTREE_PATH" ]; then
+            echo "Detected worktree. Using root repository name: $REPO_NAME"
+        else
+            echo "In main repository. Repository name: $REPO_NAME"
+        fi
+    else
+        # Fallback to current directory name
+        REPO_NAME=$(basename "$(git rev-parse --show-toplevel)")
+        echo "Fallback: Using current directory name: $REPO_NAME"
+    fi
+else
+    echo "Error: Not in a git repository"
+    exit 1
+fi
 
 # Sanitize branch name for directory usage (replace / with -)
 SANITIZED_BRANCH=$(echo "$BRANCH_NAME" | sed 's/\//-/g')
@@ -65,9 +87,13 @@ if [[ "$PARENT_DIR" == /* ]]; then
     # Absolute path
     RESOLVED_PARENT_DIR="$PARENT_DIR"
 else
-    # Relative path - resolve relative to current git repo
-    CURRENT_REPO_DIR=$(git rev-parse --show-toplevel)
-    RESOLVED_PARENT_DIR=$(cd "$CURRENT_REPO_DIR" && cd "$PARENT_DIR" && pwd)
+    # Relative path - resolve relative to main repository (not current worktree)
+    if [ -n "$MAIN_WORKTREE_PATH" ]; then
+        RESOLVED_PARENT_DIR=$(cd "$MAIN_WORKTREE_PATH" && cd "$PARENT_DIR" && pwd)
+    else
+        # Fallback to current directory
+        RESOLVED_PARENT_DIR=$(cd "$(git rev-parse --show-toplevel)" && cd "$PARENT_DIR" && pwd)
+    fi
 fi
 
 # Full path for the new worktree
