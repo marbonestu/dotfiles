@@ -37,6 +37,8 @@ alias dc='docker-compose'
 alias dcu='docker-compose up'
 alias dcd='docker-compose down'
 
+alias cargo='limited 12G /home/marbonestu/.cargo/bin/cargo'
+
 # kubernetes
 alias k='kubectl'
 
@@ -62,6 +64,12 @@ alias myip="curl -s https://ipv4.icanhazip.com/"
 alias video_to_gif='function video_to_gif(){ ffmpeg -i $1 output.gif && gifsicle -O3 output.gif -o output.gif && say "Video is ready!"};video_to_gif'
 # And now you can do this:
 # video_to_gif video.mov output2.gif
+#
+limited() {
+    local mem=${1:-2G}
+    shift
+    systemd-run --user --scope -p MemoryMax="$mem" -p MemoryHigh="$((${mem%G} * 3/4))G" "$@"
+}
 
 function gc {
   local GHOSTTY_DIR="$HOME/.config/ghostty"

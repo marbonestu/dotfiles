@@ -5,8 +5,8 @@ export EDITOR='nvim'
 export HELIX_RUNTIME=~/projects/helix/runtime
 
 # TAURI
-export GDK_BACKEND=x11 
-export WEBKIT_DISABLE_DMABUF_RENDERER=1
+# export GDK_BACKEND=x11 
+# export WEBKIT_DISABLE_DMABUF_RENDERER=1
 
 # Ensure needed directories exist
 mkdir -p ~/.zsh
@@ -123,7 +123,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # pnpm
-export PNPM_HOME="/home/marbones/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -138,8 +138,6 @@ esac
 # export PATH="$PATH:/home/marbonestu/.dotnet/tools"
 export PATH="$PATH:/home/marbonestu/.dotnet"
 export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
-
-eval "$(fnm env --use-on-cd --shell zsh)"
 
 # opencode
 export PATH="$HOME/.opencode/bin:$PATH"
