@@ -111,7 +111,7 @@ function M.open_in_dir(path)
   end
 
   if not (path == get_pane_current_path()) then
-    send_keys("cd " .. path)
+    send_keys("cd " .. vim.fn.shellescape(path))
   end
 end
 
