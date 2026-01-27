@@ -15,3 +15,26 @@ vim.opt.backup = false
 vim.opt.foldlevel = 99
 vim.opt.foldmethod = "indent"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+
+-- VSCode/Cursor specific settings (when using vscode-neovim)
+if vim.g.vscode then
+  -- Debug: Print to verify this code is running
+  print("🔧 VSCode mode detected - applying custom settings")
+  
+  -- Suppress vscode-neovim output messages (e.g., "1 change; before #2" when pressing 'u' to undo)
+  -- Increase cmdheight to prevent auto-opening the Output panel
+  vim.o.cmdheight = 20
+  print("✓ cmdheight set to: " .. vim.o.cmdheight)
+  
+  -- Add shortmess flags to suppress more messages
+  vim.opt.shortmess:append("c")  -- Don't give completion messages
+  vim.opt.shortmess:append("F")  -- Don't give file info when editing
+  vim.opt.shortmess:append("W")  -- Don't give "written" when writing
+  
+  -- Set report to a high value to suppress "X lines changed" messages
+  vim.opt.report = 9999
+  print("✓ report set to: " .. vim.o.report)
+  print("✓ shortmess: " .. vim.o.shortmess)
+else
+  print("❌ Not in VSCode mode (vim.g.vscode is false/nil)")
+end

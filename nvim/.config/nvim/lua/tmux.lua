@@ -93,17 +93,20 @@ function M.clear_last_command()
   last_cmd = nil
 end
 
-function M.open_in_current_dir()
+function M.open_in_current_dir(opts)
   local current_dir = vim.fn.expand("%:p:h")
-  M.open_in_dir(current_dir)
+  M.open_in_dir(current_dir, opts)
 end
 
-function M.open_in_current_pwd()
-  M.open_in_dir(vim.fn.getcwd())
+function M.open_in_current_pwd(opts)
+  M.open_in_dir(vim.fn.getcwd(), opts)
 end
 
-function M.open_in_dir(path)
-  if not pane_is_valid() then
+function M.open_in_dir(path, opts)
+  opts = opts or {}
+  local new_pane = opts.new_pane ~= false
+
+  if new_pane or not pane_is_valid() then
     send_tmux_cmd("split-window -l 25")
     linked_pane_id = get_pane_id()
   else
