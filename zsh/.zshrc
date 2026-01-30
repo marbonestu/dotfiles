@@ -1,4 +1,15 @@
-eval "$(starship init zsh)"
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# eval "$(starship init zsh)"
+
+# if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
+    # export TERM=xterm-256color
+# fi
 
 export SUDO_EDITOR='nvim'
 export EDITOR='nvim'
@@ -97,20 +108,11 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
 eval "$(zoxide init zsh)"
 
+# Common PATH additions (cross-platform)
 export PATH=$HOME/.local/bin:$PATH
-export PATH=/opt/homebrew/bin/:$PATH
-export DPRINT_INSTALL="/Users/marc.arbones/.dprint"
-export LUA_LANGUAGE_SERVER="$HOME/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin"
-export PATH="$DPRINT_INSTALL/bin:$PATH"
-export PATH="$LUA_LANGUAGE_SERVER:$PATH"
-
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:$HOME/go/bin
 export PATH="$GO_BIN_FOLDER:$PATH"
-export PATH=$PATH:/mnt/c/Users/marbo/AppData/Local/Programs/Microsoft\ VS\ Code/bin
-
-# bun completions
-[ -s "/home/marbones/.bun/_bun" ] && source "/home/marbones/.bun/_bun"
 
 eval "$(fnm env --use-on-cd --shell zsh)"
 
@@ -134,12 +136,26 @@ esac
 # [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 # eval "$(pyenv init -)"
 
-# chsarp
-# export PATH="$PATH:/home/marbonestu/.dotnet/tools"
-export PATH="$PATH:/home/marbonestu/.dotnet"
-export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
-
 # opencode
 export PATH="$HOME/.opencode/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/scripts:$PATH"
+
+# Load OS-specific configuration
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    [[ -f ~/.zshrc.macos ]] && source ~/.zshrc.macos
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    [[ -f ~/.zshrc.linux ]] && source ~/.zshrc.linux
+fi
+
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export CLAUDE_CODE_USE_BEDROCK=1
+export AWS_PROFILE=dil-ai-platform-search-dev
+export CLAUDE_CODE_AWS_PROFILE=dil-ai-platform-search-dev
+export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-5-20250929-v1:0
+export AWS_REGION=us-west-2
+export OTEL_RESOURCE_ATTRIBUTES="user.email=marbones@diligent.com"

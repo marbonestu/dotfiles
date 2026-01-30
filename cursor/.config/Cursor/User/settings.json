@@ -1,0 +1,27 @@
+{
+  "window.commandCenter": true,
+  "workbench.colorTheme": "Tokyo Night",
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
+  "editor.lineNumbers": "relative",
+  "diffEditor.experimental.useTrueInlineView": true,
+
+  "vscode-neovim.logOutputToConsole": true,
+  "vscode-neovim.compositeKeys": {
+    "jj": {
+      "command": "vscode-neovim.escape"
+    },
+    "jk": {
+      "command": "vscode-neovim.lua",
+      "args": [
+        [
+          "local code = require('vscode')",
+          "code.action('vscode-neovim.escape')",
+          "code.action('workbench.action.files.save')"
+        ]
+      ]
+    }
+  }
+}

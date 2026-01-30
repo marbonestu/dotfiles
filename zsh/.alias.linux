@@ -1,0 +1,28 @@
+# Linux-specific aliases
+
+# Cargo with memory limits (systemd-run)
+alias cargo='limited 12G /home/marbonestu/.cargo/bin/cargo'
+
+# Memory limiting function for Linux (systemd)
+limited() {
+    local mem=${1:-2G}
+    shift
+    systemd-run --user --scope -p MemoryMax="$mem" -p MemoryHigh="$((${mem%G} * 3/4))G" "$@"
+}
+
+# Ghostty config switcher (Linux without AppleScript)
+function gconfig {
+  local GHOSTTY_DIR="$HOME/.config/ghostty"
+  local CMD="sed -i 's:\(config-file = {1}\)/.*:\1/{2}:' $GHOSTTY_DIR/config"
+  fd \
+    --type f \
+    --exclude 'config' \
+    --base-directory $GHOSTTY_DIR \
+  | fzf \
+    --preview "cat $GHOSTTY_DIR/{}" \
+    --delimiter=/ \
+    --bind="enter:execute:$CMD"
+}
+
+# Video to gif without 'say' command
+alias video_to_gif='function video_to_gif(){ ffmpeg -i $1 output.gif && gifsicle -O3 output.gif -o output.gif && notify-send "Video is ready!"};video_to_gif'

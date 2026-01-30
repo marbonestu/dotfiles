@@ -1,0 +1,21 @@
+# macOS-specific aliases
+
+# Intel homebrew (for compatibility)
+alias ibrew='arch -x86_64 /usr/local/bin/brew'
+
+# Ghostty config switcher (macOS with AppleScript)
+function gconfig {
+  local GHOSTTY_DIR="$HOME/.config/ghostty"
+  local CMD="sed -i '' 's:\(config-file = {1}\)/.*:\1/{2}:' $GHOSTTY_DIR/config && osascript -so -e 'tell application \"Ghostty\" to activate' -e 'tell application \"System Events\" to keystroke \",\" using {command down, shift down}'"
+  fd \
+    --type f \
+    --exclude 'config' \
+    --base-directory $GHOSTTY_DIR \
+  | fzf \
+    --preview "cat $GHOSTTY_DIR/{}" \
+    --delimiter=/ \
+    --bind="enter:become:$CMD"
+}
+
+# macOS-specific video to gif conversion with 'say' command
+alias video_to_gif='function video_to_gif(){ ffmpeg -i $1 output.gif && gifsicle -O3 output.gif -o output.gif && say "Video is ready!"};video_to_gif'

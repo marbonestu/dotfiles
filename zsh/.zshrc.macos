@@ -1,0 +1,15 @@
+# macOS-specific configuration
+
+# Use Homebrew curl (8.18.0+) instead of macOS system curl for Bedrock support
+export PATH="/opt/homebrew/opt/curl/bin:$PATH"
+
+# Homebrew paths
+export PATH=/opt/homebrew/bin/:$PATH
+
+# macOS-specific dprint path
+export DPRINT_INSTALL="$HOME/.dprint"
+export PATH="$DPRINT_INSTALL/bin:$PATH"
+
+# macOS Lua Language Server
+export LUA_LANGUAGE_SERVER="$HOME/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin"
+export PATH="$LUA_LANGUAGE_SERVER:$PATH"

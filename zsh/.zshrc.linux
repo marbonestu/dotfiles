@@ -1,0 +1,13 @@
+# Linux-specific configuration
+
+# WSL VS Code path (if on WSL)
+if [[ -d "/mnt/c/Users" ]]; then
+    export PATH=$PATH:/mnt/c/Users/marbo/AppData/Local/Programs/Microsoft\ VS\ Code/bin
+fi
+
+# Linux-specific dotnet path
+export PATH="$PATH:/home/marbonestu/.dotnet"
+export PATH=$DOTNET_ROOT:$DOTNET_ROOT/tools:$PATH
+
+# Bun completions (Linux)
+[ -s "/home/marbones/.bun/_bun" ] && source "/home/marbones/.bun/_bun"

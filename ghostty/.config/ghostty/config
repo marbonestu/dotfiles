@@ -29,5 +29,6 @@ keybind = alt+5=unbind
 
 # keybind = global:cmd+grave_accent=toggle_quick_terminal
 
-theme = tokyonight_night
+# theme = tokyonight_night
+theme = TokyoNight Night
 

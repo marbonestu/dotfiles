@@ -1,4 +1,4 @@
-alias ibrew='arch -x86_64 /usr/local/bin/brew'
+# Common aliases (cross-platform)
 
 alias a='assume'
 
@@ -37,8 +37,6 @@ alias dc='docker-compose'
 alias dcu='docker-compose up'
 alias dcd='docker-compose down'
 
-alias cargo='limited 12G /home/marbonestu/.cargo/bin/cargo'
-
 # kubernetes
 alias k='kubectl'
 
@@ -60,26 +58,13 @@ function gclone {
   git clone "$@" && cd "$(basename "$_" .git)"
 }
 
-alias myip="curl -s https://ipv4.icanhazip.com/"
-alias video_to_gif='function video_to_gif(){ ffmpeg -i $1 output.gif && gifsicle -O3 output.gif -o output.gif && say "Video is ready!"};video_to_gif'
-# And now you can do this:
-# video_to_gif video.mov output2.gif
-#
-limited() {
-    local mem=${1:-2G}
-    shift
-    systemd-run --user --scope -p MemoryMax="$mem" -p MemoryHigh="$((${mem%G} * 3/4))G" "$@"
-}
+# Load OS-specific aliases
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    [[ -f ~/.alias.macos ]] && source ~/.alias.macos
+elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    [[ -f ~/.alias.linux ]] && source ~/.alias.linux
+fi
 
-function gc {
-  local GHOSTTY_DIR="$HOME/.config/ghostty"
-  local CMD="sed -i '' 's:\(config-file = {1}\)/.*:\1/{2}:' $GHOSTTY_DIR/config && osascript -so -e 'tell application \"Ghostty\" to activate' -e 'tell application \"System Events\" to keystroke \",\" using {command down, shift down}'"
-  fd \
-    --type f \
-    --exclude 'config' \
-    --base-directory $GHOSTTY_DIR \
-  | fzf \
-    --preview "cat $GHOSTTY_DIR/{}" \
-    --delimiter=/ \
-    --bind="enter:become:$CMD"
-}
+alias myip="curl -s https://ipv4.icanhazip.com/"
+
+# Common functions (cross-platform)

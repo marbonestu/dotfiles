@@ -1,0 +1,9 @@
+{
+  // Example host-specific settings for REM-MAC-LL007.local
+  // Rename this file to REM-MAC-LL007.local.json to activate
+  // These settings will override the defaults in settings.json
+
+  // "workbench.colorTheme": "Different Theme for Work",
+  // "terminal.integrated.fontSize": 14,
+  // "editor.fontSize": 13
+}

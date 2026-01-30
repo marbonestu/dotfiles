@@ -1,0 +1,204 @@
+[
+  {
+    "key": "ctrl+h",
+    "command": "workbench.action.navigateLeft"
+  },
+  {
+    "key": "ctrl+l",
+    "command": "workbench.action.navigateRight"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.navigateUp"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.navigateDown"
+  },
+  // Focus editor and close sidebar/panels
+  // {
+  //   "key": "ctrl+shift+f",
+  //   "command": "workbench.action.toggleSidebarVisibility"
+  // },
+  // {
+  //   "key": "ctrl+shift+f",
+  //   "command": "workbench.action.closePanel",
+  //   "when": "panelVisible"
+  // },
+  {
+    "key": "r",
+    "command": "renameFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    "key": "enter",
+    "command": "-renameFile",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    "key": "j",
+    "command": "list.focusDown",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    "key": "k",
+    "command": "list.focusUp",
+    "when": "explorerViewletVisible && filesExplorerFocus && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus"
+  },
+  {
+    "key": "ctrl-v",
+    "command": "list.select",
+    "when": "explorerViewletVisible && filesExplorerFocus"
+  },
+  {
+    "key": "enter",
+    "command": "list.select",
+    "when": "explorerViewletVisible && filesExplorerFocus"
+  },
+  {
+    "key": "l",
+    "command": "list.select",
+    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "o",
+    "command": "list.toggleExpand",
+    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "h",
+    "command": "list.collapse",
+    "when": "explorerViewletVisible && filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "a",
+    "command": "explorer.newFile",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "shift+a",
+    "command": "explorer.newFolder",
+    "when": "filesExplorerFocus && !inputFocus"
+  },
+  {
+    "key": "ctrl+l",
+    "when": "sideBarFocus",
+    "command": "workbench.action.focusActiveEditorGroup"
+  },
+  {
+    "key": "ctrl+k",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "shift+k",
+    "command": "editor.action.showHover",
+    "when": "editorTextFocus && vim.mode != 'Insert'"
+  },
+  {
+    "key": "alt+w",
+    "command": "workbench.action.closeEditorsAndGroup"
+  },
+  {
+    "key": "alt+d",
+    "command": "editor.action.addSelectionToNextFindMatch",
+    "when": "editorFocus"
+  },
+  // Disable default Ctrl+D (Add Selection to Next Find Match)
+  {
+    "key": "ctrl+d",
+    "command": "-editor.action.addSelectionToNextFindMatch"
+  },
+  // Disable default Ctrl+E (Quick Open)
+  {
+    "key": "ctrl+e",
+    "command": "-workbench.action.quickOpen"
+  },
+  // Disable default Ctrl+Y (Redo) when in editor
+  {
+    "key": "ctrl+y",
+    "command": "-redo",
+    "when": "editorTextFocus"
+  },
+  // Scroll down with Ctrl+E
+  {
+    "key": "ctrl+e",
+    "command": "editorScroll",
+    "when": "editorTextFocus",
+    "args": {
+      "to": "down",
+      "by": "line",
+      "value": 7,
+      "revealCursor": true
+    }
+  },
+  // Scroll up with Ctrl+Y
+  {
+    "key": "ctrl+y",
+    "command": "editorScroll",
+    "when": "editorTextFocus",
+    "args": {
+      "to": "up",
+      "by": "line",
+      "value": 7,
+      "revealCursor": true
+    }
+  },
+  // Disable default Ctrl+U (Soft Undo)
+  {
+    "key": "ctrl+u",
+    "command": "-cursorUndo"
+  },
+  // Neovim Ctrl+D - let Neovim handle it according to its config
+  {
+    "key": "ctrl+d",
+    "command": "vscode-neovim.send",
+    "when": "editorTextFocus && neovim.init",
+    "args": "<C-d>"
+  },
+  // Neovim Ctrl+U - let Neovim handle it according to its config
+  {
+    "key": "ctrl+u",
+    "command": "vscode-neovim.send",
+    "when": "editorTextFocus && neovim.init",
+    "args": "<C-u>"
+  },
+  // Exit insert mode with jj
+  {
+    "key": "j",
+    "command": "extension.vim_escape",
+    "when": "editorTextFocus && vim.active && vim.mode == 'Insert'"
+  },
+  // Save file and return to normal mode when in insert mode
+  {
+    "key": "cmd+s",
+    "command": "runCommands",
+    "when": "editorTextFocus && neovim.mode == 'insert'",
+    "args": {
+      "commands": ["vscode-neovim.escape", "workbench.action.files.save"]
+    }
+  },
+  {
+    "key": "ctrl+s",
+    "command": "runCommands",
+    "when": "editorTextFocus && neovim.mode == 'insert'",
+    "args": {
+      "commands": ["vscode-neovim.escape", "workbench.action.files.save"]
+    }
+  },
+  {
+    "key": "ctrl+s",
+    "command": "workbench.action.files.save",
+    "when": "editorTextFocus && neovim.mode == 'normal'"
+  },
+  {
+    "key": "alt+=",
+    "command": "workbench.action.increaseViewWidth",
+    "when": "!isAuxiliaryWindowFocusedContext"
+  },
+  {
+    "key": "alt+-",
+    "command": "workbench.action.decreaseViewWidth",
+    "when": "!isAuxiliaryWindowFocusedContext"
+  }
+]

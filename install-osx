@@ -19,3 +19,7 @@ DOTFILES_FOLDERS="
 for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
   stow -vSt ~ $folder
 done
+
+# Install Cursor config (handles macOS-specific path)
+echo "Installing Cursor configuration..."
+./cursor/install-cursor.sh
