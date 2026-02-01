@@ -21,6 +21,7 @@ DOTFILES_FOLDERS="
   ghostty,
   zellij,
   opencode,
+  claude,
   scripts
 "
 

@@ -1,0 +1,15 @@
+- NEVER use `cd` in bash commands - it causes commands to hang/freeze. Always run commands from project root using absolute paths or tool-specific flags.
+  - Good: `cargo test -p my-package --lib`
+  - Bad: `cd backend/my-package && cargo test --lib`
+  - Good: `pytest /path/to/tests`
+  - Bad: `cd /path/to && pytest tests`
+  - Good: `npm run build --prefix frontend/app`
+  - Bad: `cd frontend/app && npm run build`
+- Always use workspace dependencies as much as possible
+- When writing code comments and documentation, write as if you're the original developer documenting the code. Focus on WHAT the code does, WHY (if not obvious), and HOW to use it. NEVER reference our conversation, changes made, or requests. DO NOT add comments to self-explanatory code.
+  - Good: `/// Authenticates a user using email and password credentials. Returns a session token on success.`
+  - Bad: `/// Authenticate user with email and password. Works the same for ALL instances including the internal one.`
+  - Good: `// Use exponential backoff to avoid overwhelming the API`
+  - Bad: `// Added retry logic per your requirements`
+  - Good: `user.save()` (no comment needed - self-explanatory)
+  - Bad: `user.save() // Save the user to the database`
