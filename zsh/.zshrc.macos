@@ -13,3 +13,10 @@ export PATH="$DPRINT_INSTALL/bin:$PATH"
 # macOS Lua Language Server
 export LUA_LANGUAGE_SERVER="$HOME/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin"
 export PATH="$LUA_LANGUAGE_SERVER:$PATH"
+
+export CLAUDE_CODE_USE_BEDROCK=1
+export AWS_PROFILE=dil-ai-platform-search-dev
+export CLAUDE_CODE_AWS_PROFILE=dil-ai-platform-search-dev
+export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-5-20250929-v1:0
+export AWS_REGION=us-west-2
+export OTEL_RESOURCE_ATTRIBUTES="user.email=marbones@diligent.com"

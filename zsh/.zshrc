@@ -156,14 +156,11 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     [[ -f ~/.zshrc.linux ]] && source ~/.zshrc.linux
 fi
 
+if [[ ! -d "$HOME/powerlevel10k" ]]; then
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME/powerlevel10k"
+fi
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export CLAUDE_CODE_USE_BEDROCK=1
-export AWS_PROFILE=dil-ai-platform-search-dev
-export CLAUDE_CODE_AWS_PROFILE=dil-ai-platform-search-dev
-export ANTHROPIC_MODEL=us.anthropic.claude-sonnet-4-5-20250929-v1:0
-export AWS_REGION=us-west-2
-export OTEL_RESOURCE_ATTRIBUTES="user.email=marbones@diligent.com"
