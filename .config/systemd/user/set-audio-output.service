@@ -1,0 +1,13 @@
+[Unit]
+Description=Set LG HDR 4K HDMI as default audio output
+After=graphical-session.target pipewire.service
+Wants=pipewire.service
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/scripts/set-audio-output.sh
+RemainAfterExit=yes
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+
+[Install]
+WantedBy=default.target

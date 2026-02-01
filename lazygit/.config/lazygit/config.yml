@@ -9,6 +9,6 @@ gui:
     inactiveBorderColor:
       - yellow
 git:
-  paging:
-    colorArg: always
-    pager: delta --paging=never --24-bit-color=never
+  pagers:
+    - colorArg: always
+      pager: delta --paging=never --24-bit-color=never

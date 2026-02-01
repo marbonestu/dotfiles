@@ -1,0 +1,5 @@
+# Load PulseAudio configuration
+.include /etc/pulse/default.pa
+
+# Set default sink to LG HDR 4K HDMI
+set-default-sink alsa_output.pci-0000_0b_00.1.hdmi-stereo-extra1

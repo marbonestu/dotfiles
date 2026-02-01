@@ -11,6 +11,14 @@ fi
     # export TERM=xterm-256color
 # fi
 
+# OPENSPEC:START
+# OpenSpec shell completions configuration
+fpath=("/home/marbonestu/.zsh/completions" $fpath)
+autoload -Uz compinit
+compinit
+# OPENSPEC:END
+
+
 export SUDO_EDITOR='nvim'
 export EDITOR='nvim'
 export HELIX_RUNTIME=~/projects/helix/runtime
