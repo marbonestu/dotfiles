@@ -1,0 +1,13 @@
+[manager]
+sort_by = "natural"
+sort_dir_first = true
+show_hidden = true
+
+[preview]
+max_width = 600
+max_height = 900
+
+[opener]
+edit = [
+  { run = '${EDITOR:-nvim} "$@"', block = true, for = "unix" },
+]

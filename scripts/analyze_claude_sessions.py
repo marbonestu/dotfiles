@@ -129,6 +129,10 @@ def parse_session_file(session_path: Path) -> Tuple[Dict, List[Dict]]:
         "output_tokens": 0,
         "cache_creation_tokens": 0,
         "cache_read_tokens": 0,
+        "max_context_per_turn": 0,
+        "total_context_all_turns": 0,
+        "turn_count": 0,
+        "turns_over_200k": 0,
         "cost_by_model": defaultdict(float),
         "tokens_by_model": defaultdict(lambda: {
             "input": 0,
@@ -170,6 +174,14 @@ def parse_session_file(session_path: Path) -> Tuple[Dict, List[Dict]]:
                         session_data["output_tokens"] += output_tok
                         session_data["cache_creation_tokens"] += cache_create
                         session_data["cache_read_tokens"] += cache_read
+
+                        # Track context size per turn
+                        turn_context = input_tok + cache_create + cache_read
+                        session_data["max_context_per_turn"] = max(session_data["max_context_per_turn"], turn_context)
+                        session_data["total_context_all_turns"] += turn_context
+                        session_data["turn_count"] += 1
+                        if turn_context > 200_000:
+                            session_data["turns_over_200k"] += 1
 
                         # Track by model
                         session_data["tokens_by_model"][normalized_model]["input"] += input_tok
@@ -238,6 +250,9 @@ def aggregate_by_day(sessions: List[Dict]) -> Dict[str, Dict]:
         "output_tokens": 0,
         "cache_read_tokens": 0,
         "cache_creation_tokens": 0,
+        "max_context_per_turn": 0,
+        "total_turns": 0,
+        "turns_over_200k": 0,
         "tokens_by_model": defaultdict(lambda: {
             "input": 0,
             "output": 0,
@@ -265,6 +280,9 @@ def aggregate_by_day(sessions: List[Dict]) -> Dict[str, Dict]:
         daily["output_tokens"] += session["usage"]["output_tokens"]
         daily["cache_read_tokens"] += session["usage"]["cache_read_tokens"]
         daily["cache_creation_tokens"] += session["usage"]["cache_creation_tokens"]
+        daily["max_context_per_turn"] = max(daily["max_context_per_turn"], session["usage"]["max_context_per_turn"])
+        daily["total_turns"] += session["usage"]["turn_count"]
+        daily["turns_over_200k"] += session["usage"]["turns_over_200k"]
 
         # Aggregate by model
         for model, tokens in session["usage"]["tokens_by_model"].items():
@@ -370,6 +388,22 @@ def analyze_all_sessions(start_date: Optional[datetime] = None, end_date: Option
           f"{format_number(total_cache_read):<12} {format_number(total_cache_create):<12} ${total_cost:.4f}")
     print()
 
+    # Context size statistics
+    max_context = max((s["usage"]["max_context_per_turn"] for s in all_sessions), default=0)
+    total_turns = sum(s["usage"]["turn_count"] for s in all_sessions)
+    total_context_sum = sum(s["usage"]["total_context_all_turns"] for s in all_sessions)
+    total_over_200k = sum(s["usage"]["turns_over_200k"] for s in all_sessions)
+    avg_context = total_context_sum // total_turns if total_turns else 0
+
+    print(f"{'CONTEXT WINDOW ANALYSIS':<30} (base context: 200k tokens)")
+    print("-" * 120)
+    print(f"  Peak context (single turn):   {format_number(max_context)} tokens")
+    print(f"  Average context per turn:     {format_number(avg_context)} tokens")
+    print(f"  Total API turns:              {total_turns}")
+    print(f"  Turns exceeding 200k:         {total_over_200k}" +
+          (f"  ⚠ Extended context used!" if total_over_200k > 0 else ""))
+    print()
+
     # Breakdown (by day or by session)
     print("\n" + "=" * 120)
     if aggregate_by_day_flag:
@@ -384,7 +418,9 @@ def analyze_all_sessions(start_date: Optional[datetime] = None, end_date: Option
             data = daily_data[day]
             session_count = len(data["sessions"])
 
-            print(f"\n{day} ({session_count} session{'s' if session_count != 1 else ''})")
+            print(f"\n{day} ({session_count} session{'s' if session_count != 1 else ''}) "
+                  f"| peak ctx: {format_number(data['max_context_per_turn'])} | turns: {data['total_turns']}"
+                  + (f" | ⚠ {data['turns_over_200k']} over 200k" if data["turns_over_200k"] > 0 else ""))
             print(f"    {'Model':<20} {'Input':<12} {'Output':<12} {'Cache Read':<12} {'Cache Write':<12} {'Cost':<12}")
             print(f"    {'-' * 100}")
 
@@ -420,6 +456,9 @@ def analyze_all_sessions(start_date: Optional[datetime] = None, end_date: Option
             if session['git_branch']:
                 print(f"    Branch: {session['git_branch']}")
             print(f"    Messages: {session['message_count']}")
+            avg_ctx = usage["total_context_all_turns"] // usage["turn_count"] if usage["turn_count"] else 0
+            print(f"    Context:  max={format_number(usage['max_context_per_turn'])} avg={format_number(avg_ctx)} turns={usage['turn_count']}"
+                  + (f" ⚠ {usage['turns_over_200k']} turns over 200k" if usage["turns_over_200k"] > 0 else ""))
             if session['first_prompt']:
                 print(f"    First prompt: {session['first_prompt']}...")
 
@@ -451,6 +490,12 @@ def analyze_all_sessions(start_date: Optional[datetime] = None, end_date: Option
             "output": total_output,
             "cache_read": total_cache_read,
             "cache_creation": total_cache_create,
+        },
+        "context_analysis": {
+            "peak_context_tokens": max_context,
+            "avg_context_per_turn": avg_context,
+            "total_api_turns": total_turns,
+            "turns_over_200k": total_over_200k,
         },
     }
 

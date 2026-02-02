@@ -22,6 +22,7 @@ DOTFILES_FOLDERS="
   zellij,
   opencode,
   claude,
+  yazi,
   scripts
 "
 

@@ -1,0 +1,3 @@
+# Uses catppuccin flavor from yazi's built-in themes
+[flavor]
+use = "catppuccin-mocha"
