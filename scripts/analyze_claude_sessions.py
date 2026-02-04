@@ -40,6 +40,7 @@ Requirements:
 import argparse
 import json
 import os
+import re
 from pathlib import Path
 from datetime import datetime
 from collections import defaultdict
@@ -48,13 +49,13 @@ from typing import Dict, List, Tuple, Optional
 # Claude API pricing (as of January 2025)
 # https://www.anthropic.com/api#pricing
 PRICING = {
-    "claude-opus-4": {
+    "claude-opus-4-5": {
         "input": 0.015 / 1000,      # $15 per MTok
         "output": 0.075 / 1000,     # $75 per MTok
         "cache_write": 0.01875 / 1000,  # $18.75 per MTok
         "cache_read": 0.0015 / 1000,    # $1.50 per MTok
     },
-    "claude-sonnet-4": {
+    "claude-sonnet-4-5": {
         "input": 0.003 / 1000,      # $3 per MTok
         "output": 0.015 / 1000,     # $15 per MTok
         "cache_write": 0.00375 / 1000,  # $3.75 per MTok
@@ -66,33 +67,39 @@ PRICING = {
         "cache_write": 0.00375 / 1000,  # $3.75 per MTok
         "cache_read": 0.0003 / 1000,    # $0.30 per MTok
     },
+    "claude-haiku-4-5": {
+        "input": 0.0008 / 1000,     # $0.80 per MTok
+        "output": 0.004 / 1000,     # $4 per MTok
+        "cache_write": 0.001 / 1000,    # $1 per MTok
+        "cache_read": 0.00008 / 1000,   # $0.08 per MTok
+    },
     "claude-haiku-3-5": {
-        "input": 0.001 / 1000,      # $1 per MTok (now $0.8, using $1 for safety)
-        "output": 0.005 / 1000,     # $5 per MTok (now $4, using $5 for safety)
-        "cache_write": 0.00125 / 1000,  # $1.25 per MTok
-        "cache_read": 0.0001 / 1000,    # $0.10 per MTok
+        "input": 0.0008 / 1000,     # $0.80 per MTok
+        "output": 0.004 / 1000,     # $4 per MTok
+        "cache_write": 0.001 / 1000,    # $1 per MTok
+        "cache_read": 0.00008 / 1000,   # $0.08 per MTok
     },
 }
 
 # Model name mapping (various formats to canonical)
 MODEL_MAP = {
-    "claude-opus-4": "claude-opus-4",
-    "claude-opus-4-5": "claude-opus-4",
-    "claude-sonnet-4": "claude-sonnet-4",
-    "claude-sonnet-4-5": "claude-sonnet-4",
+    "claude-opus-4-5": "claude-opus-4-5",
+    "claude-opus-4": "claude-opus-4-5",
+    "claude-opus": "claude-opus-4-5",
+    "claude-sonnet-4-5": "claude-sonnet-4-5",
+    "claude-sonnet-4": "claude-sonnet-4-5",
+    "claude-sonnet": "claude-sonnet-4-5",
     "claude-sonnet-3-5": "claude-sonnet-3-5",
+    "claude-haiku-4-5": "claude-haiku-4-5",
     "claude-haiku-3-5": "claude-haiku-3-5",
-    "claude-haiku-4-5": "claude-haiku-3-5",  # Haiku 4.5 uses 3.5 pricing
-    "claude-haiku": "claude-haiku-3-5",
-    "claude-sonnet": "claude-sonnet-4",
-    "claude-opus": "claude-opus-4",
+    "claude-haiku": "claude-haiku-4-5",
 }
 
 
 def normalize_model_name(model: str) -> str:
     """Normalize model name to canonical form."""
-    # Remove version suffixes like -20250929
-    base_model = model.split('-2')[0] if '-2' in model else model
+    # Remove version suffixes like -20250929 or -20251101
+    base_model = re.sub(r'-20\d{6}$', '', model)
     return MODEL_MAP.get(base_model, base_model)
 
 
@@ -101,8 +108,10 @@ def calculate_cost(model: str, usage: Dict) -> float:
     normalized_model = normalize_model_name(model)
 
     if normalized_model not in PRICING:
-        print(f"Warning: Unknown model {model} (normalized: {normalized_model}), using Sonnet 4 pricing")
-        normalized_model = "claude-sonnet-4"
+        # Skip synthetic model (internal Claude Code marker)
+        if normalized_model != "<synthetic>":
+            print(f"Warning: Unknown model {model} (normalized: {normalized_model}), using Sonnet 4.5 pricing")
+        normalized_model = "claude-sonnet-4-5"
 
     pricing = PRICING[normalized_model]
 
@@ -338,6 +347,50 @@ def analyze_all_sessions(start_date: Optional[datetime] = None, end_date: Option
 
             usage_data, messages = parse_session_file(session_file)
 
+            # Also scan subagent sessions if they exist
+            subagents_list = []
+            subagents_dir = project_dir / session_id / "subagents"
+            if subagents_dir.exists():
+                for subagent_file in sorted(subagents_dir.glob("agent-*.jsonl")):
+                    subagent_usage, _ = parse_session_file(subagent_file)
+                    subagent_cost = sum(subagent_usage["cost_by_model"].values())
+                    # Determine primary model for this subagent
+                    primary_model = max(
+                        subagent_usage["cost_by_model"].items(),
+                        key=lambda x: x[1],
+                        default=("unknown", 0)
+                    )[0] if subagent_usage["cost_by_model"] else "unknown"
+
+                    subagents_list.append({
+                        "id": subagent_file.stem,  # agent-xxxxx
+                        "model": primary_model,
+                        "turns": subagent_usage["turn_count"],
+                        "cost": subagent_cost,
+                        "tokens_by_model": dict(subagent_usage["tokens_by_model"]),
+                        "cost_by_model": dict(subagent_usage["cost_by_model"]),
+                    })
+
+                    # Merge subagent usage into main session totals
+                    usage_data["input_tokens"] += subagent_usage["input_tokens"]
+                    usage_data["output_tokens"] += subagent_usage["output_tokens"]
+                    usage_data["cache_creation_tokens"] += subagent_usage["cache_creation_tokens"]
+                    usage_data["cache_read_tokens"] += subagent_usage["cache_read_tokens"]
+                    usage_data["max_context_per_turn"] = max(
+                        usage_data["max_context_per_turn"],
+                        subagent_usage["max_context_per_turn"]
+                    )
+                    usage_data["total_context_all_turns"] += subagent_usage["total_context_all_turns"]
+                    usage_data["turn_count"] += subagent_usage["turn_count"]
+                    usage_data["turns_over_200k"] += subagent_usage["turns_over_200k"]
+                    # Merge model-specific data
+                    for model, tokens in subagent_usage["tokens_by_model"].items():
+                        usage_data["tokens_by_model"][model]["input"] += tokens["input"]
+                        usage_data["tokens_by_model"][model]["output"] += tokens["output"]
+                        usage_data["tokens_by_model"][model]["cache_creation"] += tokens["cache_creation"]
+                        usage_data["tokens_by_model"][model]["cache_read"] += tokens["cache_read"]
+                    for model, cost in subagent_usage["cost_by_model"].items():
+                        usage_data["cost_by_model"][model] += cost
+
             # Calculate total cost
             total_cost = sum(usage_data["cost_by_model"].values())
 
@@ -352,6 +405,7 @@ def analyze_all_sessions(start_date: Optional[datetime] = None, end_date: Option
                 "git_branch": entry.get("gitBranch", ""),
                 "usage": usage_data,
                 "total_cost": total_cost,
+                "subagents": subagents_list,
             }
 
             # Filter by date range if specified
@@ -474,6 +528,12 @@ def analyze_all_sessions(start_date: Optional[datetime] = None, end_date: Option
             print(f"    {'TOTAL':<20} {format_number(usage['input_tokens']):<12} {format_number(usage['output_tokens']):<12} "
                   f"{format_number(usage['cache_read_tokens']):<12} {format_number(usage['cache_creation_tokens']):<12} "
                   f"${session['total_cost']:.4f}")
+
+            # Show subagents if any
+            if session.get("subagents"):
+                print(f"\n    Subagents ({len(session['subagents'])}):")
+                for sa in session["subagents"]:
+                    print(f"      - {sa['id']}: {sa['model']} | {sa['turns']} turns | ${sa['cost']:.4f}")
 
     print("\n" + "=" * 120)
     print(f"GRAND TOTAL COST: ${total_cost:.4f}")
