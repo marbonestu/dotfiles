@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-# NOTE: you can use vars with $<var> and ${<var>} as long as the str is double quoted: ""
-# WARNING: hex colors can't contain capital letters
-
-# --> Catppuccin (Mocha)
+# Catppuccin Mocha Color Palette
 thm_bg="#11111b"
 thm_bg2="#1E1E2E"
 thm_fg="#cdd6f4"
@@ -19,9 +16,7 @@ thm_blue="#89b4fa"
 thm_orange="#fab387"
 thm_black4="#585b70"
 
-# ----------------------------=== Theme ===--------------------------
-
-# utils
+# Helper functions
 set() {
 	local option=$1
 	local value=$2
@@ -34,41 +29,39 @@ setw() {
 	tmux set-window-option -gq "$option" "$value"
 }
 
-# status
+# ===== Status Bar =====
 set status "on"
-set status-bg "${thm_bg2}"
+set status-bg "${thm_black}"
 set status-justify "left"
 set status-left-length "100"
 set status-right-length "100"
 
-# messages
+# ===== Messages =====
 set message-style "fg=${thm_cyan},bg=${thm_gray},align=centre"
 set message-command-style "fg=${thm_cyan},bg=${thm_gray},align=centre"
 
-# panes
+# ===== Panes =====
 set pane-border-style "fg=${thm_cyan}"
 set pane-active-border-style "fg=${thm_cyan}"
 
-# windows
-setw window-status-activity-style "fg=${thm_fg},bg=${thm_bg},none"
+# ===== Windows =====
+setw window-status-activity-style "fg=${thm_fg},bg=${thm_black},none"
 setw window-status-separator ""
-setw window-status-style "fg=${thm_fg},bg=${thm_bg},none"
+setw window-status-style "fg=${thm_fg},bg=${thm_black},none"
 
-# --------=== Statusline
+# ===== Status Line Layout =====
+# Session name on the left with icon
+set status-left "#[fg=$thm_fg,bg=$thm_black]   #S  "
 
-# set status-left "#{?client_prefix,#[fg=$thm_red],#[fg=$thm_green]}#[bgr$thm_gray]#{?client_prefix,#[bg=$thm_red],#[bg=$thm_green]}#[fg=$thm_bg] #[fg=$thm_fg,bg=$thm_gray] #S "
-set status-left "#[fg=$thm_fg]   #S "
+# Empty right side (clean minimal look)
 set status-right ""
 
-# current_dir
-setw window-status-format "#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_fg,bg=$thm_gray]#W#{?window_zoomed_flag,#[fg=$thm_green]Z,}#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics] "
-setw window-status-current-format "#[fg=$thm_cyan,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_bg,bg=$thm_cyan]#W#{?window_zoomed_flag,#[fg=$thm_red] Z,}#[fg=$thm_cyan,bg=$thm_bg,nobold,nounderscore,noitalics]#[fg=$thm_gray,bg=$thm_bg,nobold,nounderscore,noitalics] "
-set -g status-justify center
+# Inactive window tabs (no background)
+setw window-status-format "#[fg=$thm_gray,bg=$thm_black] #W#{?window_zoomed_flag, ,} #[fg=$thm_gray]│"
 
-# parent_dir/current_dir
-# setw window-status-format "#[fg=colour232,bg=colour111] #I #[fg=colour222,bg=colour235] #(echo '#{pane_current_path}' | rev | cut -d'/' -f-2 | rev) "
-# setw window-status-current-format "#[fg=colour232,bg=colour208] #I #[fg=colour255,bg=colour237] #(echo '#{pane_current_path}' | rev | cut -d'/' -f-2 | rev) "
+# Active window tab (highlighted in cyan, no background)
+setw window-status-current-format "#[fg=$thm_cyan,bg=$thm_black,bold] #W#{?window_zoomed_flag, ,} #[fg=$thm_gray]│"
 
-# --------=== Modes
+# ===== Modes =====
 setw clock-mode-colour "${thm_blue}"
 setw mode-style "fg=${thm_pink} bg=${thm_black4} bold"
