@@ -33,7 +33,9 @@ $INSTALL_CMD \
 # fnm (Fast Node Manager) - install from AUR or binary
 echo ""
 echo "Installing fnm (Fast Node Manager)..."
-if [[ "$PKG_MANAGER" == "paru" ]]; then
+if command -v fnm &> /dev/null; then
+    echo "✓ fnm already installed"
+elif [[ "$PKG_MANAGER" == "paru" ]]; then
     paru -S --noconfirm fnm-bin
 elif command -v cargo &> /dev/null; then
     cargo install fnm
