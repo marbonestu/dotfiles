@@ -46,7 +46,10 @@
       "Bash(zsh -c 'source ~/.alias && type ibrew 2>/dev/null && echo \"\"✓ macOS-specific alias \\(ibrew\\) loaded successfully\"\"')",
       "Bash(zsh -c 'source ~/.alias && type gc | head -1')",
       "Bash(zsh -c 'source ~/.zshrc 2>/dev/null && echo $PATH | grep -o \"\"/opt/homebrew/opt/curl/bin\"\" && echo \"\"✓ macOS-specific PATH loaded\"\"')",
-      "Bash(zsh -c 'source ~/.alias && { echo \"\"gc: $\\(type -w gc\\)\"\"; echo \"\"gconfig: $\\(type -w gconfig\\)\"\"; echo \"\"ibrew: $\\(type -w ibrew\\)\"\"; }')"
+      "Bash(zsh -c 'source ~/.alias && { echo \"\"gc: $\\(type -w gc\\)\"\"; echo \"\"gconfig: $\\(type -w gconfig\\)\"\"; echo \"\"ibrew: $\\(type -w ibrew\\)\"\"; }')",
+      "Bash(test:*)",
+      "Bash(git config:*)",
+      "Bash(hyperfine:*)"
     ],
     "deny": [],
     "ask": []

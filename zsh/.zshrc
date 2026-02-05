@@ -1,105 +1,43 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# ============================================================================
+# Powerlevel10k Instant Prompt
+# ============================================================================
+# Must stay close to the top of ~/.zshrc
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# eval "$(starship init zsh)"
-
-# if [[ "$TERM_PROGRAM" == "ghostty" ]]; then
-    # export TERM=xterm-256color
-# fi
-
-# OPENSPEC:START
-# OpenSpec shell completions configuration
-fpath=("/home/marbonestu/.zsh/completions" $fpath)
-autoload -Uz compinit
-compinit
-# OPENSPEC:END
-
-
-export SUDO_EDITOR='nvim'
+# ============================================================================
+# Environment Variables
+# ============================================================================
 export EDITOR='nvim'
+export SUDO_EDITOR='nvim'
 export HELIX_RUNTIME=~/projects/helix/runtime
 
-# TAURI
-# export GDK_BACKEND=x11 
-# export WEBKIT_DISABLE_DMABUF_RENDERER=1
-
-# Ensure needed directories exist
-mkdir -p ~/.zsh
+# ============================================================================
+# Directories & Aliases
+# ============================================================================
+[[ -d ~/.zsh ]] || mkdir -p ~/.zsh
 source ~/.alias
 
-# Plugin directory
-ZSH_PLUGIN_DIR="${ZDOTDIR:-$HOME}/.zsh"
-
-# Autosuggestions setup with persistent history
-if [[ ! -d "$ZSH_PLUGIN_DIR/zsh-autosuggestions" ]]; then
-    git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_PLUGIN_DIR/zsh-autosuggestions"
-fi
-
-# History substring search setup
-if [[ ! -d "$ZSH_PLUGIN_DIR/zsh-history-substring-search" ]]; then
-    git clone https://github.com/zsh-users/zsh-history-substring-search "$ZSH_PLUGIN_DIR/zsh-history-substring-search"
-fi
-
-# Persistent history configuration
+# ============================================================================
+# History Configuration
+# ============================================================================
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-setopt EXTENDED_HISTORY      # Write the history file in the ":start:elapsed;command" format
-setopt HIST_EXPIRE_DUPS_FIRST # Expire duplicate entries first when trimming history
-setopt HIST_IGNORE_DUPS      # Don't record an entry that was just recorded again
-setopt HIST_IGNORE_ALL_DUPS  # Delete old recorded entry if new entry is a duplicate
-setopt HIST_FIND_NO_DUPS     # Do not display a line previously found
-setopt HIST_SAVE_NO_DUPS     # Don't write duplicate entries in the history file
-setopt HIST_REDUCE_BLANKS    # Remove superfluous blanks before recording entry
-setopt SHARE_HISTORY         # Share history between all sessions
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_FIND_NO_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+setopt SHARE_HISTORY
 
-# Enable vi mode
-bindkey -v
-
-# Custom keybinding to exit INSERT mode by pressing 'jj'
-bindkey -M viins 'jj' vi-cmd-mode
-#
-# Cursor shape change function for different vi modes
-function zle-keymap-select {
-    case $KEYMAP in
-        vicmd)      print -n '\e[1 q';;      # Block cursor for normal mode
-        viins|main) print -n '\e[5 q';;      # Beam cursor for insert mode
-    esac
-}
-
-function zle-line-init {
-    echo -ne '\e[5 q'  # Beam cursor on startup
-}
-
-zle -N zle-keymap-select
-zle -N zle-line-init
-
-# Cursor shape persistence after each command
-preexec() { 
-    echo -ne '\e[5 q'  # Beam cursor before executing a command
-}
-
-# Custom keybinding to exit INSERT mode by pressing 'jj'
-bindkey -M viins 'jj' vi-cmd-mode
-
-# History substring search keybindings (vim-style)
-source "$ZSH_PLUGIN_DIR/zsh-history-substring-search/zsh-history-substring-search.zsh"
-bindkey -M vicmd 'k' history-substring-search-up
-bindkey -M vicmd 'j' history-substring-search-down
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
-# Autosuggestions configuration
-source "$ZSH_PLUGIN_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh"
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-ZSH_AUTOSUGGEST_USE_ASYNC=true
-
-# Tab completion
+# ============================================================================
+# Completion System
+# ============================================================================
+# Optimized: only rebuild dump once per day
 autoload -Uz compinit
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
     compinit
@@ -107,30 +45,92 @@ else
     compinit -C
 fi
 
-# Performance optimization for completion
+# Completion styling
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case-insensitive completion
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
+# ============================================================================
+# Vi Mode & Keybindings
+# ============================================================================
+bindkey -v
+bindkey -M viins 'jj' vi-cmd-mode
+
+# Cursor shapes for vi modes
+function zle-keymap-select {
+    case $KEYMAP in
+        vicmd)      print -n '\e[1 q';;  # Block cursor
+        viins|main) print -n '\e[5 q';;  # Beam cursor
+    esac
+}
+
+function zle-line-init {
+    echo -ne '\e[5 q'  # Beam cursor on startup
+}
+
+preexec() {
+    echo -ne '\e[5 q'  # Beam cursor before command
+}
+
+zle -N zle-keymap-select
+zle -N zle-line-init
+
+# ============================================================================
+# Zinit Plugin Manager
+# ============================================================================
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+# ============================================================================
+# Plugins (Lazy-loaded)
+# ============================================================================
+# Load fzf-tab first (must be before other completions)
+zinit light Aloxaf/fzf-tab
+
+# Autosuggestions (deferred loading for faster startup)
+zinit ice wait lucid atload'_zsh_autosuggest_start'
+zinit light zsh-users/zsh-autosuggestions
+
+# Syntax highlighting (load after autosuggestions)
+zinit ice wait lucid
+zinit light zsh-users/zsh-syntax-highlighting
+
+# Autosuggestions configuration
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+# ============================================================================
+# FZF Integration
+# ============================================================================
+# Modern fzf integration (replaces history-substring-search with better fuzzy search)
+eval "$(fzf --zsh)"
+
+# fzf-tab configuration
+zstyle ':fzf-tab:*' fzf-command fzf
+zstyle ':fzf-tab:*' fzf-flags --height=40%
+zstyle ':completion:*:descriptions' format '[%d]'
+
+# Note: Use Ctrl-R for fuzzy history search (more powerful than substring search)
+
+# ============================================================================
+# External Tools
+# ============================================================================
 eval "$(zoxide init zsh)"
 
-# Common PATH additions (cross-platform)
-export PATH=$HOME/.local/bin:$PATH
-export PATH=$PATH:/usr/local/go/bin
-export PATH=$PATH:$HOME/go/bin
-export PATH="$GO_BIN_FOLDER:$PATH"
+# ============================================================================
+# PATH Configuration
+# ============================================================================
+export PATH="$HOME/.local/bin:$HOME/.local/scripts:$HOME/.opencode/bin:$PATH"
+export PATH="$PATH:/usr/local/go/bin:$HOME/go/bin"
 
-eval "$(fnm env --use-on-cd --shell zsh)"
-
-# bun
+# ============================================================================
+# Language & Runtime Managers (Optimized with lazy-loading)
+# ============================================================================
+# Bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-
-# java
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
@@ -139,28 +139,37 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# Pyenv
-# export PYENV_ROOT="$HOME/.pyenv"
-# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init -)"
+# Lazy-load fnm (Node version manager) - loads only when first used
+fnm() {
+  unfunction fnm
+  eval "$(command fnm env --use-on-cd --shell zsh)"
+  fnm "$@"
+}
 
-# opencode
-export PATH="$HOME/.opencode/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.local/scripts:$PATH"
+# Lazy-load SDKMAN (Java version manager) - loads only when first used
+export SDKMAN_DIR="$HOME/.sdkman"
+sdk() {
+  unfunction sdk
+  [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+  sdk "$@"
+}
 
-# Load OS-specific configuration
+# ============================================================================
+# OS-Specific Configuration
+# ============================================================================
 if [[ "$OSTYPE" == "darwin"* ]]; then
     [[ -f ~/.zshrc.macos ]] && source ~/.zshrc.macos
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     [[ -f ~/.zshrc.linux ]] && source ~/.zshrc.linux
 fi
 
+# ============================================================================
+# Prompt Theme (Powerlevel10k)
+# ============================================================================
 if [[ ! -d "$HOME/powerlevel10k" ]]; then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME/powerlevel10k"
 fi
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
