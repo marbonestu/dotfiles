@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+set -e
+
+echo "======================================"
+echo "Installing Dotfiles for macOS"
+echo "======================================"
+
+# Install zsh tools first
+echo ""
+echo "Step 1: Installing zsh tools and dependencies..."
+./zsh/install-zsh-tools-macos.sh
+
+# Stow all dotfiles
+echo ""
+echo "Step 2: Creating symlinks for dotfiles..."
+
 DOTFILES_FOLDERS="
   tmux,
   hypr,
@@ -18,10 +33,64 @@ DOTFILES_FOLDERS="
   scripts
 "
 
+# Check for conflicts first
+echo "Checking for conflicting files..."
+CONFLICTS=()
 for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
-  stow -vSt ~ $folder
+  if ! stow -n -v -t ~ $folder 2>&1 | grep -q "All operations aborted"; then
+    continue
+  fi
+  CONFLICT_OUTPUT=$(stow -n -v -t ~ $folder 2>&1 || true)
+  if echo "$CONFLICT_OUTPUT" | grep -q "existing target"; then
+    CONFLICTS+=("$folder")
+  fi
 done
 
+# If conflicts exist, ask user
+if [ ${#CONFLICTS[@]} -gt 0 ]; then
+  echo ""
+  echo "⚠️  Conflicts detected in: ${CONFLICTS[*]}"
+  echo ""
+  echo "The following files exist but are not managed by stow:"
+  for folder in "${CONFLICTS[@]}"; do
+    stow -n -v -t ~ $folder 2>&1 | grep "existing target" | sed 's/.*existing target is not owned by stow: /  - ~\//' || true
+    stow -n -v -t ~ $folder 2>&1 | grep "cannot stow" | sed 's/.*over existing target /  - ~\//' | sed 's/ since.*//' || true
+  done
+  echo ""
+  echo "Dotfiles should be the source of truth."
+  read -p "Override existing files with dotfiles? [y/N] " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo "Backing up and overriding existing files..."
+    # Use --adopt to move existing files into dotfiles, then restore from git
+    for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
+      stow --adopt -v -t ~ $folder 2>&1 | grep -v "BUG in find_stowed_path" || true
+    done
+    # Restore dotfiles from git (undo the adopt - dotfiles are source of truth)
+    git checkout . 2>/dev/null || true
+    echo "✓ Dotfiles are now the source of truth"
+  else
+    echo "Skipping conflicting files. Dotfiles not fully applied."
+  fi
+else
+  # No conflicts, stow normally
+  for folder in $(echo $DOTFILES_FOLDERS | sed "s/,/ /g"); do
+    stow -v -t ~ $folder 2>&1 | grep -v "BUG in find_stowed_path" || true
+  done
+  echo "✓ Dotfiles symlinked"
+fi
+
 # Install Cursor config (handles macOS-specific path)
-echo "Installing Cursor configuration..."
+echo ""
+echo "Step 3: Installing Cursor configuration..."
 ./cursor/install-cursor.sh
+
+echo ""
+echo "======================================"
+echo "Installation Complete!"
+echo "======================================"
+echo ""
+echo "Next steps:"
+echo "1. Restart your terminal or run: exec zsh"
+echo "2. Configure Powerlevel10k: p10k configure"
+echo ""

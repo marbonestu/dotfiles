@@ -120,6 +120,11 @@ zstyle ':completion:*:descriptions' format '[%d]'
 eval "$(zoxide init zsh)"
 
 # ============================================================================
+# Custom Completions
+# ============================================================================
+[[ -f ~/.zsh/aws-completions.zsh ]] && source ~/.zsh/aws-completions.zsh
+
+# ============================================================================
 # PATH Configuration
 # ============================================================================
 export PATH="$HOME/.local/bin:$HOME/.local/scripts:$HOME/.opencode/bin:$PATH"

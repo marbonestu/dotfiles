@@ -1,0 +1,3 @@
+# Ignore installation scripts and documentation (not actual config files)
+install-zsh-tools-.*\.sh
+README\.md
