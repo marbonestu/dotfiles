@@ -1,3 +1,10 @@
+# OPENSPEC:START
+# OpenSpec shell completions configuration
+fpath=("/home/marbonestu/.zsh/completions" $fpath)
+autoload -Uz compinit
+compinit
+# OPENSPEC:END
+
 # ============================================================================
 # Powerlevel10k Instant Prompt
 # ============================================================================
@@ -89,6 +96,11 @@ autoload -Uz _zinit
 # Load fzf-tab first (must be before other completions)
 zinit light Aloxaf/fzf-tab
 
+# History substring search (for Up/Down arrow search)
+zinit ice wait lucid
+zinit light zsh-users/zsh-history-substring-search
+
+
 # Autosuggestions (deferred loading for faster startup)
 zinit ice wait lucid atload'_zsh_autosuggest_start'
 zinit light zsh-users/zsh-autosuggestions
@@ -96,6 +108,10 @@ zinit light zsh-users/zsh-autosuggestions
 # Syntax highlighting (load after autosuggestions)
 zinit ice wait lucid
 zinit light zsh-users/zsh-syntax-highlighting
+
+# History substring search keybindings
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
 
 # Autosuggestions configuration
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
@@ -145,11 +161,12 @@ case ":$PATH:" in
 esac
 
 # Lazy-load fnm (Node version manager) - loads only when first used
-fnm() {
-  unfunction fnm
+# fnm() {
+#   unfunction fnm
+#   eval "$(command fnm env --use-on-cd --shell zsh)"
+#   fnm "$@"
+# }
   eval "$(command fnm env --use-on-cd --shell zsh)"
-  fnm "$@"
-}
 
 # Lazy-load SDKMAN (Java version manager) - loads only when first used
 export SDKMAN_DIR="$HOME/.sdkman"
