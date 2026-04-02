@@ -6,6 +6,9 @@ mouse = true
 preview-completion-insert = false
 end-of-line-diagnostics = "hint"
 
+[editor.session]
+persist = true
+
 [editor.inline-diagnostics]
 cursor-line = "warning" # show warnings and errors on the cursorline inline
 
@@ -37,6 +40,20 @@ C-y = "@9zk"
 C-d = "@5j"
 C-u = "@5k"
 C-s = ":write"          # Ctrl and 's' to write
+C-v = [
+  ":sh rm -f /tmp/unique-file-vsplit",
+  ":insert-output yazi '%{buffer_name}' --chooser-file=/tmp/unique-file-vsplit",
+  ':sh printf "\x1b[?1049h\x1b[?2004h" > /dev/tty',
+  ":vsplit %sh{cat /tmp/unique-file-vsplit}",
+  ":redraw",
+]
+C-x = [
+  ":sh rm -f /tmp/unique-file-hsplit",
+  ":insert-output yazi '%{buffer_name}' --chooser-file=/tmp/unique-file-hsplit",
+  ':sh printf "\x1b[?1049h\x1b[?2004h" > /dev/tty',
+  ":hsplit %sh{cat /tmp/unique-file-hsplit}",
+  ":redraw",
+]
 X = "select_line_above"
 
 [keys.insert.j]
@@ -47,20 +64,14 @@ C-s = ["normal_mode", ":write"]
 
 [keys.normal.space]
 Q = ":write-quit-all!"
-# e = [
-#   ":sh rm -f /tmp/unique-file-h21a434",
-#   ":insert-output yazi '%{buffer_name}' --chooser-file=/tmp/unique-file-h21a434",
-#   ":insert-output echo \"x1b[?1049h\" > /dev/tty",
-#   ":open %sh{cat /tmp/unique-file-h21a434}",
-#   ":redraw",
-# ]
-# E = [
-#   ":sh rm -f /tmp/unique-file-u41ae14",
-#   ":insert-output yazi '%{workspace_directory}' --chooser-file=/tmp/unique-file-u41ae14",
-#   ":insert-output echo \"x1b[?1049h\" > /dev/tty",
-#   ":open %sh{cat /tmp/unique-file-u41ae14}",
-#   ":redraw",
-# ]
+e = "toggle_file_tree"
+E = "toggle_file_tree"
+g = ":sh tmux popup -d '#{pane_current_path}' -xC -yC -w80%% -h80%% -E lazygit"
 
 [keys.normal.space.u]
 h = ":toggle lsp.display-inlay-hints"
+
+[keys.normal.space.S]
+s = ":session-save"
+r = ":session-restore"
+l = ":session-list"
