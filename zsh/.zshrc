@@ -1,10 +1,3 @@
-# OPENSPEC:START
-# OpenSpec shell completions configuration
-fpath=("/home/marbonestu/.zsh/completions" $fpath)
-autoload -Uz compinit
-compinit
-# OPENSPEC:END
-
 # ============================================================================
 # Powerlevel10k Instant Prompt
 # ============================================================================
@@ -44,6 +37,9 @@ setopt SHARE_HISTORY
 # ============================================================================
 # Completion System
 # ============================================================================
+# Add custom completion paths
+fpath=(~/.zsh/completions $fpath)
+
 # Optimized: only rebuild dump once per day
 autoload -Uz compinit
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
@@ -160,13 +156,8 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 
-# Lazy-load fnm (Node version manager) - loads only when first used
-# fnm() {
-#   unfunction fnm
-#   eval "$(command fnm env --use-on-cd --shell zsh)"
-#   fnm "$@"
-# }
-  eval "$(command fnm env --use-on-cd --shell zsh)"
+# fnm (Node version manager)
+eval "$(fnm env --use-on-cd --shell zsh)"
 
 # Lazy-load SDKMAN (Java version manager) - loads only when first used
 export SDKMAN_DIR="$HOME/.sdkman"

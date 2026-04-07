@@ -21,6 +21,9 @@ insert = "bar"
 normal = "block"
 select = "underline"
 
+[editor.picker]
+input-position = "bottom"
+
 [editor.file-picker]
 hidden = false
 
