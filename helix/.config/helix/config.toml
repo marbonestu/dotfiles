@@ -5,6 +5,9 @@ line-number = "relative"
 mouse = true
 preview-completion-insert = false
 end-of-line-diagnostics = "hint"
+grammar = "helix"
+auto-reload = true
+
 
 [editor.session]
 persist = true
@@ -43,21 +46,8 @@ C-y = "@9zk"
 C-d = "@5j"
 C-u = "@5k"
 C-s = ":write"          # Ctrl and 's' to write
-C-v = [
-  ":sh rm -f /tmp/unique-file-vsplit",
-  ":insert-output yazi '%{buffer_name}' --chooser-file=/tmp/unique-file-vsplit",
-  ':sh printf "\x1b[?1049h\x1b[?2004h" > /dev/tty',
-  ":vsplit %sh{cat /tmp/unique-file-vsplit}",
-  ":redraw",
-]
-C-x = [
-  ":sh rm -f /tmp/unique-file-hsplit",
-  ":insert-output yazi '%{buffer_name}' --chooser-file=/tmp/unique-file-hsplit",
-  ':sh printf "\x1b[?1049h\x1b[?2004h" > /dev/tty',
-  ":hsplit %sh{cat /tmp/unique-file-hsplit}",
-  ":redraw",
-]
-X = "select_line_above"
+x = ["extend_line_below", "select_mode", "extend_to_line_bounds"]
+X = ["select_line_above", "select_mode", "extend_to_line_bounds"]
 
 [keys.insert.j]
 j = "normal_mode"
@@ -73,6 +63,7 @@ g = ":sh tmux popup -d '#{pane_current_path}' -xC -yC -w80%% -h80%% -E lazygit"
 
 [keys.normal.space.u]
 h = ":toggle lsp.display-inlay-hints"
+w = ":toggle soft-wrap.enable"
 
 [keys.normal.space.S]
 s = ":session-save"

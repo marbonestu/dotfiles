@@ -39,7 +39,8 @@ DOTFILES_FOLDERS="
   opencode,
   claude,
   yazi,
-  scripts
+  scripts,
+  rtk
 "
 
 # Check for conflicts first

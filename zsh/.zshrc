@@ -9,9 +9,9 @@ fi
 # ============================================================================
 # Environment Variables
 # ============================================================================
-export EDITOR='nvim'
-export SUDO_EDITOR='nvim'
-export HELIX_RUNTIME=~/projects/helix/runtime
+export EDITOR='hx'
+export SUDO_EDITOR='hx'
+# export HELIX_RUNTIME=~/projects/helix/runtime
 
 # ============================================================================
 # Directories & Aliases
