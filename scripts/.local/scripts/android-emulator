@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# Android Emulator launcher with Wayland/Hyprland compatibility
+
+# Source Android environment
+source ~/.android-dev-env
+
+# Check if emulator exists
+if [ ! -f "$ANDROID_HOME/emulator/emulator" ]; then
+    echo "❌ Android emulator not found. Complete Android Studio setup first."
+    exit 1
+fi
+
+# Function to list AVDs
+list_avds() {
+    echo "Available Android Virtual Devices:"
+    "$ANDROID_HOME/emulator/emulator" -list-avds
+}
+
+# Function to launch emulator
+launch_emulator() {
+    local avd_name="$1"
+    local gpu_mode="${2:-auto}"
+    
+    if [ -z "$avd_name" ]; then
+        echo "❌ Please specify an AVD name"
+        list_avds
+        exit 1
+    fi
+    
+    echo "🚀 Launching emulator: $avd_name with GPU mode: $gpu_mode"
+    
+    # Export Wayland compatibility variables
+    export _JAVA_AWT_WM_NONREPARENTING=1
+    export QT_QPA_PLATFORM=xcb
+    export SDL_VIDEODRIVER=x11
+    
+    # Launch emulator with specified GPU mode
+    "$ANDROID_HOME/emulator/emulator" -avd "$avd_name" -gpu "$gpu_mode" &
+    
+    echo "✅ Emulator started in background (PID: $!)"
+}
+
+# Parse arguments
+case "$1" in
+    list|ls|-l)
+        list_avds
+        ;;
+    "")
+        echo "Android Emulator Helper"
+        echo ""
+        echo "Usage:"
+        echo "  android-emulator list              - List available AVDs"
+        echo "  android-emulator <avd-name>        - Launch emulator with auto GPU"
+        echo "  android-emulator <avd-name> <gpu>  - Launch with specific GPU mode"
+        echo ""
+        echo "GPU modes: auto, host, swiftshader_indirect, guest"
+        echo ""
+        list_avds
+        ;;
+    *)
+        launch_emulator "$1" "$2"
+        ;;
+esac

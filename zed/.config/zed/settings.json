@@ -1,0 +1,66 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "cli_default_open_behavior": "new_window",
+  "terminal": {
+    "font_size": 15.0,
+  },
+  "project_panel": {
+    "dock": "right",
+  },
+  "collaboration_panel": {
+    "dock": "right",
+  },
+  "agent": {
+    "dock": "left",
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "git_panel": {
+    "dock": "right",
+  },
+  "icon_theme": {
+    "mode": "light",
+    "light": "Colored Zed Icons Theme Light",
+    "dark": "JetBrains Icons Dark",
+  },
+  "ui_font_family": "JetBrains Mono",
+  "text_rendering_mode": "platform_default",
+  "context_servers": {
+    "mcp-server-puppeteer": {
+      "enabled": false,
+      "remote": false,
+      "settings": {},
+    },
+  },
+  "telemetry": {
+    "diagnostics": true,
+    "metrics": false,
+  },
+  "agent_servers": {
+    "codex-acp": {
+      "type": "registry",
+    },
+    "claude-acp": {
+      "type": "registry",
+    },
+  },
+  "outline_panel": {
+    "dock": "right",
+  },
+  "vim_mode": true,
+  "ui_font_size": 16,
+  "buffer_font_family": "JetBrains Mono",
+  "buffer_font_size": 15,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "Tokyo Night",
+  },
+}

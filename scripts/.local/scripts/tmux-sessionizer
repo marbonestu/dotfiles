@@ -1,35 +1,36 @@
 #!/usr/bin/env bash
 
 PROJECTS_PATHS=(
-	~/projects
-	~/projects/fermyon
-	~/projects/diligent
-	~/projects/pact-foundation
-	~/projects/flux
-	~/projects/wasmcloud
-	~/projects/nvim-configs/
+  ~/projects
+  ~/projects/fermyon
+  ~/projects/e2b
+  ~/projects/diligent
+  ~/projects/pact-foundation
+  ~/projects/flux
+  ~/projects/wasmcloud
+  ~/projects/nvim-configs/
 )
 
 EXISTING_PROJECTS_PATHS=()
 
 for index in "${!PROJECTS_PATHS[@]}"; do
-	if [ -d "${PROJECTS_PATHS[$index]}" ]; then
-		EXISTING_PROJECTS_PATHS+=("${PROJECTS_PATHS["$index"]}")
-	fi
+  if [ -d "${PROJECTS_PATHS[$index]}" ]; then
+    EXISTING_PROJECTS_PATHS+=("${PROJECTS_PATHS["$index"]}")
+  fi
 done
 
 if [[ $# -eq 1 ]]; then
-	selected=$1
+  selected=$1
 else
-	# Find all projects and format as "parent/project" for display
-	selected=$(find "${EXISTING_PROJECTS_PATHS[@]}" -mindepth 1 -maxdepth 1 -type d | \
-		awk -F'/' '{print $(NF-1)"/"$NF" "$0}' | \
-		fzf --header 'jump-to-project' --with-nth 1 | \
-		awk '{print $2}')
+  # Find all projects and format as "parent/project" for display
+  selected=$(find "${EXISTING_PROJECTS_PATHS[@]}" -mindepth 1 -maxdepth 1 -type d |
+    awk -F'/' '{print $(NF-1)"/"$NF" "$0}' |
+    fzf --header 'jump-to-project' --with-nth 1 |
+    awk '{print $2}')
 fi
 
 if [[ -z $selected ]]; then
-	exit 0
+  exit 0
 fi
 
 selected_name=$(basename "$selected" | tr . _)

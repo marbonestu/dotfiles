@@ -23,5 +23,6 @@
         ]
       ]
     }
-  }
+  },
+  "cursor.composer.usageSummaryDisplay": "always"
 }

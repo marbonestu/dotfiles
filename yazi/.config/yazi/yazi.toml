@@ -9,5 +9,5 @@ max_height = 900
 
 [opener]
 edit = [
-  { run = '${EDITOR:-nvim} "$@"', block = true, for = "unix" },
+  { run = '${EDITOR:-hx} "$@"', block = true, for = "unix" },
 ]

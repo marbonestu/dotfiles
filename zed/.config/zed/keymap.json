@@ -1,0 +1,111 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+  {
+    "context": "Editor",
+    "bindings": {
+      "ctrl-e": "vim::LineDown",
+      "ctrl-y": "vim::LineUp",
+      "ctrl-d": ["editor::MoveDownByLines", { "lines": 7 }],
+      "ctrl-u": ["editor::MoveUpByLines", { "lines": 7 }]
+    }
+  },
+  {
+    "context": "vim_mode == insert",
+    "bindings": {
+      "j j": "vim::NormalBefore"
+    }
+  },
+
+  // Pane navigation in editors — only outside insert mode
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "Editor && vim_mode == visual",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
+    }
+  },
+
+  // Pane navigation everywhere else: docks, panels, terminal
+  {
+    "context": "Dock || ProjectPanel || AgentPanel || GitPanel || OutlinePanel || CollabPanel || ChatPanel || NotificationPanel || Terminal",
+    "bindings": {
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown"
+    }
+  },
+
+  // Dock toggles (work from editor in normal mode or from any dock)
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "ctrl-b": "project_panel::ToggleFocus",
+      "ctrl-`": "terminal_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "Dock || ProjectPanel || AgentPanel || GitPanel || OutlinePanel || Terminal",
+    "bindings": {
+      "ctrl-b": "project_panel::ToggleFocus",
+      "ctrl-`": "terminal_panel::ToggleFocus"
+    }
+  },
+
+  // Vim-style pane management chords (ctrl+w then a letter)
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "ctrl-w v": "pane::SplitRight",
+      "ctrl-w s": "pane::SplitDown",
+      "ctrl-w q": "pane::CloseAllItems",
+      "ctrl-w h": "workspace::ActivatePaneLeft",
+      "ctrl-w l": "workspace::ActivatePaneRight",
+      "ctrl-w k": "workspace::ActivatePaneUp",
+      "ctrl-w j": "workspace::ActivatePaneDown"
+    }
+  },
+  {
+    "context": "(vim_mode == helix_normal || vim_mode == helix_select) && !menu",
+    "bindings": {
+      "s": "vim::HelixJumpToWord"
+    }
+  },
+
+  // Pane resizing with ctrl+arrow (nvim-style)
+  {
+    "context": "Editor && vim_mode == normal",
+    "bindings": {
+      "ctrl-right": "vim::ResizePaneRight",
+      "ctrl-left": "vim::ResizePaneLeft",
+      "ctrl-up": "vim::ResizePaneUp",
+      "ctrl-down": "vim::ResizePaneDown"
+    }
+  },
+  {
+    "context": "Dock || ProjectPanel || AgentPanel || GitPanel || OutlinePanel || Terminal",
+    "bindings": {
+      "ctrl-right": "vim::ResizePaneRight",
+      "ctrl-left": "vim::ResizePaneLeft",
+      "ctrl-up": "vim::ResizePaneUp",
+      "ctrl-down": "vim::ResizePaneDown"
+    }
+  }
+]

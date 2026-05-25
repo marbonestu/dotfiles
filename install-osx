@@ -31,7 +31,8 @@ DOTFILES_FOLDERS="
   claude,
   yazi,
   scripts,
-  rtk
+  rtk,
+  zed
 "
 
 # Check for conflicts first
