@@ -1,0 +1,26 @@
+// US layout with macOS-style dead key accents on Right Alt
+// RAlt+E = acute (á é í ó ú)
+// RAlt+` = grave (à è ì ò ù)
+// RAlt+U = umlaut (ä ë ï ö ü)
+// RAlt+I = circumflex (â ê î ô û)
+// RAlt+N = tilde (ñ ã õ)
+// RAlt+C = ç   (RAlt+Shift+C = Ç)
+// RAlt+Shift+9 = · (Catalan punt volat, for l·l)
+
+default partial alphanumeric_keys modifier_keys
+xkb_symbols "basic" {
+
+    include "us(basic)"
+
+    name[Group1] = "English (US, Accents)";
+
+    key <TLDE> { type[group1]="FOUR_LEVEL", [grave, asciitilde, dead_grave, dead_grave] };
+    key <AD03> { type[group1]="FOUR_LEVEL", [e, E, dead_acute, dead_acute] };
+    key <AD07> { type[group1]="FOUR_LEVEL", [u, U, dead_diaeresis, dead_diaeresis] };
+    key <AD08> { type[group1]="FOUR_LEVEL", [i, I, dead_circumflex, dead_circumflex] };
+    key <AB06> { type[group1]="FOUR_LEVEL", [n, N, dead_tilde, dead_tilde] };
+    key <AB03> { type[group1]="FOUR_LEVEL", [c, C, ccedilla, Ccedilla] };
+    key <AE09> { type[group1]="FOUR_LEVEL", [9, parenleft, NoSymbol, periodcentered] };
+
+    include "level3(ralt_switch)"
+};
